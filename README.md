@@ -36,69 +36,61 @@ Ein Unternehmen muss ein vollwertiger Lead sein können — auch ohne Kontakt, o
 8. Keine halben Features, keine Fake-Konfigurierbarkeit
 9. Architektur, die später kein massives Refactoring erzwingt
 
-## Aktuelle Phase: Phase 0
+## Aktuelle Phase: Phase 1
 
-**Dieses Repository befindet sich in Phase 0 — Repository-Fundament.**
+**Phase 0** (Fundament) und **Phase 1** (Stack + Supabase-Grundintegration) sind umgesetzt.
 
-In Phase 0 existiert bewusst **keine App-Funktionalität**. Es wurden keine UI-Komponenten, keine Supabase-Migrationen, kein Auth und kein CRUD implementiert.
+Phase 1 liefert:
 
-Phase 0 liefert:
+- Vite + React + TypeScript App (`pnpm dev`)
+- Supabase CLI + `config.toml` + erste Migration (`profiles` stub)
+- Supabase Client mit Health Check (Statusseite, kein CRM)
+- Kein Auth-UI, kein Companies CRUD, keine CRM-Features
 
-- Produkt- und Architekturspezifikation
-- Datenmodell auf Spezifikationsebene
-- Supabase- und RLS-Konzept
-- Custom-Fields- und Pipeline-/View-Konzept
-- AI-Coding-Regeln für Cursor
-- Implementierungs-Roadmap und Definition of Done
-- Projektstruktur mit Platzhalterordnern
+Nächste Phase: **Phase 2** — Auth, Workspaces, Profiles.
 
 ## Was bewusst noch nicht implementiert ist
 
-- Keine Frontend-App (React/Vite/Next o.ä.)
-- Keine UI-Komponenten oder Design-System-Implementierung
-- Keine Supabase-Migrationen oder produktiven Datenbanktabellen
-- Kein Auth, kein Login
+- Kein Auth / Login (Phase 2)
 - Kein Companies-, Contacts- oder Deals-CRUD
 - Keine Tabellen-, Kanban- oder Dashboard-Ansichten
+- Keine Custom Fields, Pipelines oder Views in der App
 - Keine hardcoded CRM-Felder oder Demo-Daten
+- Kein finales UI/Design-System (UX-Phase mit Claude)
 
 UI/UX wird in einer separaten Phase mit Claude spezifiziert. Siehe `docs/ui-ux-brief-for-claude.md`.
 
-## Geplanter Tech-Stack (Empfehlung, nicht final implementiert)
+## Geplanter Tech-Stack (Phase 1 — aktiv)
 
-| Schicht | Empfehlung |
-|---------|------------|
-| Frontend | React + TypeScript + Vite |
+| Schicht | Wahl |
+|---------|------|
+| Frontend | React 19 + TypeScript + Vite 6 |
 | Backend / DB | Supabase (Postgres) |
-| Auth | Supabase Auth |
-| Hosting | TBD (z.B. Vercel/Netlify für Frontend) |
+| Auth | Supabase Auth (Phase 2) |
+| Package Manager | pnpm |
 
-Finale Stack-Entscheidungen werden in Phase 1 getroffen und dokumentiert.
+Lokaler Start: `DEVELOPMENT.md`.
 
 ## Repository-Struktur
 
 ```
 crm/
-├── README.md                 # Dieses Dokument
-├── AGENTS.md                 # Anleitung für AI-Agenten
-├── DEVELOPMENT.md            # Entwicklungsrichtlinien
-├── .env.example              # Environment-Variable-Platzhalter
-├── docs/                     # Produktspezifikation und Architektur
-│   ├── product-spec.md
-│   ├── architecture.md
-│   ├── data-model.md
-│   ├── custom-fields.md
-│   ├── pipelines-and-views.md
-│   ├── supabase-and-rls.md
-│   ├── implementation-roadmap.md
-│   ├── definitions-of-done.md
-│   ├── ui-ux-brief-for-claude.md
-│   ├── ai-development-workflow.md
-│   └── glossary.md
-├── .cursor/rules/            # Cursor Project Rules
-├── supabase/                 # Platzhalter für spätere Supabase-Integration
-├── src/                      # Platzhalter für späteren App-Code
-└── tests/                    # Platzhalter für spätere Tests
+├── README.md
+├── AGENTS.md
+├── DEVELOPMENT.md
+├── package.json
+├── index.html
+├── vite.config.ts
+├── .env.example
+├── docs/
+├── .cursor/rules/
+├── src/
+│   ├── app/              # App shell (Phase 1: status page)
+│   └── shared/lib/supabase/
+├── supabase/
+│   ├── config.toml
+│   └── migrations/
+└── tests/
 ```
 
 ## Wie spätere Entwicklung ablaufen soll

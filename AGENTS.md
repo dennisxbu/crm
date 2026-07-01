@@ -6,13 +6,13 @@ Dieses Dokument richtet sich an AI-Coding-Agenten (Cursor, Claude Code, etc.), d
 
 Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unternehmen sind das primäre Lead-Objekt. Kontakte und Deals sind optional. Das System ist **metadata-driven**: Pipelines, Stages, Custom Fields und Views kommen aus der Datenbank, nicht aus hardcoded Code.
 
-## Aktuelle Phase: Phase 0
+## Aktuelle Phase: Phase 1
 
-**Phase 0 ist abgeschlossen, wenn Fundament-Dokumentation und Regeln vorliegen.**
+Phase 0 (Docs) und Phase 1 (Stack + Supabase) sind umgesetzt.
 
-In Phase 0 darf **nichts implementiert** werden außer Dokumentation, Regeln und Platzhalterstruktur.
+Phase 1 erlaubt **kein CRM** — nur technisches Gerüst und Health Check.
 
-Phase 1 beginnt erst, wenn der Nutzer explizit Stack-Initialisierung und Supabase-Grundintegration anordnet.
+Phase 2 beginnt mit Auth, Workspaces, Profiles.
 
 ## Wichtigste Docs (in dieser Reihenfolge lesen)
 

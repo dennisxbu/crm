@@ -1,26 +1,43 @@
 # supabase/
 
-Platzhalter für die Supabase-Integration ab **Phase 1**.
+Supabase-Integration für das Blumenthal Systems CRM.
 
-## Geplante Struktur
+## Struktur
 
 ```
 supabase/
-├── config.toml          # Supabase CLI Konfiguration
-├── migrations/          # SQL-Migrationen (Schema, RLS, Functions)
-└── seed.sql             # Default Pipelines, Views (Seed-Konzept)
+├── config.toml          # Supabase CLI Konfiguration (project_id: crm)
+├── migrations/          # SQL-Migrationen
+│   └── 20260701120000_phase1_extensions_and_profiles.sql
+└── .gitignore
 ```
 
-## Phase 0
+## Befehle (via pnpm)
 
-In Phase 0 existiert **kein** Supabase-Projekt und **keine** Migrationen.
+```bash
+pnpm db:start    # Lokale Instanz starten (Docker erforderlich)
+pnpm db:stop     # Stoppen
+pnpm db:reset    # Migrationen neu anwenden
+pnpm exec supabase status   # URLs und Keys anzeigen
+```
 
-Konzept und RLS-Design: `docs/supabase-and-rls.md`, `docs/data-model.md`.
+## Phase 1 Migration
 
-## Phase 1 Start
+`phase1_extensions_and_profiles.sql`:
 
-1. `supabase init`
-2. Erste Migration (extensions, profiles stub)
-3. Lokale Entwicklung: `supabase start`
+- Extension `pgcrypto`
+- Tabelle `profiles` (Stub für Phase 2)
+- RLS Policies für authenticated users (eigenes Profil)
+- `updated_at` Trigger
 
-Siehe `DEVELOPMENT.md` und `docs/implementation-roadmap.md` Phase 1.
+Keine CRM-Tabellen (companies, pipelines, …) — kommen in späteren Phasen.
+
+## Lokale URLs (Standard)
+
+| Service | URL |
+|---------|-----|
+| API | http://127.0.0.1:54321 |
+| Studio | http://127.0.0.1:54323 |
+| DB | localhost:54322 |
+
+Konzept: `docs/supabase-and-rls.md`.

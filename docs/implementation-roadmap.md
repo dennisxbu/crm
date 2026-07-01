@@ -2,7 +2,7 @@
 
 Phasenweise Umsetzung des Blumenthal Systems CRM. Jede Phase hat klaren Scope, explizite Nicht-Ziele und Akzeptanzkriterien.
 
-**Aktueller Stand: Phase 0 abgeschlossen (Fundament). Nächste Phase: Phase 1.**
+**Aktueller Stand: Phase 1 abgeschlossen (Stack + Supabase-Grundintegration). Nächste Phase: Phase 2.**
 
 ---
 
@@ -63,11 +63,14 @@ Technisches Gerüst: Frontend-Projekt, Supabase CLI, leere Migration-Struktur, C
 
 ### Akzeptanzkriterien
 
-- [ ] `pnpm dev` startet leere App
-- [ ] `supabase start` läuft lokal
-- [ ] Supabase Client verbindet (Health Check)
-- [ ] Migrationen reproduzierbar via CLI
-- [ ] Stack-Entscheidungen in architecture.md ergänzt
+- [x] `pnpm dev` startet leere App (Phase-1-Statusseite)
+- [x] Supabase CLI init + `config.toml`
+- [x] Erste Migration (extensions + profiles stub)
+- [x] Supabase Client + Health Check im Frontend
+- [x] Migrationen reproduzierbar via `pnpm db:reset` (mit Docker)
+- [x] Stack in `architecture.md` und `DEVELOPMENT.md` dokumentiert
+
+Hinweis: `pnpm db:start` erfordert **Docker Desktop**. Ohne Docker: Frontend läuft, Health Check zeigt fehlende Env/Verbindung.
 
 ### Risiken
 

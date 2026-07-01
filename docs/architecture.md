@@ -23,18 +23,19 @@ Das CRM folgt einer **metadata-driven, Supabase-zentrierten Architektur** mit kl
 └─────────────────────────────────────────────────────────┘
 ```
 
-## Empfohlener Stack (Phase 1 — nicht final implementiert)
+## Empfohlener Stack (Phase 1 — implementiert)
 
-| Komponente | Empfehlung | Begründung |
-|------------|------------|------------|
-| Frontend | React 18+ / TypeScript / Vite | Schnelles DX, breites Ökosystem |
-| Styling | TBD (Tailwind + Headless UI o.ä.) | UI/UX Phase entscheidet |
-| State | React Query (TanStack Query) + URL state für Views | Server state vs. UI state trennen |
-| Backend | Supabase | Auth, Postgres, RLS, Migrationen |
-| Validierung | Zod | Schema-Validation client- und serverseitig |
-| Tests | Vitest + Testing Library | Passend zu Vite |
+| Komponente | Wahl | Version (Stand Phase 1) |
+|------------|------|-------------------------|
+| Frontend | React + TypeScript + Vite | React 19, TS 5.8, Vite 6 |
+| Styling | Minimal CSS (Phase 1 Statusseite) | UI/UX Phase später |
+| State | React + URL state (später React Query) | — |
+| Backend | Supabase | CLI 2.x, `@supabase/supabase-js` 2.x |
+| Validierung | Zod | geplant ab Phase 3 |
+| Tests | Vitest + Testing Library | geplant Phase 11 |
+| Package Manager | pnpm | 9.x |
 
-**Wichtig:** Stack wird in Phase 1 initialisiert und hier ergänzt. Phase 0 erzwingt keine Implementierung.
+Setup und Befehle: `DEVELOPMENT.md`.
 
 ## Frontend-/Backend-Verantwortlichkeiten
 

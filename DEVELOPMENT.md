@@ -1,58 +1,100 @@
 # DEVELOPMENT.md
 
-Entwicklungsrichtlinien für das Blumenthal Systems CRM. Dieses Dokument beschreibt perspektivisch, wie lokale Entwicklung und Feature-Arbeit ablaufen sollen — ab Phase 1.
+Entwicklungsrichtlinien für das Blumenthal Systems CRM.
 
-## Voraussetzungen (perspektivisch, ab Phase 1)
+## Voraussetzungen
 
-| Tool | Zweck |
-|------|-------|
-| Node.js (LTS) | Frontend-Tooling |
-| pnpm oder npm | Package Manager |
-| Supabase CLI | Lokale DB, Migrationen |
-| Docker | Supabase local dev (via CLI) |
-| Git | Versionskontroll |
+| Tool | Version (Stand Phase 1) | Zweck |
+|------|-------------------------|-------|
+| Node.js | 22 LTS | Frontend-Tooling |
+| pnpm | 9.x | Package Manager |
+| Supabase CLI | via `pnpm exec supabase` (2.x) | Lokale DB, Migrationen |
+| Docker Desktop | aktuell | Supabase local dev (`pnpm db:start`) |
+| Git | — | Versionskontrolle |
 
-Konkrete Versionen werden in Phase 1 festgelegt und hier ergänzt.
-
-## Lokale Entwicklung (perspektivisch)
+## Schnellstart (lokal)
 
 ```bash
-# Phase 1+ — Beispielablauf, noch nicht aktiv
-cp .env.example .env.local
-# Werte aus Supabase Dashboard oder lokaler Instanz eintragen
-
-# Supabase lokal starten (wenn CLI eingerichtet)
-supabase start
-
-# Frontend starten (wenn Stack initialisiert)
 pnpm install
-pnpm dev
+pnpm db:start          # Docker muss laufen
 ```
 
-Bis Phase 1 ist **kein** lokaler Dev-Server nötig. Dieses Repo enthält noch keine App.
+Nach `db:start` erscheinen API URL und anon key in der CLI-Ausgabe. Diese in `.env.local` eintragen:
 
-## Supabase-Konzept
+```bash
+cp .env.example .env.local
+# VITE_SUPABASE_ANON_KEY aus `pnpm exec supabase status` übernehmen
+```
+
+```bash
+pnpm dev               # http://localhost:5173
+```
+
+Die App zeigt einen **Supabase Health Check** (Phase-1-Statusseite, kein CRM).
+
+## NPM Scripts
+
+| Script | Beschreibung |
+|--------|--------------|
+| `pnpm dev` | Vite Dev Server |
+| `pnpm build` | TypeScript + Production Build |
+| `pnpm preview` | Production Build lokal preview |
+| `pnpm db:start` | Supabase lokal starten |
+| `pnpm db:stop` | Supabase lokal stoppen |
+| `pnpm db:reset` | DB zurücksetzen + Migrationen anwenden |
+
+## Stack (Phase 1 — final)
+
+| Schicht | Wahl |
+|---------|------|
+| Frontend | React 19 + TypeScript 5.8 + Vite 6 |
+| Backend / DB | Supabase (Postgres 15) |
+| Client | `@supabase/supabase-js` |
+| Package Manager | pnpm |
+
+Details: `docs/architecture.md`.
+
+## Projektstruktur (App)
+
+```
+src/
+├── app/                 # App shell (Phase 1: status page)
+├── shared/lib/supabase/ # Client + health check
+└── main.tsx
+```
+
+Geplante Erweiterung ab Phase 2: `features/`, generische Field Renderer — siehe `docs/architecture.md`.
+
+## Supabase
 
 - **Postgres** als einzige Datenquelle für CRM-Daten
-- **Supabase Auth** für Benutzer-Authentifizierung
-- **Row Level Security (RLS)** für Workspace-Isolation
-- **Migrationen** in `supabase/migrations/` — keine manuelle Schema-Änderung im Dashboard für produktive Struktur
-- Details: `docs/supabase-and-rls.md`
+- **Supabase Auth** ab Phase 2
+- **Row Level Security** — erste Policies auf `profiles` (Phase 1 Migration)
+- **Migrationen** in `supabase/migrations/` — keine manuelle Schema-Änderung im Dashboard
+
+Phase-1-Migration: `20260701120000_phase1_extensions_and_profiles.sql` (extensions + profiles stub).
+
+Details: `docs/supabase-and-rls.md`.
 
 ## Environment Variables
 
-| Variable | Wo | Beschreibung |
-|----------|-----|--------------|
-| `VITE_SUPABASE_URL` | Frontend | Supabase Project URL |
-| `VITE_SUPABASE_ANON_KEY` | Frontend | Public anon key (RLS-geschützt) |
+| Variable | Beschreibung |
+|----------|--------------|
+| `VITE_SUPABASE_URL` | Supabase API URL (lokal: `http://127.0.0.1:54321`) |
+| `VITE_SUPABASE_ANON_KEY` | Public anon key (RLS-geschützt) |
 
-**Niemals** im Frontend oder in Git:
+Lokalen anon key abrufen:
+
+```bash
+pnpm exec supabase status
+```
+
+**Niemals** committen oder ins Frontend-Bundle:
 
 - Service Role Key
 - DB Connection Strings mit Superuser-Rechten
-- Echte Secrets in `.env.example`
 
-`.env`, `.env.local` und ähnliche Dateien sind in `.gitignore`.
+`.env.local` ist in `.gitignore`.
 
 ## Branch-Konventionen
 
@@ -78,62 +120,23 @@ Refs docs/data-model.md companies table.
 
 ## Neue Features planen
 
-1. **Phase prüfen** — Passt das Feature in die aktuelle Roadmap-Phase? (`docs/implementation-roadmap.md`)
-2. **Spec prüfen** — Steht es in `docs/product-spec.md` oder ist es Scope Creep?
-3. **Architektur prüfen** — Verletzt es metadata-driven oder company-first Prinzipien?
-4. **Docs zuerst** — Bei Datenmodell- oder Architekturänderungen Docs **vor** Code aktualisieren
-5. **Definition of Done** — `docs/definitions-of-done.md` als Checkliste
+1. **Phase prüfen** — `docs/implementation-roadmap.md`
+2. **Spec prüfen** — `docs/product-spec.md`
+3. **Architektur prüfen** — metadata-driven, company-first
+4. **Docs zuerst** bei Schema-/Architekturänderungen
+5. **Definition of Done** — `docs/definitions-of-done.md`
 6. **Implementieren** — Scope der Phase nicht überschreiten
-
-## Docs vor Implementierung aktualisieren
-
-Wenn sich ändert:
-
-- Tabellenstruktur → `docs/data-model.md`
-- Architekturentscheidung → `docs/architecture.md`
-- Produktverhalten → `docs/product-spec.md`
-- Custom-Field-Verhalten → `docs/custom-fields.md`
-- Pipeline/View-Verhalten → `docs/pipelines-and-views.md`
-- Sicherheit/RLS → `docs/supabase-and-rls.md`
-
-Commit für Doc-Updates kann separat oder im selben PR erfolgen — aber Docs dürfen nicht hinter Code zurückbleiben.
 
 ## AI-gestützte Entwicklung
 
 Siehe `docs/ai-development-workflow.md` und `.cursor/rules/`.
 
-Agenten müssen vor Implementierung relevante Docs und Rules lesen. Keine Features gegen dokumentierte Prinzipien.
+## Tests
 
-## Tests (perspektivisch)
+Test-Framework: Vitest (geplant Phase 11). Struktur: `tests/README.md`.
 
-- Unit-Tests für Business Logic (Custom Field Validation, View Config Parsing)
-- Integrationstests für Supabase-Queries mit RLS
-- Keine Tests in Phase 0 — Struktur in `tests/README.md`
+## Aktuelle Phase
 
-Details zu Teststrategie werden in Phase 1/11 konkretisiert.
+**Phase 1** — Stack + Supabase-Grundintegration (kein CRM, kein Auth-UI).
 
-## Code-Organisation (perspektivisch)
-
-Geplante Trennung — Details in `docs/architecture.md`:
-
-- **System fields** — feste Spalten auf Entity-Tabellen (name, website, …)
-- **Custom fields** — metadata in `custom_fields`, Werte in `custom_field_values`
-- **Configuration** — pipelines, stages, views in eigenen Tabellen
-- **UI state** — View-Präferenzen, Spaltenbreiten etc. getrennt von Business-Daten
-
-## Mermaid — vereinfacht:
-
-```
-companies (system fields)
-    ↕ entity_pipeline_positions → pipeline_stages → pipelines
-    ↕ custom_field_values → custom_fields
-    ↕ views (display config)
-```
-
-## Qualität
-
-Kein Merge von Features, die gegen `docs/definitions-of-done.md` verstoßen. Keine hardcoded Business-Konfiguration. Keine Contact-first-Abkürzungen.
-
-## Phase 0 Status
-
-Aktuell: **nur Dokumentation und Struktur**. Kein `package.json`, kein Supabase-Projekt, kein Frontend-Code.
+Nächste Phase: **Phase 2** — Auth, Workspaces, Profiles.
