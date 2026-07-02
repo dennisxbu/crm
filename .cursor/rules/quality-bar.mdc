@@ -22,7 +22,10 @@ alwaysApply: true
 ## UI (bis UX-Spec)
 
 - Funktionale Shells in frühen Phasen ok (z.B. Phase-1-Statusseite)
-- Phase-1-Statusseite ist **temporär** — kein Designsystem, keine CRM-Screens daraus ableiten
+- Phase-3-Company-Shell ist **temporär** — kein finales CRM-Layout daraus ableiten
+- Company-Queries immer `workspace_id`-scoped — nie ohne Workspace-Kontext
+- Company ohne Contact/Deal ist Pflicht — kein versteckter Zwang zu späteren Entities
+- Phase 3 baut keine Custom Fields, Pipelines, Views oder Kanban
 - Kein Design-System erfinden — [docs/ui-ux-brief-for-claude.md](../../docs/ui-ux-brief-for-claude.md)
 - Ab CRM-UI: nach UX-Brief und Roadmap-Phase
 

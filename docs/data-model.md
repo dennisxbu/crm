@@ -1,6 +1,10 @@
 # Datenmodell — Spezifikation
 
-Dieses Dokument beschreibt das Postgres-Datenmodell auf Spezifikationsebene. **Phase 1** implementiert nur `profiles` (Stub); alle übrigen Tabellen folgen in späteren Phasen per Migration.
+Dieses Dokument beschreibt das Postgres-Datenmodell auf Spezifikationsebene.
+
+**Implementiert:** `profiles` (Phase 1–2), `workspaces`, `workspace_members` (Phase 2), `companies` (Phase 3).
+
+Alle übrigen Tabellen folgen in späteren Phasen per Migration.
 
 ## Design-Prinzipien
 
@@ -122,25 +126,37 @@ Anzeige in UI, Zuordnung bei `user`-Typ Custom Fields.
 
 **Primäres Lead-Objekt.** Ein Unternehmen ist ein vollwertiger Lead — mit oder ohne Kontakt, mit oder ohne Deal.
 
-### Wichtige Felder (System Fields)
+### Wichtige Felder (System Fields — Phase 3 implementiert)
 
-| Feld                       | Typ                         | Beschreibung                                        |
-| -------------------------- | --------------------------- | --------------------------------------------------- |
-| `id`                       | uuid PK                     |                                                     |
-| `workspace_id`             | uuid FK                     |                                                     |
-| `name`                     | text                        | Firmenname (required)                               |
-| `website`                  | text nullable               |                                                     |
-| `phone`                    | text nullable               | Zentrale / Impressum                                |
-| `email`                    | text nullable               | Generische / Impressum-Mail                         |
-| `linkedin_url`             | text nullable               | Firmen-LinkedIn                                     |
-| `industry`                 | text nullable               | Branche                                             |
-| `employee_count_range`     | text nullable               | z.B. „1-10", „11-50"                                |
-| `contact_discovery_status` | text enum                   | `unknown`, `researching`, `found`, `not_applicable` |
-| `lifecycle_status`         | text enum nullable          | z.B. `lead`, `prospect`, `customer`, `disqualified` |
-| `notes_summary`            | text nullable               | Kurznotiz (Detail: Activities)                      |
-| `created_at`               | timestamptz                 |                                                     |
-| `updated_at`               | timestamptz                 |                                                     |
-| `created_by`               | uuid FK → profiles nullable |                                                     |
+| Feld                       | Typ                         | Beschreibung                                                                     |
+| -------------------------- | --------------------------- | -------------------------------------------------------------------------------- |
+| `id`                       | uuid PK                     |                                                                                  |
+| `workspace_id`             | uuid FK                     | Pflicht — RLS-Scope                                                              |
+| `name`                     | text                        | Firmenname (required)                                                            |
+| `website`                  | text nullable               |                                                                                  |
+| `domain`                   | text nullable               |                                                                                  |
+| `linkedin_url`             | text nullable               |                                                                                  |
+| `phone`                    | text nullable               |                                                                                  |
+| `email`                    | text nullable               |                                                                                  |
+| `city`                     | text nullable               |                                                                                  |
+| `country`                  | text nullable               | Default `DE`                                                                     |
+| `industry`                 | text nullable               |                                                                                  |
+| `employee_count_range`     | text nullable               |                                                                                  |
+| `contact_discovery_status` | text enum                   | Siehe Enum unten                                                                 |
+| `lifecycle_status`         | text enum                   | `lead`, `prospect`, `active_opportunity`, `customer`, `disqualified`, `archived` |
+| `owner_id`                 | uuid FK → profiles nullable | Default: aktueller User                                                          |
+| `next_action_at`           | timestamptz nullable        |                                                                                  |
+| `last_activity_at`         | timestamptz nullable        | Automatisch ab Phase 10                                                          |
+| `last_contacted_at`        | timestamptz nullable        | Automatisch ab Phase 10                                                          |
+| `notes_summary`            | text nullable               |                                                                                  |
+| `created_by`               | uuid FK → profiles nullable |                                                                                  |
+| `created_at`               | timestamptz                 |                                                                                  |
+| `updated_at`               | timestamptz                 |                                                                                  |
+| `archived_at`              | timestamptz nullable        | Soft archive                                                                     |
+
+**`contact_discovery_status` (Phase 3):**
+
+`unknown`, `not_started`, `researching`, `partial_contacts_found`, `decision_maker_identified`, `no_contact_found`
 
 ### Beziehungen
 

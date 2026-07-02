@@ -61,9 +61,25 @@ Views gelten erst als fertig, wenn:
 
 ---
 
-## Companies
+## Companies (Phase 3 Core)
 
-Companies gelten erst als fertig, wenn:
+Phase-3-Minimum — vollständige DoD erst mit Phase 4–6:
+
+- [x] Company ohne Kontakt anlegbar
+- [x] Company ohne Deal anlegbar
+- [x] Pflicht-Systemfeld `name` validiert
+- [x] `contact_discovery_status` setzbar
+- [x] Company in Workspace isoliert (RLS)
+- [x] Archivieren via `archived_at` (kein Hard Delete)
+- [x] Kein erzwungener Contact oder Deal bei Create
+- [ ] Company in Pipeline positionierbar (Phase 6+)
+- [ ] Custom Fields am Company nutzbar (Phase 4+)
+- [ ] Company in Table und Kanban erscheint (Phase 5/6+)
+- [ ] `contact_discovery_status` filterbar in Views (Phase 5+)
+
+---
+
+## Companies (vollständige DoD)
 
 - [ ] Company ohne Kontakt angelegt werden kann
 - [ ] Company ohne Deal angelegt werden kann

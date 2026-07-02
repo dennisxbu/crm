@@ -1,10 +1,11 @@
-// PHASE 2 AUTH/WORKSPACE SHELL — temporary technical scaffold, not the CRM UI.
-// Do NOT evolve this into CRM screens or derive design decisions from it.
+// PHASE 3 APP SHELL — temporary technical scaffold, not the final CRM UI.
+// Do NOT evolve this into final CRM screens or derive design decisions from it.
 // UI/UX is defined separately in docs/ui-ux-brief-for-claude.md (later phase).
 // See src/app/README.md for details.
 import { useAuth } from "./providers/AuthProvider";
 import { useWorkspace } from "./providers/WorkspaceProvider";
 import { AuthForm } from "../features/auth/components/AuthForm";
+import { CompaniesSection } from "../features/companies/components/CompaniesSection";
 import { isSupabaseConfigured } from "../shared/lib/supabase/client";
 import "./App.css";
 
@@ -33,9 +34,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 2</h1>
+          <h1>CRM — Phase 3</h1>
           <p className="shell__lead">
-            Auth/Workspace foundation. No CRM features yet.
+            Company Core foundation. No final CRM UI.
           </p>
         </header>
         <section className="panel">
@@ -61,9 +62,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 2</h1>
+          <h1>CRM — Phase 3</h1>
           <p className="shell__lead">
-            Auth/Workspace foundation. No CRM features yet.
+            Company Core foundation. No final CRM UI.
           </p>
         </header>
         {authError ? <p className="shell__error">{authError}</p> : null}
@@ -73,12 +74,12 @@ export function App() {
   }
 
   return (
-    <main className="shell">
+    <main className="shell shell--wide">
       <header className="shell__header">
         <p className="shell__eyebrow">Blumenthal Systems</p>
-        <h1>CRM — Phase 2</h1>
+        <h1>CRM — Phase 3</h1>
         <p className="shell__lead">
-          Phase 2 Auth/Workspace Foundation — no CRM features yet.
+          Phase 3 Company Core — functional shell, not final CRM UI.
         </p>
       </header>
 
@@ -117,6 +118,8 @@ export function App() {
           Abmelden
         </button>
       </section>
+
+      <CompaniesSection />
     </main>
   );
 }

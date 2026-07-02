@@ -196,10 +196,25 @@ Supabase Pro/Team: automatische Backups. Für Solo-Projekt: regelmäßig `pg_dum
 
 ## Implementierungsstand
 
-| Phase | Migrationen                                                                                            |
-| ----- | ------------------------------------------------------------------------------------------------------ |
-| 1     | `profiles` stub, RLS, Grants — `20260701120000_phase1_extensions_and_profiles.sql`                     |
-| 2     | workspaces, workspace_members, auth trigger, RLS helpers — `20260702140000_phase2_auth_workspaces.sql` |
-| 3+    | companies, CRM tables — geplant                                                                        |
+| Phase | Migrationen                                                                                      |
+| ----- | ------------------------------------------------------------------------------------------------ |
+| 1     | `profiles` stub — `20260701120000_phase1_extensions_and_profiles.sql`                            |
+| 2     | workspaces, workspace_members — `20260702140000_phase2_auth_workspaces.sql`                      |
+| 3     | companies — `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql` |
+| 4+    | custom_fields, pipelines, views — geplant                                                        |
+
+### companies (Phase 3)
+
+RLS über `is_workspace_member(workspace_id)`:
+
+- SELECT für alle Workspace-Members
+- INSERT: Member + `created_by`/`owner_id` = `auth.uid()` (oder null)
+- UPDATE: nur Owner (`owner_id = auth.uid()`) oder unassigned (`owner_id IS NULL`)
+- Trigger `prevent_companies_immutable_column_change` blockiert Änderungen an `owner_id`, `workspace_id`, `created_by`
+- Kein DELETE für `authenticated` — Archivierung via `archived_at`
+
+Migrationen: `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql`
+
+Detail: [docs/adr/012-company-core-system-fields.md](adr/012-company-core-system-fields.md)
 
 Lokale Entwicklung: [docs/dev-setup.md](dev-setup.md). ADR: [adr/004-workspaces-rls.md](adr/004-workspaces-rls.md).

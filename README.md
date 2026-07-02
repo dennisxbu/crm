@@ -6,13 +6,13 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 ## Project status
 
-|                  |                                        |
-| ---------------- | -------------------------------------- |
-| **Phase**        | 2 — Auth, Workspaces, Profiles         |
-| **Version**      | `0.1.0` (pre-release)                  |
-| **Product code** | Auth/Workspace foundation — no CRM yet |
-| **Architecture** | [ADRs 001–011](docs/adr/README.md)     |
-| **Next**         | Phase 3 — Company-Core                 |
+|                  |                                                |
+| ---------------- | ---------------------------------------------- |
+| **Phase**        | 3 — Company-Core                               |
+| **Version**      | `0.1.0` (pre-release)                          |
+| **Product code** | Company CRUD foundation — no Custom Fields yet |
+| **Architecture** | [ADRs 001–012](docs/adr/README.md)             |
+| **Next**         | Phase 4 — Custom Fields Core                   |
 
 ## Stack
 
@@ -34,9 +34,9 @@ cp .env.example .env.local   # fill with Supabase project URL + publishable key
 pnpm dev
 ```
 
-Open http://localhost:5173 — Phase 2 auth/workspace shell (login, workspace context).
+Open http://localhost:5173 — Phase 3 company core (login, workspace, companies).
 
-**Apply migrations** (required for auth/workspace):
+**Apply migrations** (required):
 
 ```bash
 # Local:
@@ -66,9 +66,10 @@ Pre-commit: lint-staged, audit, Secretlint — see [CONTRIBUTING.md](CONTRIBUTIN
 
 ```
 src/
-  app/                    App shell + providers (Phase 2 auth/workspace)
+  app/                    App shell + providers
   features/auth/          Auth form, API, types
   features/workspaces/    Workspace API, types
+  features/companies/     Company API, form, list, detail (Phase 3)
   shared/lib/supabase/    Client + health check
 supabase/
   migrations/             SQL + RLS
