@@ -16,18 +16,18 @@ Kein separates Custom-Backend in MVP — Business Logic primär in Postgres (RLS
 
 ## Auth
 
-### Flow (geplant, Phase 2)
+### Flow (Phase 2 — implementiert)
 
 1. User registriert / loggt ein via Supabase Auth
-2. Trigger oder App-Logic erstellt `profiles` Row (`id = auth.uid()`)
-3. Workspace + `workspace_members` werden angelegt (Onboarding)
+2. Trigger `handle_new_user()` erstellt `profiles` Row (`id = auth.uid()`)
+3. `create_initial_workspace()` RPC legt Workspace + Owner-Membership an (idempotent)
 4. JWT enthält `sub` = user id
-5. RLS Policies nutzen `auth.uid()` für Zugriffskontrolle
+5. RLS Policies nutzen `auth.uid()` und `is_workspace_member()` / `is_workspace_owner()`
 
-### Auth-Methoden (Entscheidung Phase 2)
+### Auth-Methoden (Phase 2)
 
-- E-Mail + Passwort (Minimum)
-- Magic Link (optional)
+- E-Mail + Passwort (implementiert)
+- Magic Link (nicht Phase 2)
 - OAuth (nicht MVP)
 
 ## Workspace-basierte Zugriffskontrolle
@@ -71,24 +71,24 @@ Gleiches Muster für: contacts, deals, pipelines, pipeline_stages, entity_pipeli
 
 ### Tabellen mit RLS
 
-| Tabelle                   | RLS                                     |
-| ------------------------- | --------------------------------------- |
-| workspaces                | Member read; owner update               |
-| workspace_members         | Member read own workspace               |
-| profiles                  | Own profile + workspace co-members read |
-| companies                 | workspace-scoped                        |
-| contacts                  | workspace-scoped                        |
-| deals                     | workspace-scoped                        |
-| pipelines                 | workspace-scoped                        |
-| pipeline_stages           | workspace-scoped                        |
-| entity_pipeline_positions | workspace-scoped                        |
-| custom_fields             | workspace-scoped                        |
-| custom_field_options      | workspace-scoped                        |
-| custom_field_values       | workspace-scoped                        |
-| views                     | workspace-scoped                        |
-| activities                | workspace-scoped                        |
-| tags                      | workspace-scoped                        |
-| entity_tags               | workspace-scoped                        |
+| Tabelle                   | RLS                                             |
+| ------------------------- | ----------------------------------------------- |
+| profiles                  | Own profile read/update; auto-created on signup |
+| workspaces                | Member read; owner update (Phase 2)             |
+| workspace_members         | Own + workspace member read (Phase 2)           |
+| companies                 | workspace-scoped                                |
+| contacts                  | workspace-scoped                                |
+| deals                     | workspace-scoped                                |
+| pipelines                 | workspace-scoped                                |
+| pipeline_stages           | workspace-scoped                                |
+| entity_pipeline_positions | workspace-scoped                                |
+| custom_fields             | workspace-scoped                                |
+| custom_field_options      | workspace-scoped                                |
+| custom_field_values       | workspace-scoped                                |
+| views                     | workspace-scoped                                |
+| activities                | workspace-scoped                                |
+| tags                      | workspace-scoped                                |
+| entity_tags               | workspace-scoped                                |
 
 ### Was RLS nicht ersetzt
 
@@ -133,7 +133,7 @@ Migrationen enthalten: Tabellen, Indexes, RLS Policies, Functions, Triggers.
 
 - `auth.users` — Supabase verwaltet
 - `profiles` — App-Tabelle, `id` FK zu `auth.users`
-- Trigger `on auth.user created` → insert profile (Phase 2)
+- Trigger `on auth.user created` → insert profile (Phase 2: `handle_new_user`)
 
 Profile enthält keine CRM-Business-Daten — nur User-Metadaten.
 
@@ -159,15 +159,17 @@ Siehe `.env.example`:
 
 ```
 VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-| Variable                 | Verwendung                                                            |
-| ------------------------ | --------------------------------------------------------------------- |
-| `VITE_SUPABASE_URL`      | Supabase Project URL                                                  |
-| `VITE_SUPABASE_ANON_KEY` | Öffentlicher anon key — Zugriffsschutz erfolgt ausschließlich via RLS |
+| Variable                        | Verwendung                                                                   |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| `VITE_SUPABASE_URL`             | Supabase Project URL                                                         |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Öffentlicher Publishable Key — Zugriffsschutz erfolgt ausschließlich via RLS |
 
-`VITE_SUPABASE_ANON_KEY` ist der Standard Supabase anon key — öffentlich exponierbar, weil RLS den tatsächlichen Datenzugriff kontrolliert. Niemals den Service Role Key ins Frontend.
+`VITE_SUPABASE_PUBLISHABLE_KEY` ist der öffentliche Publishable Key aus dem Supabase Dashboard — sicher im Browser exponierbar, weil RLS den tatsächlichen Datenzugriff kontrolliert. Niemals den Secret Key oder Service Role Key ins Frontend.
+
+**Verbindung prüfen:** [docs/supabase-connection-check.md](supabase-connection-check.md)
 
 **Nicht in `.env.example`:**
 
@@ -196,7 +198,8 @@ Supabase Pro/Team: automatische Backups. Für Solo-Projekt: regelmäßig `pg_dum
 
 | Phase | Migrationen                                                                                            |
 | ----- | ------------------------------------------------------------------------------------------------------ |
-| 1     | `profiles` stub, RLS, Grants — `supabase/migrations/20260701120000_phase1_extensions_and_profiles.sql` |
-| 2+    | workspaces, workspace_members, auth triggers — geplant                                                 |
+| 1     | `profiles` stub, RLS, Grants — `20260701120000_phase1_extensions_and_profiles.sql`                     |
+| 2     | workspaces, workspace_members, auth trigger, RLS helpers — `20260702140000_phase2_auth_workspaces.sql` |
+| 3+    | companies, CRM tables — geplant                                                                        |
 
 Lokale Entwicklung: [docs/dev-setup.md](dev-setup.md). ADR: [adr/004-workspaces-rls.md](adr/004-workspaces-rls.md).

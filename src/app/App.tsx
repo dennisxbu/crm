@@ -1,94 +1,121 @@
-// PHASE 1 STATUS SHELL — temporary technical scaffold, not the CRM UI.
+// PHASE 2 AUTH/WORKSPACE SHELL — temporary technical scaffold, not the CRM UI.
 // Do NOT evolve this into CRM screens or derive design decisions from it.
 // UI/UX is defined separately in docs/ui-ux-brief-for-claude.md (later phase).
 // See src/app/README.md for details.
-import { useEffect, useState } from "react";
-import {
-  checkSupabaseHealth,
-  type SupabaseHealthStatus,
-} from "../shared/lib/supabase/health-check";
+import { useAuth } from "./providers/AuthProvider";
+import { useWorkspace } from "./providers/WorkspaceProvider";
+import { AuthForm } from "../features/auth/components/AuthForm";
 import { isSupabaseConfigured } from "../shared/lib/supabase/client";
 import "./App.css";
 
 export function App() {
-  const [health, setHealth] = useState<SupabaseHealthStatus | null>(null);
-
-  useEffect(() => {
-    void checkSupabaseHealth().then(setHealth);
-  }, []);
+  const {
+    user,
+    profile,
+    isLoading: authLoading,
+    error: authError,
+    signOut,
+  } = useAuth();
+  const {
+    activeWorkspace,
+    memberships,
+    isLoading: workspaceLoading,
+    error: workspaceError,
+  } = useWorkspace();
 
   const envConfigured = isSupabaseConfigured();
+  const activeMembership = memberships.find(
+    (membership) => membership.workspace_id === activeWorkspace?.id,
+  );
+
+  if (!envConfigured) {
+    return (
+      <main className="shell">
+        <header className="shell__header">
+          <p className="shell__eyebrow">Blumenthal Systems</p>
+          <h1>CRM — Phase 2</h1>
+          <p className="shell__lead">
+            Auth/Workspace foundation. No CRM features yet.
+          </p>
+        </header>
+        <section className="panel">
+          <p className="shell__notice">
+            Missing <code>.env.local</code>. Set <code>VITE_SUPABASE_URL</code>{" "}
+            and <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>.
+          </p>
+        </section>
+      </main>
+    );
+  }
+
+  if (authLoading) {
+    return (
+      <main className="shell">
+        <p className="shell__notice">Session wird geladen…</p>
+      </main>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="shell">
+        <header className="shell__header">
+          <p className="shell__eyebrow">Blumenthal Systems</p>
+          <h1>CRM — Phase 2</h1>
+          <p className="shell__lead">
+            Auth/Workspace foundation. No CRM features yet.
+          </p>
+        </header>
+        {authError ? <p className="shell__error">{authError}</p> : null}
+        <AuthForm />
+      </main>
+    );
+  }
 
   return (
     <main className="shell">
       <header className="shell__header">
         <p className="shell__eyebrow">Blumenthal Systems</p>
-        <h1>CRM — Phase 1</h1>
+        <h1>CRM — Phase 2</h1>
         <p className="shell__lead">
-          Stack and Supabase foundation. No CRM features yet.
+          Phase 2 Auth/Workspace Foundation — no CRM features yet.
         </p>
       </header>
 
-      <section className="panel" aria-labelledby="status-heading">
-        <h2 id="status-heading">System status</h2>
+      {authError ? <p className="shell__error">{authError}</p> : null}
+      {workspaceError ? <p className="shell__error">{workspaceError}</p> : null}
+
+      <section className="panel" aria-labelledby="session-heading">
+        <h2 id="session-heading">Session</h2>
         <dl className="status-list">
           <div className="status-list__row">
-            <dt>Frontend</dt>
+            <dt>E-Mail</dt>
+            <dd>{user.email ?? "—"}</dd>
+          </div>
+          <div className="status-list__row">
+            <dt>Profil</dt>
+            <dd>{profile?.full_name ?? "—"}</dd>
+          </div>
+          <div className="status-list__row">
+            <dt>Workspace</dt>
             <dd>
-              <span className="badge badge--ok">Vite + React + TypeScript</span>
+              {workspaceLoading
+                ? "Wird geladen…"
+                : (activeWorkspace?.name ?? "—")}
             </dd>
           </div>
           <div className="status-list__row">
-            <dt>Environment</dt>
-            <dd>
-              <span
-                className={`badge ${envConfigured ? "badge--ok" : "badge--warn"}`}
-              >
-                {envConfigured
-                  ? "VITE_SUPABASE_* configured"
-                  : "Missing .env.local"}
-              </span>
-            </dd>
-          </div>
-          <div className="status-list__row">
-            <dt>Supabase</dt>
-            <dd>
-              {health ? (
-                <span
-                  className={`badge ${
-                    health.state === "connected"
-                      ? "badge--ok"
-                      : health.state === "missing_env"
-                        ? "badge--warn"
-                        : "badge--error"
-                  }`}
-                >
-                  {health.message}
-                </span>
-              ) : (
-                <span className="badge badge--neutral">Checking…</span>
-              )}
-            </dd>
+            <dt>Rolle</dt>
+            <dd>{activeMembership?.role ?? "—"}</dd>
           </div>
         </dl>
-      </section>
-
-      <section className="panel panel--muted">
-        <h2>Local setup</h2>
-        <ol className="setup-steps">
-          <li>
-            <code>pnpm install</code>
-          </li>
-          <li>
-            <code>pnpm db:start</code> (requires Docker + Supabase CLI)
-          </li>
-          <li>
-            Copy keys from CLI output into <code>.env.local</code>
-          </li>
-          <li>
-            <code>pnpm dev</code>
-          </li>
-        </ol>
+        <button
+          className="auth-form__submit"
+          type="button"
+          onClick={() => void signOut()}
+        >
+          Abmelden
+        </button>
       </section>
     </main>
   );

@@ -12,8 +12,8 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 
 |                   |                                                                  |
 | ----------------- | ---------------------------------------------------------------- |
-| **Phase**         | 1 — Stack + Supabase-Grundintegration (abgeschlossen)            |
-| **Nächste Phase** | 2 — Auth, Workspaces, Profiles                                   |
+| **Phase**         | 2 — Auth, Workspaces, Profiles (abgeschlossen)                   |
+| **Nächste Phase** | 3 — Company-Core                                                 |
 | **Version**       | `0.1.0` (pre-release)                                            |
 | **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
 | **ADRs**          | [docs/adr/README.md](docs/adr/README.md)                         |
@@ -43,7 +43,13 @@ Vollständig: [CONTRIBUTING.md](CONTRIBUTING.md) · Lokal: [docs/dev-setup.md](d
 
 - Vite + React + TypeScript App, Supabase Client, Health Check
 - Migration: `profiles` stub + RLS + Grants
-- **Kein CRM**, kein Auth-UI
+
+## Phase 2 — Was existiert
+
+- Supabase Auth (Login/Register/Logout, Session)
+- Migration: `workspaces`, `workspace_members`, RLS helpers, `create_initial_workspace` RPC
+- AuthProvider + WorkspaceProvider
+- Temporäre Auth-/Workspace-Shell (kein CRM)
 
 ## Was ohne explizite Anweisung nicht gebaut wird
 

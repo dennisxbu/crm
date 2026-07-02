@@ -17,6 +17,7 @@ Significant architecture choices for the Blumenthal Systems CRM. Process: [ADR-0
 | [008](008-temporary-status-shell.md)               | Phase-1-Statusseite als temporäre Shell           | Accepted | 2026-07-02 |
 | [009](009-field-type-contract.md)                  | Field Type Contract für Custom Fields             | Accepted | 2026-07-02 |
 | [010](010-company-acquisition-operating-fields.md) | Company Akquise-Operative Felder                  | Accepted | 2026-07-02 |
+| [011](011-auth-workspace-profile-foundation.md)    | Auth, Workspace & Profile Foundation              | Accepted | 2026-07-02 |
 
 ## Open decisions (document in new ADR before implementation)
 

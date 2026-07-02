@@ -12,23 +12,25 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 **Produkt-Spec (Detail):** [docs/product-spec.md](../../docs/product-spec.md)  
 **Architektur-Entscheidungen:** [docs/adr/README.md](../../docs/adr/README.md)
 
-## Aktueller Stand: Phase 1
+## Aktueller Stand: Phase 2
 
 | | |
 | --- | --- |
-| **Phase** | 1 — Stack + Supabase-Grundintegration |
+| **Phase** | 2 — Auth, Workspaces, Profiles |
 | **Version** | `0.1.0` (pre-release) |
-| **Product code** | Foundation scaffold — kein CRM, kein Auth-UI |
+| **Product code** | Auth/Workspace foundation — kein CRM |
 | **Roadmap** | [docs/implementation-roadmap.md](../../docs/implementation-roadmap.md) |
 
 **Im Code umgesetzt:**
 
 - Vite 6 + React 19 + TypeScript (strict)
-- Supabase CLI, `config.toml`, Migration `profiles` stub + RLS
-- Supabase Client + Health Check (Statusseite)
+- Supabase Auth (Login/Register/Logout, Session)
+- Migrationen: `profiles`, `workspaces`, `workspace_members`, RLS helpers
+- AuthProvider + WorkspaceProvider
+- Temporäre Auth-/Workspace-Shell
 - pnpm, ESLint, Prettier, Husky, Secretlint
 
-**Nächste Phase:** Phase 2 — Auth, Workspaces, Profiles
+**Nächste Phase:** Phase 3 — Company-Core
 
 **Bewusst nicht im Scope (kein Scope Creep):**
 
@@ -45,13 +47,13 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 - Deals entstehen erst bei konkreter Verkaufschance
 - Activities hängen primär am Unternehmen
 
-## Phase-1-Statusseite — temporäre Shell
+## Phase-2-Auth-Shell — temporäre Shell
 
-`src/app/App.tsx` ist eine **technische Statusseite**, keine CRM-UI.
+`src/app/App.tsx` ist eine **technische Auth-/Workspace-Shell**, keine CRM-UI.
 
 - Nicht zur Produkt-UI weiterentwickeln
 - Kein Design-System, keine Component Library daraus ableiten
-- CRM-Screens entstehen ab Phase 2+ nach `docs/ui-ux-brief-for-claude.md`
+- CRM-Screens entstehen ab Phase 3+ nach `docs/ui-ux-brief-for-claude.md`
 - Kein CRM-Feature vor der jeweiligen Roadmap-Phase
 
 Details: [src/app/README.md](../../src/app/README.md)
