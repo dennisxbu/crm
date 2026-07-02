@@ -9,18 +9,19 @@ Leitfaden für die Nutzung von AI-Coding-Tools (Cursor, Claude Code, etc.) in di
 ## Pflicht-Lese-Reihenfolge vor Implementierung
 
 1. `README.md` — Phase und Kontext
-2. `AGENTS.md` — **kanonisch für alle AI-Tools**
+2. `AGENTS.md` — **kanonisch für alle AI-Tools**; Projektstatus
 3. `docs/implementation-roadmap.md` — **aktive Phase**
 4. `docs/adr/README.md` — bindende Architektur-Entscheidungen
 5. `docs/product-spec.md` — Scope und Nicht-Ziele
-6. `docs/architecture.md` — technische Leitplanken
-7. Relevante Detail-Docs:
+6. `docs/product-principles.md` — **Nordstern**: Produktgefühl, Litmus-Test, Betriebsmodell
+7. `docs/architecture.md` — technische Leitplanken
+8. Relevante Detail-Docs:
    - Custom Fields → `docs/custom-fields.md`
    - Pipelines/Views → `docs/pipelines-and-views.md`
    - Datenmodell → `docs/data-model.md`
    - Supabase → `docs/supabase-and-rls.md`
-8. `docs/definitions-of-done.md` — Akzeptanzkriterien
-9. `.cursor/rules/` — Cursor `.mdc` rules (optional für non-Cursor: AGENTS.md reicht)
+9. `docs/definitions-of-done.md` — Akzeptanzkriterien
+10. `.cursor/rules/` — Cursor `.mdc` rules (optional für non-Cursor: AGENTS.md reicht)
 
 ## Architektur-Entscheidungen (ADRs)
 
@@ -32,16 +33,17 @@ Detaillierte Specs bleiben in `docs/*.md`.
 Rules in [`.cursor/rules/`](../.cursor/rules/) als **`.mdc`** mit Frontmatter (Atlas-style).  
 **Kanonisch für alle AI-Tools:** [AGENTS.md](../AGENTS.md) und ADRs.
 
-| Rule                    | Wann                     |
-| ----------------------- | ------------------------ |
-| `project-context.mdc`   | Immer — Phase, Scope     |
-| `workflow.mdc`          | Immer — Git, PRs         |
-| `tech-stack.mdc`        | Immer                    |
-| `architecture.mdc`      | Immer                    |
-| `quality-bar.mdc`       | Immer                    |
-| `supabase-database.mdc` | DB, SQL, Supabase client |
-| `custom-fields.mdc`     | Custom fields work       |
-| `typescript.mdc`        | `*.ts`, `*.tsx`          |
+| Rule                         | Wann                     |
+| ---------------------------- | ------------------------ |
+| `project-context.mdc`        | Immer — Phase, Scope     |
+| `workflow.mdc`               | Immer — Git, PRs         |
+| `tech-stack.mdc`             | Immer                    |
+| `architecture.mdc`           | Immer                    |
+| `quality-bar.mdc`            | Immer                    |
+| `collaboration-contract.mdc` | Immer — Feature-Wünsche  |
+| `supabase-database.mdc`      | DB, SQL, Supabase client |
+| `custom-fields.mdc`          | Custom fields work       |
+| `typescript.mdc`             | `*.ts`, `*.tsx`          |
 
 ## Regeln für AI-Implementierung
 
@@ -139,3 +141,16 @@ feat(companies): workspace-scoped list query — Phase 3
 - [ ] Company-first respektiert?
 - [ ] RLS bedacht?
 - [ ] Docs synchron?
+
+## Selbst-Audit (am Ende jeder Feature-Antwort auszugeben)
+
+Pflichtausgabe nach jeder Implementierungsantwort — zeigt dem Nutzer und dem Agenten, ob das Ergebnis on-vision ist:
+
+- **Generalisiert?** Welcher Mechanismus wurde gebaut (nicht: welche Instanz)?
+- **Kein Hardcoding?** Feldnamen/Stages/Spalten laufen über Registry/View-Config — Beleg?
+- **In aktiver Roadmap-Phase geblieben?**
+- **Definition of Done adressiert?** Welche Kriterien erfüllt, was fehlt bewusst (mit Begründung)?
+- **Generizität belegt:** Wo erscheint das Feature dadurch automatisch (Detail/Table/Kanban/Filter)?
+- **Company bleibt ohne Contact/Deal voll nutzbar?**
+
+→ Checkliste auch in [`.cursor/rules/quality-bar.mdc`](../.cursor/rules/quality-bar.mdc)

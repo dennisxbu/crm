@@ -2,6 +2,8 @@
 
 Primäres Kontextdokument für Claude Code. Ergänzt [AGENTS.md](AGENTS.md) mit Claude-Code-spezifischer Tiefe.
 
+**Kollaborations-Vertrag** (wie Feature-Wünsche interpretiert werden): [AGENTS.md §„Wie ich Feature-Wünsche interpretiere"](AGENTS.md) · Cursor-Rule: [`.cursor/rules/collaboration-contract.mdc`](.cursor/rules/collaboration-contract.mdc)
+
 ---
 
 ## Projektziel
@@ -14,21 +16,12 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 ## Aktueller Stand
 
-|                   |                                                                  |
-| ----------------- | ---------------------------------------------------------------- |
-| **Phase**         | 1 abgeschlossen — Stack + Supabase-Grundintegration              |
-| **Nächste Phase** | 2 — Auth, Workspaces, Profiles                                   |
-| **Version**       | `0.1.0` (pre-release)                                            |
-| **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
+> **Kanonische Quelle für den Projektstatus:** [AGENTS.md](AGENTS.md) — immer dort zuerst prüfen.
 
-**Was existiert:**
+Phase 3 (Company-Core) abgeschlossen — Auth, Workspaces, Company-CRUD mit RLS sind implementiert.  
+**Nächste Phase: 4 — Custom Fields Core.**
 
-- Vite 6 + React 19 + TypeScript (strict) App mit Phase-1-Statusseite
-- Supabase CLI, `supabase/config.toml`, Migration: `profiles` stub + RLS + Grants
-- Supabase Client (`src/shared/lib/supabase/`) + Health Check
-- pnpm, ESLint, Prettier, Husky (pre-commit), Secretlint
-
-**Was noch nicht existiert:** CRM-Features, Auth-UI, Companies, Custom Fields, Views, Kanban — alles ab Phase 2+.
+Vollständige Roadmap: [docs/implementation-roadmap.md](docs/implementation-roadmap.md)
 
 ---
 
@@ -36,11 +29,14 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 Vor jeder Implementierung in dieser Reihenfolge lesen:
 
-1. `docs/implementation-roadmap.md` — aktive Phase und Scope
-2. `docs/adr/README.md` — bindende Architektur-Entscheidungen
-3. `docs/definitions-of-done.md` — Akzeptanzkriterien pro Modul
-4. Relevante Detail-Specs: `docs/data-model.md`, `docs/custom-fields.md`, `docs/pipelines-and-views.md`, `docs/supabase-and-rls.md`
-5. `docs/ui-ux-brief-for-claude.md` — wenn UI/Design betroffen
+1. [AGENTS.md](AGENTS.md) — kanonischer Einstieg für alle Tools; Projektstatus
+2. `docs/implementation-roadmap.md` — aktive Phase und Scope
+3. `docs/adr/README.md` — bindende Architektur-Entscheidungen
+4. `docs/product-spec.md` — Produktscope und Nicht-Ziele
+5. `docs/product-principles.md` — **Nordstern**: Produktgefühl, Litmus-Test, Betriebsmodell
+6. `docs/definitions-of-done.md` — Akzeptanzkriterien pro Modul
+7. Relevante Detail-Specs: `docs/data-model.md`, `docs/custom-fields.md`, `docs/pipelines-and-views.md`, `docs/supabase-and-rls.md`
+8. `docs/ui-ux-brief-for-claude.md` — wenn UI/Design betroffen
 
 ---
 
@@ -62,92 +58,20 @@ Vor jeder Implementierung in dieser Reihenfolge lesen:
 
 ---
 
-## Architektur-Prinzipien (verbindlich)
+## Architektur-Prinzipien
 
-### 1. Company-first
+> Vollständig in [docs/architecture.md](docs/architecture.md) + [docs/adr/README.md](docs/adr/README.md).  
+> Nordstern (Produktgefühl + Litmus-Test): [docs/product-principles.md](docs/product-principles.md).
 
-- Companies sind vollwertige Leads — ohne Kontakt, ohne Deal
-- `contact_discovery_status` (`unknown` / `researching` / `found` / `not_applicable`) ist Teil des Kern-Workflows
-- Kein Create-Flow der Contact oder Deal erzwingt
-- Activities hängen primär am Unternehmen, nicht am Kontakt
+Kurzreferenz für den Alltag:
 
-### 2. Metadata-driven
+- **Company-first** — Companies vollwertig ohne Contact/Deal. Kein Create-Flow erzwingt sie.
+- **Metadata-driven** — Pipelines, Stages, Custom Fields, Views → DB, nie TypeScript-Konstanten. `switch(field_type)` erlaubt, `switch(field.name)` verboten.
+- **Workspace-scoped** — alle CRM-Tabellen mit `workspace_id` + RLS. Kein Service Role Key im Frontend.
+- **Generic Field Pipeline** — ein `FieldTypeHandler` pro `field_type`, Registry-basiert, wiederverwendbar in Detail/Table/Kanban/Filter/Settings.
+- **field_ref-Format** — `system:<column_name>` oder `custom:<uuid>` in View Config.
 
-- Pipelines, Stages, Custom Fields, Views → **Datenbank**, niemals TypeScript-Konstanten
-- Frontend rendert generisch nach Metadata: `switch(field_type)` — niemals `switch(field.name)` oder `if (fieldName === 'website')`
-- View Config aus `views.config` (JSONB) — keine hardcoded Spaltenlisten im Frontend
-- Kanban-Spalten kommen aus `pipeline_stages` — kein hardcoded Stage-Array
-
-### 3. Workspace-Isolation
-
-- Alle CRM-Tabellen haben `workspace_id`
-- RLS auf allen CRM-Tabellen (`workspace_id IN (user's workspaces)`)
-- Kein Cross-Workspace-Zugriff ohne explizite Policy
-- Kein Service Role Key im Frontend oder Client-Bundle
-
-### 4. Drei Datenschichten — sauber getrennt
-
-| Schicht       | Beispiele                               | Persistenz                      |
-| ------------- | --------------------------------------- | ------------------------------- |
-| Business Data | Company name, Custom Field Values       | Postgres CRM-Tabellen           |
-| Configuration | Pipelines, Stages, Custom Fields, Views | Postgres Config-Tabellen        |
-| UI State      | Spaltenbreite, Sidebar collapsed        | localStorage / user_preferences |
-
-View-**Definition** = Configuration. Aktuell gewählte View = UI State (URL param).
-
-### 5. Generic Field Pipeline
-
-```
-View Config → field references → Field Registry (system + custom metadata) → Field Renderer (by field_type) → Display / Edit / Filter / Sort
-```
-
-Ein Field-Type-Handler pro Typ, wiederverwendbar in Detail, Table, Kanban Card, Filter Builder, Settings.
-
----
-
-## Datenmodell — Überblick
-
-Vollständige Spec: [docs/data-model.md](docs/data-model.md)
-
-```
-workspaces
-├── profiles (via workspace_members)
-├── companies ──┬── contacts (optional, Phase 8+)
-│               ├── deals (optional, Phase 9+)
-│               ├── entity_pipeline_positions
-│               ├── custom_field_values
-│               ├── entity_tags
-│               └── activities (Phase 10+)
-├── pipelines → pipeline_stages
-├── custom_fields → custom_field_options
-└── views
-```
-
-**Custom Field Values** (EAV-ähnlich, typisiert):
-
-- `value_text` — text, email, phone, url, select value
-- `value_number` — number, currency, percentage, rating
-- `value_boolean` — boolean
-- `value_date` — date
-- `value_datetime` — timestamptz
-- `value_json` — multi_select, relation, complex
-
-**View Config JSONB-Schema:**
-
-```json
-{
-  "columns": [
-    { "field_ref": "system:name", "width": 240, "visible": true },
-    { "field_ref": "custom:{uuid}", "width": 120, "visible": true }
-  ],
-  "card_fields": ["system:website", "custom:{uuid}"],
-  "filters": [],
-  "sort": [{ "field_ref": "system:created_at", "direction": "desc" }],
-  "group_by": null
-}
-```
-
-`field_ref` Format: `system:<column_name>` oder `custom:<uuid>`.
+**Litmus-Test** (on-vision wenn alle 4 zutreffen): → [docs/product-principles.md §5](docs/product-principles.md)
 
 ---
 
@@ -195,11 +119,11 @@ WITH CHECK (
 
 ```
 VITE_SUPABASE_URL=
-VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_ANON_KEY=
 ```
 
 - Präfix immer `VITE_` — niemals `NEXT_PUBLIC_*` (das ist Next.js, nicht Vite) — **ADR-007**
-- `VITE_SUPABASE_PUBLISHABLE_KEY` ist der öffentliche Publishable Key — sicher exponierbar, Schutz durch RLS
+- `VITE_SUPABASE_ANON_KEY` ist der öffentliche Anon Key — sicher exponierbar, Schutz durch RLS
 - Niemals `SERVICE_ROLE_KEY` ins Frontend-Bundle
 
 ---
@@ -256,7 +180,7 @@ Feature-Ordner spiegeln Domänen, nicht UI-Patterns. Kein `components/kanban/` a
 
 ### Supabase Client
 
-- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`
+- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`
 - Kein Service Role im Frontend
 - Queries immer mit `.select()` — nie `*` ohne Begründung in Production
 
@@ -346,9 +270,9 @@ Vollständige Kriterien: [docs/definitions-of-done.md](docs/definitions-of-done.
 | ----- | ------------------------------------------------------- | ------------------- |
 | 0     | Docs, Rules, Repository-Fundament                       | ✅                  |
 | 1     | Stack init, Supabase CLI, Client, Migration `profiles`  | ✅                  |
-| **2** | **Auth, Workspaces, Profiles, RLS-Grundgerüst**         | **← Nächste Phase** |
-| 3     | Companies CRUD + Systemfelder                           |                     |
-| 4     | Custom Fields Core (Settings + Detail)                  |                     |
+| 2     | Auth, Workspaces, Profiles, RLS-Grundgerüst             | ✅                  |
+| 3     | Companies CRUD + Systemfelder                           | ✅                  |
+| **4** | **Custom Fields Core (Settings + Detail)**              | **← Nächste Phase** |
 | 5     | Company Table View (View Engine)                        |                     |
 | 6     | Company Kanban View (Pipeline-basiert)                  |                     |
 | 7     | Settings CRUD (Pipelines, Stages, Custom Fields, Views) |                     |

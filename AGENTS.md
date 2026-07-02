@@ -24,9 +24,10 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 2. [docs/implementation-roadmap.md](docs/implementation-roadmap.md) — **aktive Phase**
 3. [docs/adr/README.md](docs/adr/README.md) — bindende Entscheidungen
 4. [docs/product-spec.md](docs/product-spec.md) — Produktscope
-5. Relevante Detail-Specs: `architecture.md`, `data-model.md`, `custom-fields.md`, `pipelines-and-views.md`, `supabase-and-rls.md`
-6. [docs/definitions-of-done.md](docs/definitions-of-done.md)
-7. Cursor only: [`.cursor/rules/`](.cursor/rules/)
+5. [docs/product-principles.md](docs/product-principles.md) — **Nordstern**: Produktgefühl, Litmus-Test, Betriebsmodell
+6. Relevante Detail-Specs: `architecture.md`, `data-model.md`, `custom-fields.md`, `pipelines-and-views.md`, `supabase-and-rls.md`
+7. [docs/definitions-of-done.md](docs/definitions-of-done.md)
+8. Cursor only: [`.cursor/rules/`](.cursor/rules/)
 
 ## Workflow (alle Agents)
 
@@ -75,6 +76,32 @@ Visuelles Design separat mit Claude — siehe `docs/ui-ux-brief-for-claude.md`. 
 
 - Docs & User-UI: **Deutsch**
 - Code, Tabellen, Commits: **Englisch**
+
+## Wie ich Feature-Wünsche interpretiere (Kollaborations-Vertrag)
+
+Jeder kleine Feature-Wunsch von Dennis ist eine **Instanz** des company-first, metadata-driven
+Systems — nie ein Sonderfall. Bevor du implementierst:
+
+1. **Generalisieren, nicht wörtlich nehmen.** Frage: „Welche _Fähigkeit_ verlangt dieser Wunsch?"
+   Baue den Mechanismus, nicht die Instanz.
+   - „Prio-Dropdown in der Leads-Tabelle" → `select`-Custom-Field + in View-`columns`. NICHT eine
+     hardcoded Prio-Spalte.
+   - „Firmen als Kanban nach Phase" → neue `views`-Zeile (`view_type=kanban`). NICHT ein Kanban-Screen.
+   - „Klickbare Telefonnummer" → `phone`-Field-Type-Handler. NICHT ein Sonderfall für dieses eine Feld.
+
+2. **Vision kurz spiegeln, bevor du baust.** Nenne in 1–3 Sätzen, wie der Wunsch ins metadata-driven
+   Modell passt und was dadurch „gratis" mitkommt. Wenn der wörtliche Wunsch das Fundament verletzen
+   würde (Hardcoding, contact-first, Fake-Config), sag das — und schlage die vision-konforme Variante vor.
+
+3. **In der aktiven Phase bleiben.** Generalisieren heißt **nicht** vorziehen. Wenn der saubere
+   Mechanismus zu einer späteren Phase gehört, baue das minimale phasen-konforme Stück **so**, dass es
+   den späteren Mechanismus nicht verbaut — und notiere die Anschlussstelle. Kein Scope Creep,
+   kein Over-Engineering.
+
+4. **Nachfragen statt raten.** Bei Lücke in Spec/Vision: kurze Rückfrage oder Doc-Ergänzung — niemals
+   ein Quick-Hack, der später refactored werden muss.
+
+Referenz-Nordstern: `docs/product-principles.md`. Verbote/Qualität: `docs/definitions-of-done.md`.
 
 ## Bei Unsicherheit
 

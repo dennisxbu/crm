@@ -81,13 +81,14 @@ docs/
 
 ## Documentation
 
-| Document                                                         | Purpose                         |
-| ---------------------------------------------------------------- | ------------------------------- |
-| [AGENTS.md](AGENTS.md)                                           | **AI agents entry** (all tools) |
-| [docs/adr/README.md](docs/adr/README.md)                         | Architecture decisions          |
-| [docs/product-spec.md](docs/product-spec.md)                     | Product vision & MVP            |
-| [docs/implementation-roadmap.md](docs/implementation-roadmap.md) | Phases 0–11                     |
-| [CONTRIBUTING.md](CONTRIBUTING.md)                               | Git, PRs, agent rules           |
+| Document                                                         | Purpose                                         |
+| ---------------------------------------------------------------- | ----------------------------------------------- |
+| [AGENTS.md](AGENTS.md)                                           | **AI agents entry** (all tools); project status |
+| [docs/product-principles.md](docs/product-principles.md)         | **Nordstern**: Produktgefühl, Litmus-Test       |
+| [docs/adr/README.md](docs/adr/README.md)                         | Architecture decisions                          |
+| [docs/product-spec.md](docs/product-spec.md)                     | Product vision & MVP                            |
+| [docs/implementation-roadmap.md](docs/implementation-roadmap.md) | Phases 0–11                                     |
+| [CONTRIBUTING.md](CONTRIBUTING.md)                               | Git, PRs, agent rules                           |
 
 ## Contributing
 
