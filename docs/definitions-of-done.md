@@ -6,22 +6,26 @@ Qualitätskriterien pro Modul. Ein Feature gilt **nicht als fertig**, wenn Krite
 
 ## Custom Fields
 
-Custom Fields gelten erst als fertig, wenn:
+**Phase-4-Minimum (Settings + Detail):** erfüllt wenn die ersten 6 Kriterien + Select-Optionen + kein Feldname-Hardcoding + Registry erfüllt sind.
 
-- [ ] Feld in Settings erstellt werden kann
-- [ ] Feldtyp gewählt werden kann
-- [ ] Feldtyp korrekt validiert wird (client + persistiert korrekt)
-- [ ] Feldwert typgerecht gespeichert wird (richtige value-Spalte)
-- [ ] Feld in Detailansicht funktioniert (Anzeige + Edit)
+**Vollständige DoD** (Table, Kanban, Filter, Sort) folgt mit Phase 5–7.
+
+Custom Fields gelten erst als **vollständig** fertig, wenn:
+
+- [x] Feld in Settings erstellt werden kann _(Phase 4)_
+- [x] Feldtyp gewählt werden kann _(Phase 4)_
+- [x] Feldtyp korrekt validiert wird (client + persistiert korrekt) _(Phase 4)_
+- [x] Feldwert typgerecht gespeichert wird (richtige value-Spalte) _(Phase 4)_
+- [x] Feld in Detailansicht funktioniert (Anzeige + Edit) _(Phase 4)_
 - [ ] Feld in Tabellenansicht angezeigt werden kann (wenn in View config)
 - [ ] Feld in Kanban-Karte angezeigt werden kann (wenn in card_fields)
 - [ ] Feld filterbar ist, soweit laut field_type sinnvoll
 - [ ] Feld sortierbar ist, soweit laut field_type sinnvoll
-- [ ] Select/Multi-Select Optionen in Settings verwaltbar sind
-- [ ] Bestehende Werte bei Option-Label-Änderungen nicht zerstört werden
-- [ ] Feld-Löschung behandelt bestehende Werte definiert (soft delete / warnen)
-- [ ] Keine hardcoded Spezialfälle pro Feldname im Code
-- [ ] Rendering läuft über Field Type Handler Registry
+- [x] Select/Multi-Select Optionen in Settings verwaltbar sind _(Phase 4)_
+- [x] Bestehende Werte bei Option-Label-Änderungen nicht zerstört werden _(Phase 4 — stable option value)_
+- [x] Feld-Löschung behandelt bestehende Werte definiert (soft delete / warnen) _(Phase 4 — archive)_
+- [x] Keine hardcoded Spezialfälle pro Feldname im Code _(Phase 4)_
+- [x] Rendering läuft über Field Type Handler Registry _(Phase 4)_
 
 ---
 

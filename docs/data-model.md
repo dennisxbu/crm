@@ -2,7 +2,7 @@
 
 Dieses Dokument beschreibt das Postgres-Datenmodell auf Spezifikationsebene.
 
-**Implementiert:** `profiles` (Phase 1–2), `workspaces`, `workspace_members` (Phase 2), `companies` (Phase 3).
+**Implementiert:** `profiles` (Phase 1–2), `workspaces`, `workspace_members` (Phase 2), `companies` (Phase 3), `custom_fields`, `custom_field_options`, `custom_field_values` (Phase 4).
 
 Alle übrigen Tabellen folgen in späteren Phasen per Migration.
 

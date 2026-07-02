@@ -18,8 +18,8 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 > **Kanonische Quelle für den Projektstatus:** [AGENTS.md](AGENTS.md) — immer dort zuerst prüfen.
 
-Phase 3 (Company-Core) abgeschlossen — Auth, Workspaces, Company-CRUD mit RLS sind implementiert.  
-**Nächste Phase: 4 — Custom Fields Core.**
+Phase 4 (Custom Fields Core) abgeschlossen — Auth, Workspaces, Company-CRUD, Custom Fields Settings + Detail mit Field Registry sind implementiert.  
+**Nächste Phase: 5 — Company Table View.**
 
 Vollständige Roadmap: [docs/implementation-roadmap.md](docs/implementation-roadmap.md)
 
@@ -119,11 +119,11 @@ WITH CHECK (
 
 ```
 VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 ```
 
 - Präfix immer `VITE_` — niemals `NEXT_PUBLIC_*` (das ist Next.js, nicht Vite) — **ADR-007**
-- `VITE_SUPABASE_ANON_KEY` ist der öffentliche Anon Key — sicher exponierbar, Schutz durch RLS
+- `VITE_SUPABASE_PUBLISHABLE_KEY` ist der öffentliche Publishable Key — sicher exponierbar, Schutz durch RLS
 - Niemals `SERVICE_ROLE_KEY` ins Frontend-Bundle
 
 ---
@@ -180,7 +180,7 @@ Feature-Ordner spiegeln Domänen, nicht UI-Patterns. Kein `components/kanban/` a
 
 ### Supabase Client
 
-- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`
+- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`
 - Kein Service Role im Frontend
 - Queries immer mit `.select()` — nie `*` ohne Begründung in Production
 
@@ -226,8 +226,8 @@ Types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`
 ## Was NICHT gebaut wird (ohne explizite Anweisung)
 
 - CRM-Features außerhalb der aktiven Roadmap-Phase
-- Companies / Contacts / Deals CRUD (erst ab Phase 3+)
-- Custom Fields, Pipelines, Views in der App (erst Phase 4–7)
+- Contacts / Deals CRUD (erst ab Phase 8–9)
+- Table View, Kanban, Pipelines, Views UI (erst Phase 5–7)
 - Hardcoded Stages, Tabellenspalten, Feldlisten, Kanban-Kartenfelder
 - Finales UI/Design-System (separate UX-Phase — `docs/ui-ux-brief-for-claude.md`)
 - Demo-Dashboards oder Tutorial-CRUD
@@ -272,8 +272,8 @@ Vollständige Kriterien: [docs/definitions-of-done.md](docs/definitions-of-done.
 | 1     | Stack init, Supabase CLI, Client, Migration `profiles`  | ✅                  |
 | 2     | Auth, Workspaces, Profiles, RLS-Grundgerüst             | ✅                  |
 | 3     | Companies CRUD + Systemfelder                           | ✅                  |
-| **4** | **Custom Fields Core (Settings + Detail)**              | **← Nächste Phase** |
-| 5     | Company Table View (View Engine)                        |                     |
+| **4** | **Custom Fields Core (Settings + Detail)**              | ✅                  |
+| **5** | **Company Table View (View Engine)**                    | **← Nächste Phase** |
 | 6     | Company Kanban View (Pipeline-basiert)                  |                     |
 | 7     | Settings CRUD (Pipelines, Stages, Custom Fields, Views) |                     |
 | 8     | Contacts (optional)                                     |                     |

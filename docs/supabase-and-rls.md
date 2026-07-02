@@ -77,6 +77,9 @@ Gleiches Muster für: contacts, deals, pipelines, pipeline_stages, entity_pipeli
 | workspaces                | Member read; owner update (Phase 2)             |
 | workspace_members         | Own + workspace member read (Phase 2)           |
 | companies                 | workspace-scoped                                |
+| custom_fields             | workspace-scoped                                |
+| custom_field_options      | workspace-scoped                                |
+| custom_field_values       | workspace-scoped                                |
 | contacts                  | workspace-scoped                                |
 | deals                     | workspace-scoped                                |
 | pipelines                 | workspace-scoped                                |
@@ -196,12 +199,13 @@ Supabase Pro/Team: automatische Backups. Für Solo-Projekt: regelmäßig `pg_dum
 
 ## Implementierungsstand
 
-| Phase | Migrationen                                                                                      |
-| ----- | ------------------------------------------------------------------------------------------------ |
-| 1     | `profiles` stub — `20260701120000_phase1_extensions_and_profiles.sql`                            |
-| 2     | workspaces, workspace_members — `20260702140000_phase2_auth_workspaces.sql`                      |
-| 3     | companies — `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql` |
-| 4+    | custom_fields, pipelines, views — geplant                                                        |
+| Phase | Migrationen                                                                                          |
+| ----- | ---------------------------------------------------------------------------------------------------- |
+| 1     | `profiles` stub — `20260701120000_phase1_extensions_and_profiles.sql`                                |
+| 2     | workspaces, workspace_members — `20260702140000_phase2_auth_workspaces.sql`                          |
+| 3     | companies — `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql`     |
+| 4     | custom_fields, custom_field_options, custom_field_values — `20260703160000_phase4_custom_fields.sql` |
+| 5+    | pipelines, views — geplant                                                                           |
 
 ### companies (Phase 3)
 
@@ -216,5 +220,23 @@ RLS über `is_workspace_member(workspace_id)`:
 Migrationen: `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql`
 
 Detail: [docs/adr/012-company-core-system-fields.md](adr/012-company-core-system-fields.md)
+
+### Custom Fields (Phase 4)
+
+Tabellen: `custom_fields`, `custom_field_options`, `custom_field_values`
+
+RLS über `is_workspace_member(workspace_id)`:
+
+- SELECT, INSERT, UPDATE für Field Definitions und Options
+- SELECT, INSERT, UPDATE, DELETE für Values (DELETE für leere Werte / Clear)
+- Kein Hard Delete für Definitions/Options — `is_archived = true`
+- Cross-table triggers: Option/Value `workspace_id` und Value `entity_type` müssen zum Field passen
+
+RPC: `ensure_default_company_custom_fields(target_workspace_id)` — idempotent, nur für Workspace-Members.
+
+Leere Werte: Value-Row wird gelöscht, nicht als Null-Blob gespeichert.
+
+Migration: `20260703160000_phase4_custom_fields.sql`  
+Detail: [docs/adr/013-custom-fields-core.md](adr/013-custom-fields-core.md)
 
 Lokale Entwicklung: [docs/dev-setup.md](dev-setup.md). ADR: [adr/004-workspaces-rls.md](adr/004-workspaces-rls.md).

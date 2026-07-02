@@ -2,7 +2,7 @@
 
 Phasenweise Umsetzung des Blumenthal Systems CRM. Jede Phase hat klaren Scope, explizite Nicht-Ziele und Akzeptanzkriterien.
 
-**Aktueller Stand: Phase 3 abgeschlossen (Company-Core). Nächste Phase: Phase 4.**
+**Aktueller Stand: Phase 4 abgeschlossen (Custom Fields Core). Nächste Phase: Phase 5.**
 
 ---
 
@@ -170,10 +170,12 @@ Metadata-driven Custom Fields — Settings, Speicherung, Detail-Integration.
 
 ### Akzeptanzkriterien
 
-- [ ] Definition of Done Custom Fields (Detail + Settings) erfüllt
-- [ ] Typgerechte Validierung und Speicherung
-- [ ] Select-Optionen verwaltbar
-- [ ] Generic Renderer, kein hardcoded Field Name Switch
+- [x] Definition of Done Custom Fields (Detail + Settings, Phase-4-Minimum) erfüllt
+- [x] Typgerechte Validierung und Speicherung
+- [x] Select-Optionen verwaltbar
+- [x] Generic Renderer, kein hardcoded Field Name Switch
+
+Test checklist: [docs/phase-4-test-checklist.md](phase-4-test-checklist.md)
 
 ### Risiken
 

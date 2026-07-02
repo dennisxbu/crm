@@ -1,4 +1,4 @@
-// PHASE 3 APP SHELL — temporary technical scaffold, not the final CRM UI.
+// PHASE 4 APP SHELL — temporary technical scaffold, not the final CRM UI.
 // Do NOT evolve this into final CRM screens or derive design decisions from it.
 // UI/UX is defined separately in docs/ui-ux-brief-for-claude.md (later phase).
 // See src/app/README.md for details.
@@ -6,6 +6,7 @@ import { useAuth } from "./providers/AuthProvider";
 import { useWorkspace } from "./providers/WorkspaceProvider";
 import { AuthForm } from "../features/auth/components/AuthForm";
 import { CompaniesSection } from "../features/companies/components/CompaniesSection";
+import { CustomFieldSettingsSection } from "../features/custom-fields/components/CustomFieldSettingsSection";
 import { isSupabaseConfigured } from "../shared/lib/supabase/client";
 import "./App.css";
 
@@ -34,9 +35,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 3</h1>
+          <h1>CRM — Phase 4</h1>
           <p className="shell__lead">
-            Company Core foundation. No final CRM UI.
+            Custom Fields Core foundation. No final CRM UI.
           </p>
         </header>
         <section className="panel">
@@ -62,9 +63,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 3</h1>
+          <h1>CRM — Phase 4</h1>
           <p className="shell__lead">
-            Company Core foundation. No final CRM UI.
+            Custom Fields Core foundation. No final CRM UI.
           </p>
         </header>
         {authError ? <p className="shell__error">{authError}</p> : null}
@@ -77,9 +78,9 @@ export function App() {
     <main className="shell shell--wide">
       <header className="shell__header">
         <p className="shell__eyebrow">Blumenthal Systems</p>
-        <h1>CRM — Phase 3</h1>
+        <h1>CRM — Phase 4</h1>
         <p className="shell__lead">
-          Phase 3 Company Core — functional shell, not final CRM UI.
+          Phase 4 Custom Fields Core — functional shell, not final CRM UI.
         </p>
       </header>
 
@@ -119,6 +120,7 @@ export function App() {
         </button>
       </section>
 
+      <CustomFieldSettingsSection />
       <CompaniesSection />
     </main>
   );

@@ -10,30 +10,32 @@ alwaysApply: true
 Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unternehmen sind das primäre Lead-Objekt; Kontakte und Deals sind optional. Das System ist **metadata-driven**: Pipelines, Stages, Custom Fields und Views kommen aus der Datenbank — nicht aus hardcoded Frontend-Konstanten.
 
 **Produkt-Spec (Detail):** [docs/product-spec.md](../../docs/product-spec.md)  
+**Nordstern:** [docs/product-principles.md](../../docs/product-principles.md)  
 **Architektur-Entscheidungen:** [docs/adr/README.md](../../docs/adr/README.md)
 
-## Aktueller Stand: Phase 3
+## Aktueller Stand: Phase 4
 
 | | |
 | --- | --- |
-| **Phase** | 3 — Company-Core |
+| **Phase** | 4 — Custom Fields Core |
 | **Version** | `0.1.0` (pre-release) |
-| **Product code** | Company CRUD — kein Custom Fields / Pipelines |
+| **Product code** | Custom Fields Settings + Company Detail |
 | **Roadmap** | [docs/implementation-roadmap.md](../../docs/implementation-roadmap.md) |
 
 **Im Code umgesetzt:**
 
-- Phase 1–2 Foundation (Stack, Auth, Workspaces)
-- `companies` Tabelle + RLS + minimale Company-UI
-- Company-first: ohne Kontakt, ohne Deal
+- Phase 1–3 Foundation (Stack, Auth, Workspaces, Companies)
+- `custom_fields`, `custom_field_options`, `custom_field_values` + RLS
+- Field Type Registry + Settings + Company Detail Integration
+- Default Company Custom Fields via RPC (Seed-Daten, nicht Frontend-Konstanten)
 
-**Nächste Phase:** Phase 4 — Custom Fields Core
+**Nächste Phase:** Phase 5 — Company Table View
 
 **Bewusst nicht im Scope (kein Scope Creep):**
 
-- Companies / Contacts / Deals CRUD
-- Custom Fields, Pipelines, Views in der App
-- Tabellen- oder Kanban-Ansichten
+- Contacts / Deals CRUD
+- Table View, Kanban, Pipelines, Views Engine
+- Activities
 - Finales UI/Design-System (separate UX-Phase mit Claude)
 - Hardcoded CRM-Felder, Demo-Dashboards, Tutorial-CRUD
 
@@ -44,18 +46,18 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 - Deals entstehen erst bei konkreter Verkaufschance
 - Activities hängen primär am Unternehmen
 
-## Phase-3-App-Shell — temporäre Shell
+## Phase-4-App-Shell — temporäre Shell
 
-`src/app/App.tsx` ist eine **technische Company-Core-Shell**, keine finale CRM-UI.
+`src/app/App.tsx` ist eine **technische Phase-4-Shell**, keine finale CRM-UI.
 
 - Nicht zur Produkt-UI weiterentwickeln
 - Kein Design-System, keine Component Library daraus ableiten
-- CRM-Screens entstehen ab Phase 3+ nach `docs/ui-ux-brief-for-claude.md`
+- CRM-Screens entstehen nach `docs/ui-ux-brief-for-claude.md`
 - Kein CRM-Feature vor der jeweiligen Roadmap-Phase
 
 Details: [src/app/README.md](../../src/app/README.md)
 
 ## Multi-AI / Agent-Einstieg
 
-**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)
+**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)  
 Bei Architektur-„Warum": ADRs in `docs/adr/` — Specs in `docs/` sind „Was" im Detail.
