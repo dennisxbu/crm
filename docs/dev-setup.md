@@ -4,13 +4,13 @@ Local development for the Blumenthal Systems CRM on **Windows** or **macOS**.
 
 ## Prerequisites
 
-| Tool           | Version                                                 |
-| -------------- | ------------------------------------------------------- |
-| Node.js        | ≥ 20 (`node -v`)                                        |
-| pnpm           | 9+ (`pnpm -v`)                                          |
-| Docker Desktop | For `pnpm db:start`                                     |
-| Git            | —                                                       |
-| Editor         | VS Code or Cursor (optional: `.vscode/extensions.json`) |
+| Tool           | Version                                                               |
+| -------------- | --------------------------------------------------------------------- |
+| Node.js        | ≥ 20 (`node -v`)                                                      |
+| pnpm           | 9+ (`pnpm -v`)                                                        |
+| Docker Desktop | For `pnpm db:start` (optional — remote Supabase works without Docker) |
+| Git            | —                                                                     |
+| Editor         | VS Code or Cursor (optional: `.vscode/extensions.json`)               |
 
 ## 1. Clone and install
 
@@ -26,20 +26,37 @@ pnpm install
 cp .env.example .env.local
 ```
 
-| Variable                 | Local value                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| `VITE_SUPABASE_URL`      | `http://127.0.0.1:54321`                                     |
-| `VITE_SUPABASE_ANON_KEY` | From `pnpm exec supabase status` after `db:start` (anon key) |
+Fill `.env.local` — never commit this file.
 
-`VITE_SUPABASE_ANON_KEY` is the public anon key — safe to expose in the browser because Row Level Security (RLS) enforces access control. Never add a service role key here.
+### Option A: Remote Supabase project (hosted)
 
-Never commit `.env.local`.
+Use values from **Supabase Dashboard → Project Settings → API**:
 
-## 3. Start Supabase (Docker required)
+```env
+VITE_SUPABASE_URL=https://fzormgxabytjfnqjtruy.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=<your-publishable-key>
+```
+
+### Option B: Local Supabase (Docker)
+
+Start local stack first (see section 3), then:
+
+| Variable                        | Local value                                                              |
+| ------------------------------- | ------------------------------------------------------------------------ |
+| `VITE_SUPABASE_URL`             | `http://127.0.0.1:54321`                                                 |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | From `pnpm exec supabase status` after `db:start` (anon/publishable key) |
+
+`VITE_SUPABASE_PUBLISHABLE_KEY` is the public publishable key — safe to expose in the browser because Row Level Security (RLS) enforces access control. Never add a secret key or service role key here.
+
+**Connection verification:** [docs/supabase-connection-check.md](supabase-connection-check.md)
+
+## 3. Start Supabase locally (optional — Docker required)
+
+Skip this section if you use the remote project (Option A).
 
 ```bash
 pnpm db:start
-pnpm exec supabase status   # copy anon key into .env.local
+pnpm exec supabase status   # copy publishable/anon key into .env.local
 pnpm db:reset               # apply migrations (first time or after pull)
 ```
 
@@ -55,7 +72,14 @@ pnpm db:reset               # apply migrations (first time or after pull)
 pnpm dev
 ```
 
-Open http://localhost:5173 — Phase 1 status page with Supabase health check.
+Open http://localhost:5173 — Phase 2 auth/workspace shell with Supabase health check.
+
+**Remote project:** apply migrations before first login:
+
+```bash
+npx supabase link --project-ref fzormgxabytjfnqjtruy
+npx supabase db push
+```
 
 ## Scripts
 
@@ -72,15 +96,16 @@ Pre-commit: lint-staged, `pnpm audit --audit-level=high`, Secretlint.
 
 ## Troubleshooting
 
-| Problem                              | Fix                                      |
-| ------------------------------------ | ---------------------------------------- |
-| `Docker Desktop` error on `db:start` | Start Docker Desktop                     |
-| Health check: missing env            | Fill `.env.local` from `supabase status` |
-| Health check: schema missing         | `pnpm db:reset`                          |
-| Port 5173 in use                     | Stop other Vite instance                 |
+| Problem                              | Fix                                                    |
+| ------------------------------------ | ------------------------------------------------------ |
+| `Docker Desktop` error on `db:start` | Start Docker Desktop or use remote Supabase (Option A) |
+| Health check: missing env            | Fill `.env.local` — see section 2                      |
+| Health check: schema missing         | `pnpm db:reset` (local) or apply migrations to remote  |
+| Port 5173 in use                     | Stop other Vite instance                               |
 
 ## Further reading
 
+- [docs/supabase-connection-check.md](supabase-connection-check.md) — Connection verification checklist
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — Git, PRs, agents
 - [docs/adr/README.md](adr/README.md) — Architecture decisions
 - [docs/implementation-roadmap.md](implementation-roadmap.md) — Current phase scope

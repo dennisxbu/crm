@@ -14,7 +14,7 @@ alwaysApply: false
 
 ## Supabase Client
 
-- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` — niemals `NEXT_PUBLIC_*` (das ist Next.js-Konvention)
+- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY` — niemals `NEXT_PUBLIC_*` (das ist Next.js-Konvention)
 - Kein `NEXT_PUBLIC_*` in diesem Repo — Vite nutzt `VITE_` Prefix
 - Queries workspace-scoped; RLS ist die Sicherheitsschicht
 

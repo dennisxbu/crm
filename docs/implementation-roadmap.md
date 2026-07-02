@@ -2,7 +2,7 @@
 
 Phasenweise Umsetzung des Blumenthal Systems CRM. Jede Phase hat klaren Scope, explizite Nicht-Ziele und Akzeptanzkriterien.
 
-**Aktueller Stand: Phase 1 abgeschlossen (Stack + Supabase-Grundintegration). Nächste Phase: Phase 2.**
+**Aktueller Stand: Phase 2 abgeschlossen (Auth, Workspaces, Profiles). Nächste Phase: Phase 3.**
 
 ---
 
@@ -99,11 +99,13 @@ Nutzer kann sich anmelden. Workspace-Kontext existiert. RLS-Grundgerüst für Me
 
 ### Akzeptanzkriterien
 
-- [ ] User kann Account erstellen und einloggen
-- [ ] Profile wird automatisch angelegt
-- [ ] Workspace + Membership existieren
-- [ ] RLS verhindert Cross-Workspace-Zugriff (Test)
-- [ ] Logout funktioniert
+- [x] User kann Account erstellen und einloggen
+- [x] Profile wird automatisch angelegt
+- [x] Workspace + Membership existieren
+- [x] RLS verhindert Cross-Workspace-Zugriff (Policy-Grundlage)
+- [x] Logout funktioniert
+
+Test checklist: [docs/phase-2-test-checklist.md](phase-2-test-checklist.md)
 
 ### Risiken
 

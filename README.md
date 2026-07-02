@@ -6,13 +6,13 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 ## Project status
 
-|                  |                                           |
-| ---------------- | ----------------------------------------- |
-| **Phase**        | 1 — Stack + Supabase foundation           |
-| **Version**      | `0.1.0` (pre-release)                     |
-| **Product code** | Foundation scaffold — no CRM features yet |
-| **Architecture** | [ADRs 001–006](docs/adr/README.md)        |
-| **Next**         | Phase 2 — Auth, Workspaces, Profiles      |
+|                  |                                        |
+| ---------------- | -------------------------------------- |
+| **Phase**        | 2 — Auth, Workspaces, Profiles         |
+| **Version**      | `0.1.0` (pre-release)                  |
+| **Product code** | Auth/Workspace foundation — no CRM yet |
+| **Architecture** | [ADRs 001–011](docs/adr/README.md)     |
+| **Next**         | Phase 3 — Company-Core                 |
 
 ## Stack
 
@@ -30,16 +30,26 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 ```bash
 pnpm install
-cp .env.example .env.local   # fill after db:start
-pnpm db:start
-pnpm exec supabase status    # copy anon key to .env.local
-pnpm db:reset
+cp .env.example .env.local   # fill with Supabase project URL + publishable key
 pnpm dev
 ```
 
-Open http://localhost:5173 — Phase 1 status + Supabase health check.
+Open http://localhost:5173 — Phase 2 auth/workspace shell (login, workspace context).
 
-Full setup: **[docs/dev-setup.md](docs/dev-setup.md)**
+**Apply migrations** (required for auth/workspace):
+
+```bash
+# Local:
+pnpm db:reset
+
+# Remote:
+npx supabase link --project-ref fzormgxabytjfnqjtruy
+npx supabase db push
+```
+
+**Optional (local Supabase via Docker):** `pnpm db:start` → copy keys from `pnpm exec supabase status` → `pnpm db:reset`
+
+Full setup: **[docs/dev-setup.md](docs/dev-setup.md)** · Connection check: **[docs/supabase-connection-check.md](docs/supabase-connection-check.md)**
 
 ## Scripts
 
@@ -56,7 +66,9 @@ Pre-commit: lint-staged, audit, Secretlint — see [CONTRIBUTING.md](CONTRIBUTIN
 
 ```
 src/
-  app/                    App shell (Phase 1 status page)
+  app/                    App shell + providers (Phase 2 auth/workspace)
+  features/auth/          Auth form, API, types
+  features/workspaces/    Workspace API, types
   shared/lib/supabase/    Client + health check
 supabase/
   migrations/             SQL + RLS

@@ -2,20 +2,22 @@
 
 Index for local development and engineering conventions. **Start here:** [docs/dev-setup.md](docs/dev-setup.md).
 
-| Topic                  | Document                                                           |
-| ---------------------- | ------------------------------------------------------------------ |
-| Local setup            | [docs/dev-setup.md](docs/dev-setup.md)                             |
-| Git, PRs, agents       | [CONTRIBUTING.md](CONTRIBUTING.md)                                 |
-| AI workflow            | [docs/ai-development-workflow.md](docs/ai-development-workflow.md) |
-| Architecture decisions | [docs/adr/README.md](docs/adr/README.md)                           |
-| Product specs          | [docs/product-spec.md](docs/product-spec.md)                       |
-| Roadmap / phase        | [docs/implementation-roadmap.md](docs/implementation-roadmap.md)   |
-| Definition of Done     | [docs/definitions-of-done.md](docs/definitions-of-done.md)         |
+| Topic                  | Document                                                               |
+| ---------------------- | ---------------------------------------------------------------------- |
+| Local setup            | [docs/dev-setup.md](docs/dev-setup.md)                                 |
+| Supabase connection    | [docs/supabase-connection-check.md](docs/supabase-connection-check.md) |
+| Phase 2 test checklist | [docs/phase-2-test-checklist.md](docs/phase-2-test-checklist.md)       |
+| Git, PRs, agents       | [CONTRIBUTING.md](CONTRIBUTING.md)                                     |
+| AI workflow            | [docs/ai-development-workflow.md](docs/ai-development-workflow.md)     |
+| Architecture decisions | [docs/adr/README.md](docs/adr/README.md)                               |
+| Product specs          | [docs/product-spec.md](docs/product-spec.md)                           |
+| Roadmap / phase        | [docs/implementation-roadmap.md](docs/implementation-roadmap.md)       |
+| Definition of Done     | [docs/definitions-of-done.md](docs/definitions-of-done.md)             |
 
 ## Current phase
 
-**Phase 1** complete — Stack + Supabase foundation.  
-**Next:** Phase 2 — Auth, Workspaces, Profiles.
+**Phase 2** complete — Auth, Workspaces, Profiles.  
+**Next:** Phase 3 — Company-Core.
 
 ## Stack (summary)
 
