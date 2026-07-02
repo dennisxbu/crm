@@ -45,7 +45,18 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 - Deals entstehen erst bei konkreter Verkaufschance
 - Activities hängen primär am Unternehmen
 
+## Phase-1-Statusseite — temporäre Shell
+
+`src/app/App.tsx` ist eine **technische Statusseite**, keine CRM-UI.
+
+- Nicht zur Produkt-UI weiterentwickeln
+- Kein Design-System, keine Component Library daraus ableiten
+- CRM-Screens entstehen ab Phase 2+ nach `docs/ui-ux-brief-for-claude.md`
+- Kein CRM-Feature vor der jeweiligen Roadmap-Phase
+
+Details: [src/app/README.md](../../src/app/README.md)
+
 ## Multi-AI / Agent-Einstieg
 
-**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)  
+**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)
 Bei Architektur-„Warum": ADRs in `docs/adr/` — Specs in `docs/` sind „Was" im Detail.

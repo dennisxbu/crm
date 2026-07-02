@@ -17,9 +17,19 @@ alwaysApply: true
 
 **ADR:** [docs/adr/003-tech-stack-supabase.md](../../docs/adr/003-tech-stack-supabase.md)
 
+## Environment Variables (Vite)
+
+- Prefix: **`VITE_`** — niemals `NEXT_PUBLIC_*` (Next.js-Konvention, nicht dieses Repo)
+- Korrekt: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+- `VITE_SUPABASE_ANON_KEY` ist öffentlich — Sicherheit via RLS, nicht Key-Geheimhaltung
+- Niemals Service Role Key ins Frontend
+
+**ADR:** [docs/adr/007-vite-env-vars.md](../../docs/adr/007-vite-env-vars.md)
+
 ## Nicht verwenden (ohne ADR + Rückfrage)
 
 - Service Role Key im Frontend oder Client-Bundle
+- `NEXT_PUBLIC_*` Env-Variablen — das ist Next.js, nicht Vite
 - Hardcoded Pipelines, Stages, Custom Fields, View-Spalten
 - CRM-Schema nur im Supabase Dashboard (ohne Migration)
 - Contact-first Flows oder Contact-required bei Company Create

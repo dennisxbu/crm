@@ -26,10 +26,12 @@ pnpm install
 cp .env.example .env.local
 ```
 
-| Variable                               | Local value                                                                |
-| -------------------------------------- | -------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`             | `http://127.0.0.1:54321`                                                   |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | From `pnpm exec supabase status` after `db:start` (anon / publishable key) |
+| Variable                 | Local value                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| `VITE_SUPABASE_URL`      | `http://127.0.0.1:54321`                                     |
+| `VITE_SUPABASE_ANON_KEY` | From `pnpm exec supabase status` after `db:start` (anon key) |
+
+`VITE_SUPABASE_ANON_KEY` is the public anon key — safe to expose in the browser because Row Level Security (RLS) enforces access control. Never add a service role key here.
 
 Never commit `.env.local`.
 

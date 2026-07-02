@@ -173,6 +173,60 @@ Anzeige in UI, Zuordnung bei `user`-Typ Custom Fields.
 
 Zentrale Entity für Akquise. Kann allein durch Pipeline laufen. `contact_discovery_status` abbildet Recherche-Workflow ohne erzwungenen Kontakt.
 
+### Operatives Vollständigkeits-Prinzip
+
+Ein Unternehmen kann operativ vollständig bearbeitet werden, auch wenn:
+
+- kein Contact-Record existiert
+- kein Deal existiert
+- nur Website, Impressum-Mail oder Telefonnummer bekannt sind
+- der Entscheider noch unbekannt ist
+
+`name` + `website` + `contact_discovery_status` = ausreichend für einen vollwertigen Lead.
+
+---
+
+### Akquise-Operative Felder — System Fields vs. Default Custom Fields
+
+Folgende Felder sind für den Blumenthal-Systems-Akquise-Workflow relevant. Die Entscheidung System Field vs. Default Custom Field folgt dem Prinzip: **System Fields nur für Kernlogik, Pipeline, Filter, Sortierung und Automationen, die fast immer gebraucht werden.** Alles andere als Default Custom Field.
+
+#### Als System Fields (in companies-Tabelle)
+
+Diese Felder braucht fast jeder Akquise-Workflow und werden für Kernlogik, RLS-Queries oder automatische Updates verwendet:
+
+| Feld                       | Typ                         | Begründung                                                       |
+| -------------------------- | --------------------------- | ---------------------------------------------------------------- |
+| `contact_discovery_status` | text enum                   | Kern-Workflow-Feld; Filterbar aus allen Views; Pipeline-Logik    |
+| `lifecycle_status`         | text enum nullable          | Generelle Lead-Einordnung jenseits Pipeline; häufig gefiltert    |
+| `owner_id`                 | uuid FK → profiles nullable | Zuordnung (relevant ab Multi-User); RLS-Erweiterung möglich      |
+| `next_action_at`           | timestamptz nullable        | Follow-up-Datum; system-kritisch für Aufgaben und Reminders      |
+| `last_activity_at`         | timestamptz nullable        | Automatisch aktualisiert bei Activity; häufig sortiert/gefiltert |
+| `last_contacted_at`        | timestamptz nullable        | Automatisch bei Outreach-Activity; für Stale-Lead-Filter         |
+| `archived_at`              | timestamptz nullable        | Soft-Delete Mechanismus; Filter „nur aktive Leads"               |
+
+#### Als Default Custom Fields (per Workspace-Seed)
+
+Diese Felder sind wichtig für Blumenthal Systems, aber nicht für jeden Workspace und keine Kernlogik. Sie werden als Default Custom Fields angelegt — editierbar in Settings:
+
+| Feld                      | field_type | Begründung                                                      |
+| ------------------------- | ---------- | --------------------------------------------------------------- |
+| `lead_source`             | select     | Quelle variiert per Workflow (LinkedIn, Liste, Empfehlung, …)   |
+| `lead_source_detail`      | text       | Freitextergänzung zu lead_source                                |
+| `research_status`         | select     | Detaillierter als contact_discovery_status; workflow-spezifisch |
+| `priority`                | select     | Sehr workflow-spezifisch (Hoch/Mittel/Niedrig o.ä.)             |
+| `fit_score`               | rating     | Subjektive Einschätzung; person/workflow-abhängig               |
+| `pain_score`              | rating     | Subjektiver Score; nicht universell                             |
+| `call_attempt_count`      | number     | Outreach-Tracking; manche Workflows brauchen es, andere nicht   |
+| `last_call_outcome`       | select     | Ergebnis letzter Anruf; sehr individuell                        |
+| `disqualification_reason` | select     | Nur relevant wenn disqualifiziert; optional                     |
+
+#### Entscheidungsregel
+
+> System Field = kann nicht wegkonfiguriert werden, ist für Kernlogik oder automatisierte Updates nötig.
+> Default Custom Field = sinnvoller Default, aber vom Nutzer entfernbar, umbenennbar, erweiterbar.
+
+**ADR:** [docs/adr/010-company-acquisition-operating-fields.md](adr/010-company-acquisition-operating-fields.md)
+
 ---
 
 ## 4. contacts

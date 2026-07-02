@@ -30,13 +30,13 @@ Der Nutzer arbeitet oft mit **Unternehmen als erstem Objekt**, nicht mit einem b
 
 ## Warum Standard-CRMs nicht passen
 
-| Problem | Auswirkung |
-|---------|------------|
-| Monatliche Kosten (monday, HubSpot, Pipedrive) | Wirtschaftlich unattraktiv für Solo-Nutzung |
-| Contact-first Datenmodell | Unternehmen ohne Kontakt schwer abbildbar |
-| Workflow passt nicht zu 100 % | Kompromisse im täglichen Prozess |
-| Übermäßige Kontaktzentrierung | Recherche-Phase vor Kontaktfund nicht abbildbar |
-| Konfigurierbarkeit oft oberflächlich | Custom Fields ohne echte Feldtypen, hardcoded Pipelines |
+| Problem                                        | Auswirkung                                              |
+| ---------------------------------------------- | ------------------------------------------------------- |
+| Monatliche Kosten (monday, HubSpot, Pipedrive) | Wirtschaftlich unattraktiv für Solo-Nutzung             |
+| Contact-first Datenmodell                      | Unternehmen ohne Kontakt schwer abbildbar               |
+| Workflow passt nicht zu 100 %                  | Kompromisse im täglichen Prozess                        |
+| Übermäßige Kontaktzentrierung                  | Recherche-Phase vor Kontaktfund nicht abbildbar         |
+| Konfigurierbarkeit oft oberflächlich           | Custom Fields ohne echte Feldtypen, hardcoded Pipelines |
 
 ## Company-first Workflow
 
@@ -112,15 +112,15 @@ Benutzerprofil, verknüpft mit Supabase Auth. Mitgliedschaft in Workspaces.
 
 ## Hauptmodule (langfristig)
 
-| Modul | Beschreibung |
-|-------|--------------|
-| **Companies** | Listen, Detail, Pipeline-Position, Custom Fields |
-| **Company Views** | Tabelle, Kanban — konfigurierbar |
-| **Contacts** | Optional, Unternehmenszuordnung |
-| **Deals** | Optional, Deal-Pipeline |
-| **Activities** | Timeline, Follow-ups, Notizen |
-| **Settings** | Pipelines, Stages, Custom Fields, Views, Tags |
-| **Auth & Workspace** | Login, Profil, Workspace-Kontext |
+| Modul                | Beschreibung                                     |
+| -------------------- | ------------------------------------------------ |
+| **Companies**        | Listen, Detail, Pipeline-Position, Custom Fields |
+| **Company Views**    | Tabelle, Kanban — konfigurierbar                 |
+| **Contacts**         | Optional, Unternehmenszuordnung                  |
+| **Deals**            | Optional, Deal-Pipeline                          |
+| **Activities**       | Timeline, Follow-ups, Notizen                    |
+| **Settings**         | Pipelines, Stages, Custom Fields, Views, Tags    |
+| **Auth & Workspace** | Login, Profil, Workspace-Kontext                 |
 
 ## Nicht-Ziele
 
@@ -186,3 +186,33 @@ Ohne hardcoded Spalten, Stages oder Feldlisten im Frontend-Code.
 3. **Kontakt-Recherche-Status** — Systemfeld/Konzept für „Kontakt bekannt / in Recherche / unbekannt"
 4. **Deals entstehen spät** — nicht bei Lead-Erfassung erzwingen
 5. **Konfiguration schlägt Code** — neue Pipeline-Phase = DB-Eintrag, nicht Deploy
+
+## Operatives Vollständigkeits-Prinzip
+
+Ein Unternehmen ist ein vollwertiger, operativ bearbeitbarer Lead, auch wenn:
+
+- kein Contact-Record existiert (Entscheider noch unbekannt)
+- kein Deal existiert (Verkaufschance noch nicht erkennbar)
+- nur Website, Impressum-Telefon oder Impressum-Mail bekannt sind
+- der Workflow noch in der Recherche- oder Bewertungsphase ist
+
+Der typische Akquise-Einstieg bei Blumenthal Systems:
+
+```
+Unternehmen finden (LinkedIn, Liste, Empfehlung)
+→ Unternehmen anlegen: Name + Website
+→ contact_discovery_status = unknown
+→ Bewertung: fit_score, pain_score, priority (Custom Fields)
+→ Recherche starten: contact_discovery_status = researching
+→ Outreach: Activity anlegen (Anruf, E-Mail) — auch ohne Contact
+→ Follow-up: next_action_at setzen
+→ Erst wenn Bedarf konkret: Deal anlegen
+```
+
+`name` allein + `contact_discovery_status` reicht für einen vollwertigen Lead-Record. Kein Pflichtfeld jenseits des Firmennamens.
+
+## Akquise-Operative Felder
+
+Details und System-Field-vs.-Custom-Field-Entscheidung: [docs/data-model.md](data-model.md) (Sektion „Akquise-Operative Felder").
+
+**ADR:** [docs/adr/010-company-acquisition-operating-fields.md](adr/010-company-acquisition-operating-fields.md)

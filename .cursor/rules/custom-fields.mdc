@@ -16,12 +16,24 @@ alwaysApply: false
 - Werte typgerecht: `value_text`, `value_number`, `value_date`, `value_json`, …
 - Ein Field Type Handler pro Typ — wiederverwendbar in Detail, Table, Kanban, Filter, Settings
 
+## Field Type Contract (verbindlich)
+
+Jeder Feldtyp erfüllt einen vollständigen Contract: storage, input, display, validation, filter, sort, empty-state, settings, migration.
+
+- Neue Feldtypen werden **über die Registry** integriert — niemals als Sonderfall
+- Auch wenn ein Typ noch kein MVP-UI hat: DB-Schema und TypeScript-Typen sind vorbereitet
+- Implementation Matrix + Contract: [docs/custom-fields.md](../../docs/custom-fields.md)
+
+**ADR:** [docs/adr/009-field-type-contract.md](../../docs/adr/009-field-type-contract.md)
+
 ## Integration (Definition of Done)
 
 Field gilt erst fertig wenn Settings, Detail, Table, Kanban, Filter/Views funktionieren — siehe [docs/definitions-of-done.md](../../docs/definitions-of-done.md).
 
 ## Verboten
 
-- `switch (field.label)` statt `field_type`
+- `switch (field.label)` statt `field_type` — ausdrücklich verboten
+- `if (field.label === 'Website')` — ausdrücklich verboten
 - Select ohne Options-Tabelle
 - Custom Fields nur in Detail, nicht in View Engine
+- Neue Feldtypen als Sonderfall statt Contract-Implementierung

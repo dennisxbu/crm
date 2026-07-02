@@ -14,10 +14,15 @@ alwaysApply: true
 - Fake-Konfigurierbarkeit (Settings-UI ohne Backend-Wirkung)
 - Hardcoded Pipelines / Stages / Tabellenspalten / Kanban-Kartenfelder
 - Scope der aktiven Roadmap-Phase überspringen
+- Phase-1-Statusseite zur Produkt-UI aufblasen
+- CRM-Screen ohne passende Phase und DoD-Kriterien
+- „Wir kleben das später an"-Architektur bei Custom Fields / Feldtypen
+- `NEXT_PUBLIC_*` Variablen — Vite nutzt `VITE_` Prefix
 
 ## UI (bis UX-Spec)
 
 - Funktionale Shells in frühen Phasen ok (z.B. Phase-1-Statusseite)
+- Phase-1-Statusseite ist **temporär** — kein Designsystem, keine CRM-Screens daraus ableiten
 - Kein Design-System erfinden — [docs/ui-ux-brief-for-claude.md](../../docs/ui-ux-brief-for-claude.md)
 - Ab CRM-UI: nach UX-Brief und Roadmap-Phase
 
@@ -26,3 +31,5 @@ alwaysApply: true
 - Roadmap-Phase eingehalten?
 - Definition of Done erfüllt?
 - Docs/ADRs synchron bei Architekturänderungen?
+- Keine `NEXT_PUBLIC_*` Referenzen eingeführt?
+- Neue Feldtypen über Field Type Contract (nicht Sonderfall)?

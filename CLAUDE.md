@@ -195,10 +195,12 @@ WITH CHECK (
 
 ```
 VITE_SUPABASE_URL=
-VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_ANON_KEY=
 ```
 
-Niemals `SERVICE_ROLE_KEY` ins Frontend-Bundle. Anon Key ist öffentlich — Sicherheit durch RLS.
+- Präfix immer `VITE_` — niemals `NEXT_PUBLIC_*` (das ist Next.js, nicht Vite) — **ADR-007**
+- `VITE_SUPABASE_ANON_KEY` ist der öffentliche anon key — sicher exponierbar, Schutz durch RLS
+- Niemals `SERVICE_ROLE_KEY` ins Frontend-Bundle
 
 ---
 

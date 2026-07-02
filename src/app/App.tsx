@@ -1,3 +1,7 @@
+// PHASE 1 STATUS SHELL — temporary technical scaffold, not the CRM UI.
+// Do NOT evolve this into CRM screens or derive design decisions from it.
+// UI/UX is defined separately in docs/ui-ux-brief-for-claude.md (later phase).
+// See src/app/README.md for details.
 import { useEffect, useState } from "react";
 import {
   checkSupabaseHealth,
@@ -41,7 +45,7 @@ export function App() {
                 className={`badge ${envConfigured ? "badge--ok" : "badge--warn"}`}
               >
                 {envConfigured
-                  ? "NEXT_PUBLIC_SUPABASE_* configured"
+                  ? "VITE_SUPABASE_* configured"
                   : "Missing .env.local"}
               </span>
             </dd>

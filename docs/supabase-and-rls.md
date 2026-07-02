@@ -158,14 +158,16 @@ Werte in `.env.example` bleiben leer — Entwickler trägt lokale oder Remote-We
 Siehe `.env.example`:
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_URL=
+VITE_SUPABASE_ANON_KEY=
 ```
 
-| Variable                               | Verwendung                                                |
-| -------------------------------------- | --------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`             | Supabase Project URL                                      |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Public publishable key (RLS-geschützt; früher „anon key") |
+| Variable                 | Verwendung                                                            |
+| ------------------------ | --------------------------------------------------------------------- |
+| `VITE_SUPABASE_URL`      | Supabase Project URL                                                  |
+| `VITE_SUPABASE_ANON_KEY` | Öffentlicher anon key — Zugriffsschutz erfolgt ausschließlich via RLS |
+
+`VITE_SUPABASE_ANON_KEY` ist der Standard Supabase anon key — öffentlich exponierbar, weil RLS den tatsächlichen Datenzugriff kontrolliert. Niemals den Service Role Key ins Frontend.
 
 **Nicht in `.env.example`:**
 
