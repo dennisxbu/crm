@@ -1,0 +1,29 @@
+---
+description: How to interpret feature requests — generalize, not literalize; stay in active phase
+alwaysApply: true
+---
+
+# Kollaborations-Vertrag
+
+Kanonischer Text: [AGENTS.md — „Wie ich Feature-Wünsche interpretiere"](../../AGENTS.md)
+
+## Kurzform (für schnellen Abruf)
+
+Jeder Feature-Wunsch ist eine **Instanz** des metadata-driven Systems — nie ein Sonderfall.
+
+| Wunsch | Falsch | Richtig |
+|--------|--------|---------|
+| Prio-Dropdown in Leads-Tabelle | Hardcoded Prio-Spalte | `select`-Custom-Field + View-`columns` |
+| Firmen als Kanban nach Phase | Neuer Kanban-Screen | `views`-Zeile mit `view_type=kanban` |
+| Klickbare Telefonnummer | Sonderfall für dieses Feld | `phone`-Field-Type-Handler überall |
+
+## Pflichten vor der Implementierung
+
+1. **Welche Fähigkeit steckt dahinter?** Mechanismus bauen, nicht Instanz.
+2. **Vision spiegeln** — 1–3 Sätze: wie passt es ins Modell, was kommt gratis mit?
+3. **Phasen-Check** — sauberer Mechanismus für spätere Phase? Minimales Phase-n-konformes Stück bauen, Anschlussstelle notieren.
+4. **Lücke? Rückfragen, nicht raten.**
+
+## Nordstern
+
+→ [docs/product-principles.md](../../docs/product-principles.md) — Litmus-Test, Betriebsmodell, was von monday NICHT übernommen wird.

@@ -2,6 +2,8 @@
 
 Primäres Kontextdokument für Claude Code. Ergänzt [AGENTS.md](AGENTS.md) mit Claude-Code-spezifischer Tiefe.
 
+**Kollaborations-Vertrag** (wie Feature-Wünsche interpretiert werden): [AGENTS.md §„Wie ich Feature-Wünsche interpretiere"](AGENTS.md) · Cursor-Rule: [`.cursor/rules/collaboration-contract.mdc`](.cursor/rules/collaboration-contract.mdc)
+
 ---
 
 ## Projektziel
