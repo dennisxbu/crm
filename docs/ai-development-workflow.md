@@ -140,3 +140,16 @@ feat(companies): workspace-scoped list query — Phase 3
 - [ ] Company-first respektiert?
 - [ ] RLS bedacht?
 - [ ] Docs synchron?
+
+## Selbst-Audit (am Ende jeder Feature-Antwort auszugeben)
+
+Pflichtausgabe nach jeder Implementierungsantwort — zeigt dem Nutzer und dem Agenten, ob das Ergebnis on-vision ist:
+
+- **Generalisiert?** Welcher Mechanismus wurde gebaut (nicht: welche Instanz)?
+- **Kein Hardcoding?** Feldnamen/Stages/Spalten laufen über Registry/View-Config — Beleg?
+- **In aktiver Roadmap-Phase geblieben?**
+- **Definition of Done adressiert?** Welche Kriterien erfüllt, was fehlt bewusst (mit Begründung)?
+- **Generizität belegt:** Wo erscheint das Feature dadurch automatisch (Detail/Table/Kanban/Filter)?
+- **Company bleibt ohne Contact/Deal voll nutzbar?**
+
+→ Checkliste auch in [`.cursor/rules/quality-bar.mdc`](../.cursor/rules/quality-bar.mdc)

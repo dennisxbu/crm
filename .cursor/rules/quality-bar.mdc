@@ -36,3 +36,12 @@ alwaysApply: true
 - Docs/ADRs synchron bei Architekturänderungen?
 - Keine `NEXT_PUBLIC_*` Referenzen eingeführt?
 - Neue Feldtypen über Field Type Contract (nicht Sonderfall)?
+
+## Selbst-Audit (am Ende jeder Feature-Antwort auszugeben)
+
+- **Generalisiert?** Mechanismus statt Instanz — welcher?
+- **Kein Hardcoding?** Feldnamen/Stages/Spalten laufen über Registry/View-Config — Beleg?
+- **In aktiver Roadmap-Phase geblieben?**
+- **Definition of Done adressiert?** Welche Kriterien erfüllt, was fehlt bewusst?
+- **Generizität belegt:** Wo taucht das Feature dadurch automatisch auf (Detail/Table/Kanban/Filter)?
+- **Company bleibt ohne Contact/Deal voll nutzbar?**
