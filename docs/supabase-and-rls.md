@@ -4,13 +4,13 @@ Supabase ist das geplante **Backend**: Postgres-Datenbank, Auth, auto-generierte
 
 ## Architektur-Rolle
 
-| Komponente | Funktion |
-|------------|----------|
-| **PostgreSQL** | Persistenz, Constraints, RLS Policies |
-| **Supabase Auth** | User Management, JWT Sessions |
-| **PostgREST** | REST API aus Schema |
-| **Supabase Client (JS)** | Frontend SDK |
-| **Supabase CLI** | Lokale Entwicklung, Migrationen |
+| Komponente               | Funktion                              |
+| ------------------------ | ------------------------------------- |
+| **PostgreSQL**           | Persistenz, Constraints, RLS Policies |
+| **Supabase Auth**        | User Management, JWT Sessions         |
+| **PostgREST**            | REST API aus Schema                   |
+| **Supabase Client (JS)** | Frontend SDK                          |
+| **Supabase CLI**         | Lokale Entwicklung, Migrationen       |
 
 Kein separates Custom-Backend in MVP — Business Logic primär in Postgres (RLS, Constraints) und Frontend (Validation, View Logic).
 
@@ -71,24 +71,24 @@ Gleiches Muster für: contacts, deals, pipelines, pipeline_stages, entity_pipeli
 
 ### Tabellen mit RLS
 
-| Tabelle | RLS |
-|---------|-----|
-| workspaces | Member read; owner update |
-| workspace_members | Member read own workspace |
-| profiles | Own profile + workspace co-members read |
-| companies | workspace-scoped |
-| contacts | workspace-scoped |
-| deals | workspace-scoped |
-| pipelines | workspace-scoped |
-| pipeline_stages | workspace-scoped |
-| entity_pipeline_positions | workspace-scoped |
-| custom_fields | workspace-scoped |
-| custom_field_options | workspace-scoped |
-| custom_field_values | workspace-scoped |
-| views | workspace-scoped |
-| activities | workspace-scoped |
-| tags | workspace-scoped |
-| entity_tags | workspace-scoped |
+| Tabelle                   | RLS                                     |
+| ------------------------- | --------------------------------------- |
+| workspaces                | Member read; owner update               |
+| workspace_members         | Member read own workspace               |
+| profiles                  | Own profile + workspace co-members read |
+| companies                 | workspace-scoped                        |
+| contacts                  | workspace-scoped                        |
+| deals                     | workspace-scoped                        |
+| pipelines                 | workspace-scoped                        |
+| pipeline_stages           | workspace-scoped                        |
+| entity_pipeline_positions | workspace-scoped                        |
+| custom_fields             | workspace-scoped                        |
+| custom_field_options      | workspace-scoped                        |
+| custom_field_values       | workspace-scoped                        |
+| views                     | workspace-scoped                        |
+| activities                | workspace-scoped                        |
+| tags                      | workspace-scoped                        |
+| entity_tags               | workspace-scoped                        |
 
 ### Was RLS nicht ersetzt
 
@@ -98,11 +98,11 @@ Gleiches Muster für: contacts, deals, pipelines, pipeline_stages, entity_pipeli
 
 ## Service Role Key
 
-| Regel | Detail |
-|-------|--------|
+| Regel                   | Detail                                                   |
+| ----------------------- | -------------------------------------------------------- |
 | **Niemals im Frontend** | Weder in Code noch in `.env` committed für Client Bundle |
-| **Nur server-side** | Edge Functions, Admin-Scripts, CI — wenn überhaupt |
-| MVP | Kein Service Role im Frontend-Build |
+| **Nur server-side**     | Edge Functions, Admin-Scripts, CI — wenn überhaupt       |
+| MVP                     | Kein Service Role im Frontend-Build                      |
 
 Anon Key ist **öffentlich** — Sicherheit durch RLS, nicht durch Key-Geheimhaltung.
 
@@ -158,14 +158,14 @@ Werte in `.env.example` bleiben leer — Entwickler trägt lokale oder Remote-We
 Siehe `.env.example`:
 
 ```
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
 ```
 
-| Variable | Verwendung |
-|----------|------------|
-| `VITE_SUPABASE_URL` | Supabase Project URL |
-| `VITE_SUPABASE_ANON_KEY` | Public anon key |
+| Variable                               | Verwendung                                                |
+| -------------------------------------- | --------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`             | Supabase Project URL                                      |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Public publishable key (RLS-geschützt; früher „anon key") |
 
 **Nicht in `.env.example`:**
 
@@ -190,13 +190,11 @@ Kanban Multi-User-Sync via Supabase Realtime — nicht MVP. Wenn aktiviert: nur 
 
 Supabase Pro/Team: automatische Backups. Für Solo-Projekt: regelmäßig `pg_dump` oder Supabase Dashboard Backups — Betriebsentscheidung vor Production.
 
-## Phase 0 Grenze
+## Implementierungsstand
 
-In Phase 0:
+| Phase | Migrationen                                                                                            |
+| ----- | ------------------------------------------------------------------------------------------------------ |
+| 1     | `profiles` stub, RLS, Grants — `supabase/migrations/20260701120000_phase1_extensions_and_profiles.sql` |
+| 2+    | workspaces, workspace_members, auth triggers — geplant                                                 |
 
-- Kein Supabase-Projekt angelegt
-- Keine Migrationen
-- Keine Keys
-- Nur dieses Konzept
-
-Phase 1: `supabase init`, erste Migration (extensions, profiles stub), RLS-Grundgerüst.
+Lokale Entwicklung: [docs/dev-setup.md](dev-setup.md). ADR: [adr/004-workspaces-rls.md](adr/004-workspaces-rls.md).

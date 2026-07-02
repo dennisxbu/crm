@@ -9,31 +9,39 @@ Leitfaden für die Nutzung von AI-Coding-Tools (Cursor, Claude Code, etc.) in di
 ## Pflicht-Lese-Reihenfolge vor Implementierung
 
 1. `README.md` — Phase und Kontext
-2. `AGENTS.md` — Agent-Regeln
-3. `docs/implementation-roadmap.md` — **aktive Phase** identifizieren
-4. `docs/product-spec.md` — Scope und Nicht-Ziele
-5. `docs/architecture.md` — technische Leitplanken
-6. Relevante Detail-Docs:
+2. `AGENTS.md` — **kanonisch für alle AI-Tools**
+3. `docs/implementation-roadmap.md` — **aktive Phase**
+4. `docs/adr/README.md` — bindende Architektur-Entscheidungen
+5. `docs/product-spec.md` — Scope und Nicht-Ziele
+6. `docs/architecture.md` — technische Leitplanken
+7. Relevante Detail-Docs:
    - Custom Fields → `docs/custom-fields.md`
    - Pipelines/Views → `docs/pipelines-and-views.md`
    - Datenmodell → `docs/data-model.md`
    - Supabase → `docs/supabase-and-rls.md`
-7. `docs/definitions-of-done.md` — Akzeptanzkriterien
-8. `.cursor/rules/` — alle relevanten Rules
+8. `docs/definitions-of-done.md` — Akzeptanzkriterien
+9. `.cursor/rules/` — Cursor `.mdc` rules (optional für non-Cursor: AGENTS.md reicht)
+
+## Architektur-Entscheidungen (ADRs)
+
+Bindende **Warum**-Entscheidungen: [docs/adr/README.md](adr/README.md).  
+Detaillierte Specs bleiben in `docs/*.md`.
 
 ## Cursor Rules
 
-Rules in `.cursor/rules/` sind **verbindlich**. Bei Widerspruch zwischen Agent-Interpretation und Rule gilt die Rule.
+Rules in [`.cursor/rules/`](../.cursor/rules/) als **`.mdc`** mit Frontmatter (Atlas-style).  
+**Kanonisch für alle AI-Tools:** [AGENTS.md](../AGENTS.md) und ADRs.
 
-| Rule | Wann lesen |
-|------|------------|
-| 001-product-principles | Immer |
-| 002-architecture-principles | Bei jedem Feature |
-| 003-supabase-and-security | DB, Auth, Queries |
-| 004-custom-fields | Alles rund um Fields |
-| 005-company-first-crm | Companies, Contacts, Deals |
-| 006-no-hardcoding | Views, Pipelines, Config |
-| 007-quality-bar | Vor Abschluss jedes Moduls |
+| Rule                    | Wann                     |
+| ----------------------- | ------------------------ |
+| `project-context.mdc`   | Immer — Phase, Scope     |
+| `workflow.mdc`          | Immer — Git, PRs         |
+| `tech-stack.mdc`        | Immer                    |
+| `architecture.mdc`      | Immer                    |
+| `quality-bar.mdc`       | Immer                    |
+| `supabase-database.mdc` | DB, SQL, Supabase client |
+| `custom-fields.mdc`     | Custom fields work       |
+| `typescript.mdc`        | `*.ts`, `*.tsx`          |
 
 ## Regeln für AI-Implementierung
 
@@ -82,13 +90,13 @@ Features, die mehrere Module berühren (z.B. View Engine):
 
 ## Typische AI-Fehler (verhindern)
 
-| Fehler | Richtig |
-|--------|---------|
-| `const columns = ['Name', 'Email']` | Columns aus `views.config` |
-| Contact required on Company create | Company allein anlegbar |
-| Custom field als string | Typed storage + Field Type Handler |
-| Pipeline stages als enum | `pipeline_stages` Tabelle |
-| Schnelles Kanban mit mock data | Kanban aus DB + RLS |
+| Fehler                              | Richtig                                |
+| ----------------------------------- | -------------------------------------- |
+| `const columns = ['Name', 'Email']` | Columns aus `views.config`             |
+| Contact required on Company create  | Company allein anlegbar                |
+| Custom field als string             | Typed storage + Field Type Handler     |
+| Pipeline stages als enum            | `pipeline_stages` Tabelle              |
+| Schnelles Kanban mit mock data      | Kanban aus DB + RLS                    |
 | „Erstmal alles in einer Komponente" | Feature-Ordner, shared Field Renderers |
 
 ## UI/UX und AI
@@ -99,11 +107,11 @@ Features, die mehrere Module berühren (z.B. View Engine):
 
 ## Phase 0 vs. später
 
-| Phase 0 | Phase 1+ |
-|---------|----------|
-| Nur Docs und Rules | Code erlaubt im Roadmap-Scope |
-| Kein package.json | Stack init |
-| Keine Migrationen | Migrationen in supabase/migrations |
+| Phase 0            | Phase 1+                           |
+| ------------------ | ---------------------------------- |
+| Nur Docs und Rules | Code erlaubt im Roadmap-Scope      |
+| Kein package.json  | Stack init                         |
+| Keine Migrationen  | Migrationen in supabase/migrations |
 
 Agent in Phase 0: **nur** Fundament — keine „Vorbereitung" durch Feature-Code.
 

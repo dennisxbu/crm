@@ -1,0 +1,51 @@
+---
+description: CRM product vision, company-first model, and current project phase
+alwaysApply: true
+---
+
+# Blumenthal Systems CRM — Projektkontext
+
+## Was dieses Projekt ist
+
+Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unternehmen sind das primäre Lead-Objekt; Kontakte und Deals sind optional. Das System ist **metadata-driven**: Pipelines, Stages, Custom Fields und Views kommen aus der Datenbank — nicht aus hardcoded Frontend-Konstanten.
+
+**Produkt-Spec (Detail):** [docs/product-spec.md](../../docs/product-spec.md)  
+**Architektur-Entscheidungen:** [docs/adr/README.md](../../docs/adr/README.md)
+
+## Aktueller Stand: Phase 1
+
+| | |
+| --- | --- |
+| **Phase** | 1 — Stack + Supabase-Grundintegration |
+| **Version** | `0.1.0` (pre-release) |
+| **Product code** | Foundation scaffold — kein CRM, kein Auth-UI |
+| **Roadmap** | [docs/implementation-roadmap.md](../../docs/implementation-roadmap.md) |
+
+**Im Code umgesetzt:**
+
+- Vite 6 + React 19 + TypeScript (strict)
+- Supabase CLI, `config.toml`, Migration `profiles` stub + RLS
+- Supabase Client + Health Check (Statusseite)
+- pnpm, ESLint, Prettier, Husky, Secretlint
+
+**Nächste Phase:** Phase 2 — Auth, Workspaces, Profiles
+
+**Bewusst nicht im Scope (kein Scope Creep):**
+
+- Companies / Contacts / Deals CRUD
+- Custom Fields, Pipelines, Views in der App
+- Tabellen- oder Kanban-Ansichten
+- Finales UI/Design-System (separate UX-Phase mit Claude)
+- Hardcoded CRM-Felder, Demo-Dashboards, Tutorial-CRUD
+
+## Company-first (verbindlich)
+
+- Unternehmen ohne Kontakt und ohne Deal sind **normale** Leads
+- `contact_discovery_status` ist Teil des Workflows
+- Deals entstehen erst bei konkreter Verkaufschance
+- Activities hängen primär am Unternehmen
+
+## Multi-AI / Agent-Einstieg
+
+**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)  
+Bei Architektur-„Warum": ADRs in `docs/adr/` — Specs in `docs/` sind „Was" im Detail.

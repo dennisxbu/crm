@@ -1,0 +1,53 @@
+---
+description: Git workflow, commits, branches, PRs — for humans and agents
+alwaysApply: true
+---
+
+# Workflow & Git Conventions
+
+Full guide: [CONTRIBUTING.md](../../CONTRIBUTING.md)
+
+## Branches
+
+| Branch | Purpose |
+| ------ | ------- |
+| `main` | Stable default — merge only via PR |
+| `feat/<scope>` | Feature or roadmap phase step (kebab-case) |
+| `fix/<scope>` | Bugfix |
+| `chore/<scope>` | Tooling, docs, rules |
+| `docs/<scope>` | Documentation only |
+
+**Do not** push directly to `main`.
+
+## Commits (Conventional Commits, English)
+
+```
+<type>(<scope>): <imperative subject>
+
+[optional body — why, not what]
+```
+
+Types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`, `build`
+
+**Rules:**
+
+- One logical topic per commit
+- Subject lowercase, no trailing period, ~72 chars max
+- Code commits: `pnpm lint` and `pnpm build` must pass
+
+## Pull requests
+
+- Required before merge to `main` (solo dev: PR = review checkpoint)
+- PR title matches commit style — use [.github/pull_request_template.md](../../.github/pull_request_template.md)
+- Keep PRs small and single-topic
+
+## Agent rules
+
+- Never push to `main` directly
+- Never mix unrelated changes (e.g. ADRs + feature code in one commit)
+- **Docs before code** when schema or architecture changes
+- Update ADRs when changing architecture (see `docs/adr/`)
+- Align `.cursor/rules/` after stack or workflow changes
+- Respect active roadmap phase in `docs/implementation-roadmap.md`
+- No secrets in commits; Secretlint runs on pre-commit
+- `AGENTS.md` is canonical for Claude Code and Codex — do not duplicate rules elsewhere

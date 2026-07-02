@@ -1,0 +1,27 @@
+---
+description: Custom fields as core system — typed storage, field registry, views integration
+globs: docs/custom-fields.md,docs/data-model.md,src/**/*
+alwaysApply: false
+---
+
+# Custom Fields (Kernsystem)
+
+**ADR:** [docs/adr/005-custom-fields-typed-storage.md](../../docs/adr/005-custom-fields-typed-storage.md)  
+**Detail:** [docs/custom-fields.md](../../docs/custom-fields.md)
+
+## Regeln
+
+- Feldtypen ernst nehmen — nicht alles als `text`
+- Select/Multi-Select → `custom_field_options`
+- Werte typgerecht: `value_text`, `value_number`, `value_date`, `value_json`, …
+- Ein Field Type Handler pro Typ — wiederverwendbar in Detail, Table, Kanban, Filter, Settings
+
+## Integration (Definition of Done)
+
+Field gilt erst fertig wenn Settings, Detail, Table, Kanban, Filter/Views funktionieren — siehe [docs/definitions-of-done.md](../../docs/definitions-of-done.md).
+
+## Verboten
+
+- `switch (field.label)` statt `field_type`
+- Select ohne Options-Tabelle
+- Custom Fields nur in Detail, nicht in View Engine

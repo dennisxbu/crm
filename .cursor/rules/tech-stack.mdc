@@ -1,0 +1,39 @@
+---
+description: Fixed tech stack — do not deviate without ADR and discussion
+alwaysApply: true
+---
+
+# Tech-Stack
+
+| Bereich | Technologie |
+| ------- | ----------- |
+| Frontend | React 19 + TypeScript (strict) + Vite 6 |
+| Styling | Minimal CSS until UX spec (Phase 2+); dann laut UI-Brief |
+| Backend / DB | Supabase (PostgreSQL) + Supabase CLI Migrationen |
+| Client | `@supabase/supabase-js` (anon key only im Frontend) |
+| Auth | Supabase Auth (ab Phase 2) |
+| Validation | Zod (ab Phase 3+) |
+| Package manager | pnpm (Node.js ≥ 20) |
+
+**ADR:** [docs/adr/003-tech-stack-supabase.md](../../docs/adr/003-tech-stack-supabase.md)
+
+## Nicht verwenden (ohne ADR + Rückfrage)
+
+- Service Role Key im Frontend oder Client-Bundle
+- Hardcoded Pipelines, Stages, Custom Fields, View-Spalten
+- CRM-Schema nur im Supabase Dashboard (ohne Migration)
+- Contact-first Flows oder Contact-required bei Company Create
+- Paralleles Config-JSON im Repo für produktive Pipelines/Fields
+
+## Code-Layout (Ziel)
+
+```
+src/
+  app/                    App shell, routing
+  features/               Domänen (companies, settings, …) — ab Phase 3+
+  shared/
+    lib/supabase/         Client, queries
+    components/           Generic field renderers — ab Phase 4+
+supabase/migrations/      SQL + RLS
+docs/adr/                 Architektur-Entscheidungen
+```

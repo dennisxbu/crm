@@ -1,0 +1,43 @@
+---
+description: Metadata-driven architecture, configuration vs data vs UI state
+alwaysApply: true
+---
+
+# Architektur-Prinzipien (verbindlich)
+
+**ADR:** [docs/adr/002-metadata-driven-architecture.md](../../docs/adr/002-metadata-driven-architecture.md)  
+**Detail:** [docs/architecture.md](../../docs/architecture.md), [docs/data-model.md](../../docs/data-model.md)
+
+## Metadata-driven
+
+- Pipelines, Stages, Custom Fields, Views → **Datenbank**, nicht TypeScript-Konstanten
+- Frontend rendert generisch nach Metadata (`field_type`, `field_ref`, View config)
+- Kein `switch (fieldName)` — nur `switch (fieldType)` / Field Registry
+
+## Drei Schichten
+
+| Schicht | Beispiel | Speicher |
+| ------- | -------- | -------- |
+| System Fields | `companies.name` | Entity-Tabelle |
+| Custom Fields | ICP-Score | `custom_fields` + `custom_field_values` |
+| View Config | Spalten, Filter, Kanban cards | `views.config` |
+
+**Referenz in Views:** `field_ref` — z.B. `system:website`, `custom:{uuid}`  
+(Nicht verwechseln mit `field_key` in `custom_fields` — stabiler Key wie `icp_score`.)
+
+## Trennung
+
+- **Business data** → Postgres CRM-Tabellen
+- **Configuration** → pipelines, custom_fields, views
+- **UI state** → Spaltenbreite, Sidebar — localStorage / user prefs, nicht Entity-Tabellen
+
+## Workspace-Isolation
+
+- Alle CRM-Daten `workspace_id`-scoped
+- RLS auf allen CRM-Tabellen (ADR-004)
+- Kein Cross-Workspace-Zugriff
+
+## Qualität
+
+- Weniger Features, aber Definition of Done erfüllen: [docs/definitions-of-done.md](../../docs/definitions-of-done.md)
+- Keine halben Features, keine Fake-Konfigurierbarkeit

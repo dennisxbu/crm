@@ -1,22 +1,25 @@
 # supabase/migrations/
 
-SQL-Migrationen für Schema, RLS Policies, Indexes und DB Functions.
+SQL migrations for schema, RLS policies, indexes, and grants.
 
-## Regeln
+## Rules
 
-- Jede Schema-Änderung = neue Migration-Datei
-- Keine manuellen Produktiv-Änderungen im Supabase Dashboard
-- Migrationen lokal testen: `supabase db reset`
-- RLS Policies in derselben Migration wie Tabelle (oder unmittelbar folgend)
+- Every schema change = new migration file
+- No manual production schema in Supabase Dashboard
+- Test locally: `pnpm db:reset`
+- Include RLS + explicit GRANTs per table (ADR-004)
+- See [docs/adr/004-workspaces-rls.md](../../docs/adr/004-workspaces-rls.md)
 
-## Namenskonvention
+## Naming
 
 ```
 YYYYMMDDHHMMSS_descriptive_name.sql
 ```
 
-Beispiel: `20260701120000_create_companies.sql`
+## Current migrations
 
-## Phase 0
+| File                                                | Phase | Content                              |
+| --------------------------------------------------- | ----- | ------------------------------------ |
+| `20260701120000_phase1_extensions_and_profiles.sql` | 1     | pgcrypto, profiles stub, RLS, grants |
 
-Noch keine Migrationen vorhanden. Datenmodell-Spezifikation: `docs/data-model.md`.
+Spec for future tables: [docs/data-model.md](../../docs/data-model.md)

@@ -3,14 +3,29 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "prepare": "husky",
     "supabase": "supabase",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{md,json,css}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.8",
@@ -18,11 +33,22 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^10.1.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "eslint": "^9.28.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.0",
+    "prettier": "^3.5.3",
+    "secretlint": "^10.1.1",
     "supabase": "^2.24.3",
     "typescript": "~5.8.3",
+    "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5"
   }
 }

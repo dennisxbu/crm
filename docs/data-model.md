@@ -1,6 +1,6 @@
 # Datenmodell — Spezifikation
 
-Dieses Dokument beschreibt das **geplante** Postgres-Datenmodell auf Spezifikationsebene. Es sind noch keine Migrationen implementiert. Tabellen- und Spaltennamen sind Englisch (Konvention für Code und DB).
+Dieses Dokument beschreibt das Postgres-Datenmodell auf Spezifikationsebene. **Phase 1** implementiert nur `profiles` (Stub); alle übrigen Tabellen folgen in späteren Phasen per Migration.
 
 ## Design-Prinzipien
 
@@ -36,13 +36,13 @@ Oberste Isolationseinheit. Alle CRM-Daten gehören zu genau einem Workspace.
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `name` | text | Anzeigename |
-| `slug` | text unique | URL-freundlich |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | |
+| Feld         | Typ         | Beschreibung   |
+| ------------ | ----------- | -------------- |
+| `id`         | uuid PK     |                |
+| `name`       | text        | Anzeigename    |
+| `slug`       | text unique | URL-freundlich |
+| `created_at` | timestamptz |                |
+| `updated_at` | timestamptz |                |
 
 ### Beziehungen
 
@@ -76,14 +76,14 @@ Erweiterung von `auth.users` mit CRM-relevanten Profildaten.
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | = `auth.users.id` |
-| `email` | text | Spiegel aus Auth |
-| `full_name` | text | Anzeigename |
-| `avatar_url` | text nullable | |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | |
+| Feld         | Typ           | Beschreibung      |
+| ------------ | ------------- | ----------------- |
+| `id`         | uuid PK       | = `auth.users.id` |
+| `email`      | text          | Spiegel aus Auth  |
+| `full_name`  | text          | Anzeigename       |
+| `avatar_url` | text nullable |                   |
+| `created_at` | timestamptz   |                   |
+| `updated_at` | timestamptz   |                   |
 
 ### Beziehungen
 
@@ -107,12 +107,12 @@ Anzeige in UI, Zuordnung bei `user`-Typ Custom Fields.
 
 ## workspace_members (Hilfstabelle)
 
-| Feld | Typ |
-|------|-----|
-| `workspace_id` | uuid FK |
-| `user_id` | uuid FK → profiles |
-| `role` | text enum (`owner`, `member`) |
-| PK | (workspace_id, user_id) |
+| Feld           | Typ                           |
+| -------------- | ----------------------------- |
+| `workspace_id` | uuid FK                       |
+| `user_id`      | uuid FK → profiles            |
+| `role`         | text enum (`owner`, `member`) |
+| PK             | (workspace_id, user_id)       |
 
 ---
 
@@ -124,23 +124,23 @@ Anzeige in UI, Zuordnung bei `user`-Typ Custom Fields.
 
 ### Wichtige Felder (System Fields)
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `name` | text | Firmenname (required) |
-| `website` | text nullable | |
-| `phone` | text nullable | Zentrale / Impressum |
-| `email` | text nullable | Generische / Impressum-Mail |
-| `linkedin_url` | text nullable | Firmen-LinkedIn |
-| `industry` | text nullable | Branche |
-| `employee_count_range` | text nullable | z.B. „1-10", „11-50" |
-| `contact_discovery_status` | text enum | `unknown`, `researching`, `found`, `not_applicable` |
-| `lifecycle_status` | text enum nullable | z.B. `lead`, `prospect`, `customer`, `disqualified` |
-| `notes_summary` | text nullable | Kurznotiz (Detail: Activities) |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | |
-| `created_by` | uuid FK → profiles nullable | |
+| Feld                       | Typ                         | Beschreibung                                        |
+| -------------------------- | --------------------------- | --------------------------------------------------- |
+| `id`                       | uuid PK                     |                                                     |
+| `workspace_id`             | uuid FK                     |                                                     |
+| `name`                     | text                        | Firmenname (required)                               |
+| `website`                  | text nullable               |                                                     |
+| `phone`                    | text nullable               | Zentrale / Impressum                                |
+| `email`                    | text nullable               | Generische / Impressum-Mail                         |
+| `linkedin_url`             | text nullable               | Firmen-LinkedIn                                     |
+| `industry`                 | text nullable               | Branche                                             |
+| `employee_count_range`     | text nullable               | z.B. „1-10", „11-50"                                |
+| `contact_discovery_status` | text enum                   | `unknown`, `researching`, `found`, `not_applicable` |
+| `lifecycle_status`         | text enum nullable          | z.B. `lead`, `prospect`, `customer`, `disqualified` |
+| `notes_summary`            | text nullable               | Kurznotiz (Detail: Activities)                      |
+| `created_at`               | timestamptz                 |                                                     |
+| `updated_at`               | timestamptz                 |                                                     |
+| `created_by`               | uuid FK → profiles nullable |                                                     |
 
 ### Beziehungen
 
@@ -183,20 +183,20 @@ Optionale Personen an einem Unternehmen. Nicht Voraussetzung für Company-Lead-S
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | Denormalisiert für RLS |
-| `company_id` | uuid FK → companies | Required |
-| `first_name` | text | |
-| `last_name` | text | |
-| `email` | text nullable | |
-| `phone` | text nullable | |
-| `job_title` | text nullable | |
-| `linkedin_url` | text nullable | |
-| `is_primary` | boolean default false | Hauptansprechpartner |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | |
+| Feld           | Typ                   | Beschreibung           |
+| -------------- | --------------------- | ---------------------- |
+| `id`           | uuid PK               |                        |
+| `workspace_id` | uuid FK               | Denormalisiert für RLS |
+| `company_id`   | uuid FK → companies   | Required               |
+| `first_name`   | text                  |                        |
+| `last_name`    | text                  |                        |
+| `email`        | text nullable         |                        |
+| `phone`        | text nullable         |                        |
+| `job_title`    | text nullable         |                        |
+| `linkedin_url` | text nullable         |                        |
+| `is_primary`   | boolean default false | Hauptansprechpartner   |
+| `created_at`   | timestamptz           |                        |
+| `updated_at`   | timestamptz           |                        |
 
 ### Beziehungen
 
@@ -227,18 +227,18 @@ Optionale Verkaufschance. Entsteht bei erkennbarem Bedarf — nicht bei jedem Co
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `company_id` | uuid FK | Required |
-| `contact_id` | uuid FK nullable | |
-| `title` | text | Deal-Name |
-| `value` | numeric nullable | Betrag |
-| `currency` | text default 'EUR' | |
-| `expected_close_date` | date nullable | |
-| `created_at` | timestamptz | |
-| `updated_at` | timestamptz | |
+| Feld                  | Typ                | Beschreibung |
+| --------------------- | ------------------ | ------------ |
+| `id`                  | uuid PK            |              |
+| `workspace_id`        | uuid FK            |              |
+| `company_id`          | uuid FK            | Required     |
+| `contact_id`          | uuid FK nullable   |              |
+| `title`               | text               | Deal-Name    |
+| `value`               | numeric nullable   | Betrag       |
+| `currency`            | text default 'EUR' |              |
+| `expected_close_date` | date nullable      |              |
+| `created_at`          | timestamptz        |              |
+| `updated_at`          | timestamptz        |              |
 
 Pipeline-Position über `entity_pipeline_positions` (entity_type = `deal`).
 
@@ -267,15 +267,15 @@ Konfigurierbare Prozessketten pro Entity-Typ. **Nicht hardcoded.**
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `name` | text | z.B. „Company Akquise" |
-| `entity_type` | text enum | `company`, `deal` |
-| `is_default` | boolean | Default-Pipeline für Entity-Typ |
-| `sort_order` | int | |
-| `created_at` | timestamptz | |
+| Feld           | Typ         | Beschreibung                    |
+| -------------- | ----------- | ------------------------------- |
+| `id`           | uuid PK     |                                 |
+| `workspace_id` | uuid FK     |                                 |
+| `name`         | text        | z.B. „Company Akquise"          |
+| `entity_type`  | text enum   | `company`, `deal`               |
+| `is_default`   | boolean     | Default-Pipeline für Entity-Typ |
+| `sort_order`   | int         |                                 |
+| `created_at`   | timestamptz |                                 |
 
 ### Beziehungen
 
@@ -301,16 +301,16 @@ Phasen innerhalb einer Pipeline. Kanban-Spalten = Stages dieser Pipeline.
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `pipeline_id` | uuid FK | |
-| `workspace_id` | uuid FK | Denormalisiert für RLS |
-| `name` | text | z.B. „Rohlead" |
-| `color` | text | Hex oder Token |
-| `sort_order` | int | Spaltenreihenfolge |
-| `stage_type` | text enum | `open`, `won`, `lost` |
-| `created_at` | timestamptz | |
+| Feld           | Typ         | Beschreibung           |
+| -------------- | ----------- | ---------------------- |
+| `id`           | uuid PK     |                        |
+| `pipeline_id`  | uuid FK     |                        |
+| `workspace_id` | uuid FK     | Denormalisiert für RLS |
+| `name`         | text        | z.B. „Rohlead"         |
+| `color`        | text        | Hex oder Token         |
+| `sort_order`   | int         | Spaltenreihenfolge     |
+| `stage_type`   | text enum   | `open`, `won`, `lost`  |
+| `created_at`   | timestamptz |                        |
 
 ### Constraints
 
@@ -335,17 +335,17 @@ Position einer Entity in einer Pipeline-Stage. Trennt Pipeline-Logik von Entity-
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `entity_type` | text | `company`, `deal` |
-| `entity_id` | uuid | Polymorphic ref |
-| `pipeline_id` | uuid FK | |
-| `pipeline_stage_id` | uuid FK | |
-| `sort_order` | int | Order innerhalb Spalte |
-| `entered_at` | timestamptz | Stage-Wechsel |
-| `updated_at` | timestamptz | |
+| Feld                | Typ         | Beschreibung           |
+| ------------------- | ----------- | ---------------------- |
+| `id`                | uuid PK     |                        |
+| `workspace_id`      | uuid FK     |                        |
+| `entity_type`       | text        | `company`, `deal`      |
+| `entity_id`         | uuid        | Polymorphic ref        |
+| `pipeline_id`       | uuid FK     |                        |
+| `pipeline_stage_id` | uuid FK     |                        |
+| `sort_order`        | int         | Order innerhalb Spalte |
+| `entered_at`        | timestamptz | Stage-Wechsel          |
+| `updated_at`        | timestamptz |                        |
 
 ### Constraints
 
@@ -371,21 +371,21 @@ Metadaten definierter Custom Fields pro Entity-Typ. **Kern des metadata-driven S
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `entity_type` | text | `company`, `contact`, `deal` |
-| `field_key` | text | Stable key, z.B. `icp_score` |
-| `label` | text | Anzeigename |
-| `field_type` | text enum | siehe custom-fields.md |
-| `description` | text nullable | Hilfetext |
-| `is_required` | boolean | |
-| `is_filterable` | boolean | Override default |
-| `is_sortable` | boolean | |
-| `config` | jsonb | Typ-spezifisch (rating max, currency default, …) |
-| `sort_order` | int | Settings-Reihenfolge |
-| `created_at` | timestamptz | |
+| Feld            | Typ           | Beschreibung                                     |
+| --------------- | ------------- | ------------------------------------------------ |
+| `id`            | uuid PK       |                                                  |
+| `workspace_id`  | uuid FK       |                                                  |
+| `entity_type`   | text          | `company`, `contact`, `deal`                     |
+| `field_key`     | text          | Stable key, z.B. `icp_score`                     |
+| `label`         | text          | Anzeigename                                      |
+| `field_type`    | text enum     | siehe custom-fields.md                           |
+| `description`   | text nullable | Hilfetext                                        |
+| `is_required`   | boolean       |                                                  |
+| `is_filterable` | boolean       | Override default                                 |
+| `is_sortable`   | boolean       |                                                  |
+| `config`        | jsonb         | Typ-spezifisch (rating max, currency default, …) |
+| `sort_order`    | int           | Settings-Reihenfolge                             |
+| `created_at`    | timestamptz   |                                                  |
 
 ### Constraints
 
@@ -405,15 +405,15 @@ Optionen für `select` und `multi_select` Custom Fields.
 
 ### Wichtige Felder
 
-| Feld | Typ |
-|------|-----|
-| `id` | uuid PK |
-| `custom_field_id` | uuid FK |
-| `workspace_id` | uuid FK |
-| `label` | text |
-| `value` | text | Stable value |
-| `color` | text nullable |
-| `sort_order` | int |
+| Feld              | Typ           |
+| ----------------- | ------------- |
+| `id`              | uuid PK       |
+| `custom_field_id` | uuid FK       |
+| `workspace_id`    | uuid FK       |
+| `label`           | text          |
+| `value`           | text          | Stable value |
+| `color`           | text nullable |
+| `sort_order`      | int           |
 
 ### Constraints
 
@@ -434,20 +434,20 @@ Typgerechte Werte pro Entity-Instanz.
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `custom_field_id` | uuid FK | |
-| `entity_type` | text | |
-| `entity_id` | uuid | |
-| `value_text` | text nullable | text, email, phone, url, select value |
-| `value_number` | numeric nullable | number, currency, percentage, rating |
-| `value_boolean` | boolean nullable | |
-| `value_date` | date nullable | |
-| `value_datetime` | timestamptz nullable | |
-| `value_json` | jsonb nullable | multi_select, relation, complex |
-| `updated_at` | timestamptz | |
+| Feld              | Typ                  | Beschreibung                          |
+| ----------------- | -------------------- | ------------------------------------- |
+| `id`              | uuid PK              |                                       |
+| `workspace_id`    | uuid FK              |                                       |
+| `custom_field_id` | uuid FK              |                                       |
+| `entity_type`     | text                 |                                       |
+| `entity_id`       | uuid                 |                                       |
+| `value_text`      | text nullable        | text, email, phone, url, select value |
+| `value_number`    | numeric nullable     | number, currency, percentage, rating  |
+| `value_boolean`   | boolean nullable     |                                       |
+| `value_date`      | date nullable        |                                       |
+| `value_datetime`  | timestamptz nullable |                                       |
+| `value_json`      | jsonb nullable       | multi_select, relation, complex       |
+| `updated_at`      | timestamptz          |                                       |
 
 ### Constraints
 
@@ -474,18 +474,18 @@ Gespeicherte Ansichtskonfiguration für Table oder Kanban.
 
 ### Wichtige Felder
 
-| Feld | Typ | Beschreibung |
-|------|-----|--------------|
-| `id` | uuid PK | |
-| `workspace_id` | uuid FK | |
-| `name` | text | |
-| `entity_type` | text | `company`, `deal`, … |
-| `view_type` | text enum | `table`, `kanban` |
-| `pipeline_id` | uuid FK nullable | Required for kanban |
-| `is_default` | boolean | |
-| `config` | jsonb | Siehe pipelines-and-views.md |
-| `created_by` | uuid FK |
-| `created_at` | timestamptz | |
+| Feld           | Typ              | Beschreibung                 |
+| -------------- | ---------------- | ---------------------------- |
+| `id`           | uuid PK          |                              |
+| `workspace_id` | uuid FK          |                              |
+| `name`         | text             |                              |
+| `entity_type`  | text             | `company`, `deal`, …         |
+| `view_type`    | text enum        | `table`, `kanban`            |
+| `pipeline_id`  | uuid FK nullable | Required for kanban          |
+| `is_default`   | boolean          |                              |
+| `config`       | jsonb            | Siehe pipelines-and-views.md |
+| `created_by`   | uuid FK          |
+| `created_at`   | timestamptz      |                              |
 
 ### config (JSONB Struktur — Spezifikation)
 
@@ -520,19 +520,19 @@ Aktivitäten, Notizen, Follow-ups — primär am Unternehmen.
 
 ### Wichtige Felder
 
-| Feld | Typ |
-|------|-----|
-| `id` | uuid PK |
-| `workspace_id` | uuid FK |
-| `entity_type` | text | `company`, `contact`, `deal` |
-| `entity_id` | uuid |
-| `activity_type` | text enum | `note`, `call`, `email`, `meeting`, `task` |
-| `subject` | text nullable |
-| `body` | text nullable |
-| `due_at` | timestamptz nullable |
-| `completed_at` | timestamptz nullable |
-| `created_by` | uuid FK |
-| `created_at` | timestamptz |
+| Feld            | Typ                  |
+| --------------- | -------------------- |
+| `id`            | uuid PK              |
+| `workspace_id`  | uuid FK              |
+| `entity_type`   | text                 | `company`, `contact`, `deal`               |
+| `entity_id`     | uuid                 |
+| `activity_type` | text enum            | `note`, `call`, `email`, `meeting`, `task` |
+| `subject`       | text nullable        |
+| `body`          | text nullable        |
+| `due_at`        | timestamptz nullable |
+| `completed_at`  | timestamptz nullable |
+| `created_by`    | uuid FK              |
+| `created_at`    | timestamptz          |
 
 ### Produktnutzung
 
@@ -546,12 +546,12 @@ Phase 10+. Timeline auf Company-Detail. Follow-up Tasks.
 
 Workspace-weite Labels.
 
-| Feld | Typ |
-|------|-----|
-| `id` | uuid PK |
-| `workspace_id` | uuid FK |
-| `name` | text |
-| `color` | text nullable |
+| Feld           | Typ           |
+| -------------- | ------------- |
+| `id`           | uuid PK       |
+| `workspace_id` | uuid FK       |
+| `name`         | text          |
+| `color`        | text nullable |
 
 Unique `(workspace_id, name)`.
 
@@ -563,13 +563,13 @@ Unique `(workspace_id, name)`.
 
 Many-to-many Tags ↔ Entities.
 
-| Feld | Typ |
-|------|-----|
-| `tag_id` | uuid FK |
-| `entity_type` | text |
-| `entity_id` | uuid |
-| `workspace_id` | uuid FK |
-| PK | (tag_id, entity_type, entity_id) |
+| Feld           | Typ                              |
+| -------------- | -------------------------------- |
+| `tag_id`       | uuid FK                          |
+| `entity_type`  | text                             |
+| `entity_id`    | uuid                             |
+| `workspace_id` | uuid FK                          |
+| PK             | (tag_id, entity_type, entity_id) |
 
 ---
 

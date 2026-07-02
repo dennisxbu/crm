@@ -1,0 +1,36 @@
+---
+description: Supabase migrations, RLS, grants, workspace isolation
+globs: supabase/**/*,**/*.sql,src/shared/lib/supabase/**/*
+alwaysApply: false
+---
+
+# Supabase & Datenbank
+
+**ADR:** [docs/adr/004-workspaces-rls.md](../../docs/adr/004-workspaces-rls.md)  
+**Detail:** [docs/supabase-and-rls.md](../../docs/supabase-and-rls.md)
+
+## Migrationen
+
+- Schema **nur** via `supabase/migrations/` — kein produktives Dashboard-Schema
+- Lokal testen: `pnpm db:reset`
+- Jede CRM-Tabelle: `workspace_id`, RLS enabled, explizite Grants für `anon`/`authenticated`
+
+## Grants (Pflicht bei neuen Tabellen)
+
+Neue Tabellen brauchen explizite API-Grants (`auto_expose_new_tables` ist aus):
+
+```sql
+grant select, insert, update, delete on public.<table> to authenticated;
+-- RLS policies steuern tatsächlichen Zugriff
+```
+
+## RLS
+
+- CRM-Daten: Policy über `workspace_members` / `auth.uid()`
+- Kein Service Role im Frontend
+- Integrationstest: Cross-Workspace-Zugriff unmöglich
+
+## Profiles & Auth (Phase 2+)
+
+- `profiles.id` = `auth.users.id`
+- Profile-Trigger bei Sign-up in Migration, nicht nur App-Code

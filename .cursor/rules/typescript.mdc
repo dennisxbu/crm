@@ -1,0 +1,28 @@
+---
+description: TypeScript strict, validation, code quality
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# Code-Qualität
+
+## TypeScript
+
+- `strict: true` — kein `any`, kein `@ts-ignore` ohne Kommentar und Begründung
+- Types aus Zod (ab Einführung): `z.infer<typeof schema>`
+- Code-Identifikatoren: **Englisch**; User-facing Text: **Deutsch**
+
+## Supabase Client
+
+- Nur `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- Queries workspace-scoped; RLS ist die Sicherheitsschicht
+
+## Fehlerbehandlung
+
+- Keine Stack Traces an den Client in Production
+- Health Check unterscheidet: env missing / unreachable / schema / RLS (nicht alles als „ok")
+
+## Validierung (ab Phase 3)
+
+- Zod für externen Input vor Persistenz
+- Schemas in `src/shared/lib/validation/` oder feature-nah

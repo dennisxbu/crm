@@ -50,3 +50,10 @@ create trigger profiles_updated_at
   before update on public.profiles
   for each row
   execute function public.handle_updated_at();
+
+-- API access (auto_expose_new_tables is disabled in config.toml)
+grant usage on schema public to postgres, anon, authenticated, service_role;
+
+grant select, insert, update on table public.profiles to authenticated;
+
+grant all on table public.profiles to service_role;

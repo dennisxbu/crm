@@ -25,15 +25,15 @@ Das CRM folgt einer **metadata-driven, Supabase-zentrierten Architektur** mit kl
 
 ## Empfohlener Stack (Phase 1 — implementiert)
 
-| Komponente | Wahl | Version (Stand Phase 1) |
-|------------|------|-------------------------|
-| Frontend | React + TypeScript + Vite | React 19, TS 5.8, Vite 6 |
-| Styling | Minimal CSS (Phase 1 Statusseite) | UI/UX Phase später |
-| State | React + URL state (später React Query) | — |
-| Backend | Supabase | CLI 2.x, `@supabase/supabase-js` 2.x |
-| Validierung | Zod | geplant ab Phase 3 |
-| Tests | Vitest + Testing Library | geplant Phase 11 |
-| Package Manager | pnpm | 9.x |
+| Komponente      | Wahl                                   | Version (Stand Phase 1)              |
+| --------------- | -------------------------------------- | ------------------------------------ |
+| Frontend        | React + TypeScript + Vite              | React 19, TS 5.8, Vite 6             |
+| Styling         | Minimal CSS (Phase 1 Statusseite)      | UI/UX Phase später                   |
+| State           | React + URL state (später React Query) | —                                    |
+| Backend         | Supabase                               | CLI 2.x, `@supabase/supabase-js` 2.x |
+| Validierung     | Zod                                    | geplant ab Phase 3                   |
+| Tests           | Vitest + Testing Library               | geplant Phase 11                     |
+| Package Manager | pnpm                                   | 9.x                                  |
 
 Setup und Befehle: `DEVELOPMENT.md`.
 
@@ -110,11 +110,11 @@ workspaces
 
 Drei Schichten:
 
-| Schicht | Beispiel | Speicherort |
-|---------|----------|-------------|
-| **System Fields** | `companies.name`, `companies.website` | Entity-Tabelle (Spalten) |
-| **Custom Fields** | „LinkedIn-Follower", „ICP-Score" | `custom_fields` + `custom_field_values` |
-| **View Config** | Sichtbare Spalten, Filter, Kanban cards | `views` (JSON oder normalisiert) |
+| Schicht           | Beispiel                                | Speicherort                             |
+| ----------------- | --------------------------------------- | --------------------------------------- |
+| **System Fields** | `companies.name`, `companies.website`   | Entity-Tabelle (Spalten)                |
+| **Custom Fields** | „LinkedIn-Follower", „ICP-Score"        | `custom_fields` + `custom_field_values` |
+| **View Config**   | Sichtbare Spalten, Filter, Kanban cards | `views` (JSON oder normalisiert)        |
 
 Frontend rendert **generisch** basierend auf Metadata — nicht `if (fieldName === 'website')`.
 
@@ -125,7 +125,7 @@ Frontend rendert **generisch** basierend auf Metadata — nicht `if (fieldName =
 - Fest im Schema definiert
 - Für Kern-Workflow unverzichtbar (name, pipeline position, contact discovery status)
 - Indizierbar, typisiert, in Migrationen verwaltet
-- In Views referenzierbar via `field_key` (z.B. `system:website`)
+- In Views referenzierbar via `field_ref` (z.B. `system:website`)
 
 **Custom Fields:**
 
@@ -138,11 +138,11 @@ Details: `docs/custom-fields.md`, `docs/data-model.md`.
 
 ## Trennung: Daten, Konfiguration, UI-State
 
-| Kategorie | Beispiele | Persistenz |
-|-----------|-----------|------------|
-| **Business Data** | Company name, Custom Field Value | Postgres CRM-Tabellen |
-| **Configuration** | Pipeline, Stage, View definition | Postgres Config-Tabellen |
-| **UI State** | Spaltenbreite, Sidebar collapsed | localStorage oder `user_preferences` (später) |
+| Kategorie         | Beispiele                        | Persistenz                                    |
+| ----------------- | -------------------------------- | --------------------------------------------- |
+| **Business Data** | Company name, Custom Field Value | Postgres CRM-Tabellen                         |
+| **Configuration** | Pipeline, Stage, View definition | Postgres Config-Tabellen                      |
+| **UI State**      | Spaltenbreite, Sidebar collapsed | localStorage oder `user_preferences` (später) |
 
 View-**Definition** (welche Felder sichtbar) = Configuration.
 Aktuell gewählte View = UI State (URL param oder Session).
@@ -199,18 +199,18 @@ Einmal implementierte Field-Type-Handler werden überall wiederverwendet: Detail
 
 ## Implementierungsphasen (Architektur-Relevanz)
 
-| Phase | Architektur-Meilenstein |
-|-------|-------------------------|
-| 0 | Docs, Rules — keine Code |
-| 1 | Stack init, Supabase CLI, Supabase Client stub |
-| 2 | Auth flow, workspace context in app |
-| 3 | companies table + RLS + basic queries |
-| 4 | custom_fields + values + field registry |
-| 5 | view engine for table |
-| 6 | pipeline positions + kanban view engine |
-| 7 | settings CRUD for all config entities |
-| 8–10 | contacts, deals, activities — same patterns |
-| 11 | security review, test coverage, polish |
+| Phase | Architektur-Meilenstein                        |
+| ----- | ---------------------------------------------- |
+| 0     | Docs, Rules — keine Code                       |
+| 1     | Stack init, Supabase CLI, Supabase Client stub |
+| 2     | Auth flow, workspace context in app            |
+| 3     | companies table + RLS + basic queries          |
+| 4     | custom_fields + values + field registry        |
+| 5     | view engine for table                          |
+| 6     | pipeline positions + kanban view engine        |
+| 7     | settings CRUD for all config entities          |
+| 8–10  | contacts, deals, activities — same patterns    |
+| 11    | security review, test coverage, polish         |
 
 ## Architektur-Prinzipien (verbindlich)
 
@@ -224,12 +224,12 @@ Einmal implementierte Field-Type-Handler werden überall wiederverwendet: Detail
 
 ## Risiken und Mitigationen
 
-| Risiko | Mitigation |
-|--------|------------|
+| Risiko                            | Mitigation                                                                           |
+| --------------------------------- | ------------------------------------------------------------------------------------ |
 | EAV-Performance bei Custom Fields | Typisierte value-Spalten, Index auf (entity_id, field_id), später Materialized Views |
-| View-Config-Komplexität | Start mit JSONB config + klares Schema in Docs; normalisieren wenn nötig |
-| Hardcoding-Druck („schnell demo") | Cursor Rules + Definition of Done + Code Review |
-| Over-engineering | MVP-Scope in Roadmap; generische Renderer, aber nicht premature abstraction |
+| View-Config-Komplexität           | Start mit JSONB config + klares Schema in Docs; normalisieren wenn nötig             |
+| Hardcoding-Druck („schnell demo") | Cursor Rules + Definition of Done + Code Review                                      |
+| Over-engineering                  | MVP-Scope in Roadmap; generische Renderer, aber nicht premature abstraction          |
 
 ## Offene Entscheidungen (Phase 1)
 

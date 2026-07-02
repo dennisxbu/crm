@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import {
   checkSupabaseHealth,
   type SupabaseHealthStatus,
-} from '../shared/lib/supabase/health-check'
-import { isSupabaseConfigured } from '../shared/lib/supabase/client'
-import './App.css'
+} from "../shared/lib/supabase/health-check";
+import { isSupabaseConfigured } from "../shared/lib/supabase/client";
+import "./App.css";
 
 export function App() {
-  const [health, setHealth] = useState<SupabaseHealthStatus | null>(null)
+  const [health, setHealth] = useState<SupabaseHealthStatus | null>(null);
 
   useEffect(() => {
-    void checkSupabaseHealth().then(setHealth)
-  }, [])
+    void checkSupabaseHealth().then(setHealth);
+  }, []);
 
-  const envConfigured = isSupabaseConfigured()
+  const envConfigured = isSupabaseConfigured();
 
   return (
     <main className="shell">
@@ -37,8 +37,12 @@ export function App() {
           <div className="status-list__row">
             <dt>Environment</dt>
             <dd>
-              <span className={`badge ${envConfigured ? 'badge--ok' : 'badge--warn'}`}>
-                {envConfigured ? 'VITE_SUPABASE_* configured' : 'Missing .env.local'}
+              <span
+                className={`badge ${envConfigured ? "badge--ok" : "badge--warn"}`}
+              >
+                {envConfigured
+                  ? "NEXT_PUBLIC_SUPABASE_* configured"
+                  : "Missing .env.local"}
               </span>
             </dd>
           </div>
@@ -48,11 +52,11 @@ export function App() {
               {health ? (
                 <span
                   className={`badge ${
-                    health.state === 'connected'
-                      ? 'badge--ok'
-                      : health.state === 'missing_env'
-                        ? 'badge--warn'
-                        : 'badge--error'
+                    health.state === "connected"
+                      ? "badge--ok"
+                      : health.state === "missing_env"
+                        ? "badge--warn"
+                        : "badge--error"
                   }`}
                 >
                   {health.message}
@@ -74,12 +78,14 @@ export function App() {
           <li>
             <code>pnpm db:start</code> (requires Docker + Supabase CLI)
           </li>
-          <li>Copy keys from CLI output into <code>.env.local</code></li>
+          <li>
+            Copy keys from CLI output into <code>.env.local</code>
+          </li>
           <li>
             <code>pnpm dev</code>
           </li>
         </ol>
       </section>
     </main>
-  )
+  );
 }

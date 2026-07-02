@@ -1,80 +1,71 @@
 # AGENTS.md — Anleitung für AI-Agenten
 
-Dieses Dokument richtet sich an AI-Coding-Agenten (Cursor, Claude Code, etc.), die an diesem Repository arbeiten.
+**Gilt für:** Cursor, Claude Code, ChatGPT Codex und andere Coding-Agents.
+
+Dies ist die **kanonische Einstiegsdatei** für alle Tools. Tool-spezifische Regeln: Cursor → [`.cursor/rules/`](.cursor/rules/) (`.mdc`). Architektur-„Warum" → [`docs/adr/`](docs/adr/README.md).
 
 ## Projektziel
 
-Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unternehmen sind das primäre Lead-Objekt. Kontakte und Deals sind optional. Das System ist **metadata-driven**: Pipelines, Stages, Custom Fields und Views kommen aus der Datenbank, nicht aus hardcoded Code.
+Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unternehmen sind das primäre Lead-Objekt. Kontakte und Deals sind optional. **Metadata-driven:** Pipelines, Stages, Custom Fields und Views kommen aus der Datenbank.
 
-## Aktuelle Phase: Phase 1
+## Projektstatus
 
-Phase 0 (Docs) und Phase 1 (Stack + Supabase) sind umgesetzt.
+|                   |                                                                  |
+| ----------------- | ---------------------------------------------------------------- |
+| **Phase**         | 1 — Stack + Supabase-Grundintegration (abgeschlossen)            |
+| **Nächste Phase** | 2 — Auth, Workspaces, Profiles                                   |
+| **Version**       | `0.1.0` (pre-release)                                            |
+| **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
+| **ADRs**          | [docs/adr/README.md](docs/adr/README.md)                         |
 
-Phase 1 erlaubt **kein CRM** — nur technisches Gerüst und Health Check.
+## Lesereihenfolge (vor Implementierung)
 
-Phase 2 beginnt mit Auth, Workspaces, Profiles.
+1. Diese Datei
+2. [docs/implementation-roadmap.md](docs/implementation-roadmap.md) — **aktive Phase**
+3. [docs/adr/README.md](docs/adr/README.md) — bindende Entscheidungen
+4. [docs/product-spec.md](docs/product-spec.md) — Produktscope
+5. Relevante Detail-Specs: `architecture.md`, `data-model.md`, `custom-fields.md`, `pipelines-and-views.md`, `supabase-and-rls.md`
+6. [docs/definitions-of-done.md](docs/definitions-of-done.md)
+7. Cursor only: [`.cursor/rules/`](.cursor/rules/)
 
-## Wichtigste Docs (in dieser Reihenfolge lesen)
+## Workflow (alle Agents)
 
-1. `README.md` — Projektkontext und Phase
-2. `docs/product-spec.md` — Was das Produkt ist und nicht ist
-3. `docs/architecture.md` — Technische Leitplanken
-4. `docs/data-model.md` — Geplantes Datenmodell
-5. `docs/custom-fields.md` — Custom Fields als Kernsystem
-6. `docs/pipelines-and-views.md` — Pipelines, Views, Kanban
-7. `docs/supabase-and-rls.md` — Backend, Auth, Sicherheit
-8. `docs/implementation-roadmap.md` — Aktuelle und nächste Phase
-9. `docs/definitions-of-done.md` — Wann ein Modul wirklich fertig ist
-10. `docs/ai-development-workflow.md` — Arbeitsweise mit AI
+Vollständig: [CONTRIBUTING.md](CONTRIBUTING.md) · Lokal: [docs/dev-setup.md](docs/dev-setup.md)
 
-## Cursor Rules
+- **Nicht** direkt auf `main` pushen — Branch + PR
+- **Conventional Commits** (English)
+- Ein Thema pro Commit
+- `pnpm lint` + `pnpm build` vor Code-Commits
+- **Docs/ADRs vor Code** bei Architektur- oder Schema-Änderungen
+- Keine Secrets committen
 
-Vor jeder Implementierung die relevanten Rules in `.cursor/rules/` prüfen:
+## Phase 1 — Was existiert
 
-| Rule | Zweck |
-|------|-------|
-| `001-product-principles` | Company-first, Produktqualität |
-| `002-architecture-principles` | Metadata-driven, Schichttrennung |
-| `003-supabase-and-security` | RLS, Workspace-Isolation |
-| `004-custom-fields` | Feldtypen, Integration |
-| `005-company-first-crm` | Unternehmen ohne Kontakt/Deal |
-| `006-no-hardcoding` | Keine hardcoded Konfiguration |
-| `007-quality-bar` | Keine halben Features |
+- Vite + React + TypeScript App, Supabase Client, Health Check
+- Migration: `profiles` stub + RLS + Grants
+- **Kein CRM**, kein Auth-UI
 
-## Was nicht gebaut werden darf (ohne explizite Anweisung)
+## Was ohne explizite Anweisung nicht gebaut wird
 
-- Keine UI-Komponenten oder Screens
-- Kein Design-System
-- Keine Supabase-Migrationen (bis Phase 1+)
-- Kein Auth (bis Phase 2)
-- Kein Companies/Contacts/Deals CRUD (bis Phase 3+)
-- Keine Tabellen- oder Kanban-Ansichten (bis Phase 5/6)
-- Keine hardcoded Pipelines, Stages, Custom Fields oder View-Spalten
-- Keine Demo-Apps, Mock-Dashboards oder Tutorial-Code
-- Keine vereinfachte „Contacts → Companies → Deals"-Logik
+- CRM-Features außerhalb der aktiven Roadmap-Phase
+- Companies / Contacts / Deals CRUD (bis Phase 3+)
+- Custom Fields, Pipelines, Views UI (bis Phase 4–7)
+- Hardcoded Stages, Spalten, Feldlisten
+- Finales UI/Design-System vor UX-Spec ([docs/ui-ux-brief-for-claude.md](docs/ui-ux-brief-for-claude.md))
 
-## Wie spätere Implementierung erfolgen soll
-
-1. Aktive Phase in `docs/implementation-roadmap.md` identifizieren
-2. Scope und Nicht-Scope der Phase respektieren
-3. Akzeptanzkriterien und Definition of Done erfüllen
-4. Architektur- und Datenmodell-Docs bei Abweichungen zuerst aktualisieren
-5. Kleine, reviewbare Schritte — kein Big-Bang
-6. Professionelle, langlebige Lösungen statt schneller Abkürzungen
+**Erlaubt:** Funktionale Shells in frühen Phasen (z.B. Statusseite, Auth-Shell Phase 2).
 
 ## UI/UX
 
-UI/UX wird **separat mit Claude** spezifiziert. Siehe `docs/ui-ux-brief-for-claude.md`.
-
-Agenten sollen **keine visuelle UI designen oder implementieren**, bis UI/UX-Spezifikation vorliegt und die entsprechende Implementierungsphase aktiv ist.
+Visuelles Design separat mit Claude — siehe `docs/ui-ux-brief-for-claude.md`. Kein Design-System erfinden.
 
 ## Sprache
 
-Dokumentation und Kommentare: Deutsch bevorzugt (Produktkontext DACH). Code-Identifikatoren (Variablen, Tabellen, API): Englisch.
+- Docs & User-UI: **Deutsch**
+- Code, Tabellen, Commits: **Englisch**
 
 ## Bei Unsicherheit
 
-- Specs und Architecture Docs erneut lesen
-- Langfristig saubere Lösung bevorzugen
-- Nicht raten — dokumentieren und nachfragen
-- Keine halben Features liefern
+1. ADRs und Specs lesen — nicht raten
+2. Lücke dokumentieren oder Nutzer fragen
+3. Langfristig saubere Lösung — keine Tutorial-Abkürzungen

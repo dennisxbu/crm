@@ -1,0 +1,28 @@
+---
+description: No half features, no tutorial code, no fake configurability
+alwaysApply: true
+---
+
+# Quality Bar
+
+**Checkliste:** [docs/definitions-of-done.md](../../docs/definitions-of-done.md)
+
+## Verboten
+
+- Tutorial-CRUD, Uni-Projekt-Optik, Dummy-Buttons
+- Halbe Features („TODO später")
+- Fake-Konfigurierbarkeit (Settings-UI ohne Backend-Wirkung)
+- Hardcoded Pipelines / Stages / Tabellenspalten / Kanban-Kartenfelder
+- Scope der aktiven Roadmap-Phase überspringen
+
+## UI (bis UX-Spec)
+
+- Funktionale Shells in frühen Phasen ok (z.B. Phase-1-Statusseite)
+- Kein Design-System erfinden — [docs/ui-ux-brief-for-claude.md](../../docs/ui-ux-brief-for-claude.md)
+- Ab CRM-UI: nach UX-Brief und Roadmap-Phase
+
+## Vor Merge
+
+- Roadmap-Phase eingehalten?
+- Definition of Done erfüllt?
+- Docs/ADRs synchron bei Architekturänderungen?

@@ -1,123 +1,85 @@
 # Blumenthal Systems CRM
 
-Privates, professionelles B2B-Akquise-CRM für **Blumenthal Systems** — Solo-Beratung für Workflow-Automatisierung, KI-Prozesse und Prozessoptimierung im DACH-Raum, spezialisiert auf Personalberatungen, Personalvermittler, Headhunter und Executive-Search-Firmen.
+Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Systems — Workflow-Automatisierung und Akquise im DACH-Raum für Personalberatungen und Headhunter.
 
-## Warum dieses Projekt existiert
+**Kernidee:** Unternehmen zuerst — Kontakt und Deal optional. Metadata-driven: Pipelines, Custom Fields und Views aus der Datenbank, nicht aus Code.
 
-Standard-CRMs (monday, HubSpot, Pipedrive) sind für diesen Use Case entweder zu teuer, zu kontaktzentriert oder passen nicht zum tatsächlichen Akquise-Workflow. In der Praxis entsteht ein Lead oft zuerst als **Unternehmen** — mit Website, Impressum, LinkedIn-Seite — lange bevor ein konkreter Ansprechpartner oder Entscheider bekannt ist.
+## Project status
 
-Dieses CRM ist deshalb **company-first**: Unternehmen sind das primäre Lead-Objekt. Kontakte und Deals sind optional, nicht Voraussetzung.
+|                  |                                           |
+| ---------------- | ----------------------------------------- |
+| **Phase**        | 1 — Stack + Supabase foundation           |
+| **Version**      | `0.1.0` (pre-release)                     |
+| **Product code** | Foundation scaffold — no CRM features yet |
+| **Architecture** | [ADRs 001–006](docs/adr/README.md)        |
+| **Next**         | Phase 2 — Auth, Workspaces, Profiles      |
 
-## Das company-first Problem
+## Stack
 
-Klassische CRMs modellieren:
+| Area            | Technology                            |
+| --------------- | ------------------------------------- |
+| Frontend        | React 19, TypeScript (strict), Vite 6 |
+| Backend / DB    | Supabase (PostgreSQL), CLI migrations |
+| Auth            | Supabase Auth (Phase 2)               |
+| Validation      | Zod (Phase 3+)                        |
+| Package manager | pnpm (Node.js ≥ 20)                   |
 
-```
-Kontakt → Unternehmen → Deal
-```
+## Quick start
 
-Blumenthal Systems arbeitet eher so:
+**Requirements:** Node.js ≥ 20, pnpm, Docker Desktop
 
-```
-Unternehmen → Bewertung/Recherchestatus → Ansprechpartner (optional) → Outreach → Deal (optional)
-```
-
-Ein Unternehmen muss ein vollwertiger Lead sein können — auch ohne Kontakt, ohne Entscheider und ohne Deal. Es muss durch Pipelines laufen, bewertet, gefiltert und bearbeitet werden können, solange nur Basisinformationen wie Website oder Impressum-Mail vorliegen.
-
-## Produktprinzipien
-
-1. **Company-first** statt Contact-first
-2. **Metadata-driven** statt hardcoded
-3. **Konfigurierbarkeit ist Kern**, kein späteres Add-on
-4. **Custom Fields** mit echten Feldtypen, nicht nur Text
-5. **Views, Pipelines, Phasen, Tabellen-Spalten und Kanban-Karten** kommen aus Konfiguration, nicht aus Code
-6. **Settings** als professioneller Produktbereich
-7. Weniger Features, aber richtig durchdacht
-8. Keine halben Features, keine Fake-Konfigurierbarkeit
-9. Architektur, die später kein massives Refactoring erzwingt
-
-## Aktuelle Phase: Phase 1
-
-**Phase 0** (Fundament) und **Phase 1** (Stack + Supabase-Grundintegration) sind umgesetzt.
-
-Phase 1 liefert:
-
-- Vite + React + TypeScript App (`pnpm dev`)
-- Supabase CLI + `config.toml` + erste Migration (`profiles` stub)
-- Supabase Client mit Health Check (Statusseite, kein CRM)
-- Kein Auth-UI, kein Companies CRUD, keine CRM-Features
-
-Nächste Phase: **Phase 2** — Auth, Workspaces, Profiles.
-
-## Was bewusst noch nicht implementiert ist
-
-- Kein Auth / Login (Phase 2)
-- Kein Companies-, Contacts- oder Deals-CRUD
-- Keine Tabellen-, Kanban- oder Dashboard-Ansichten
-- Keine Custom Fields, Pipelines oder Views in der App
-- Keine hardcoded CRM-Felder oder Demo-Daten
-- Kein finales UI/Design-System (UX-Phase mit Claude)
-
-UI/UX wird in einer separaten Phase mit Claude spezifiziert. Siehe `docs/ui-ux-brief-for-claude.md`.
-
-## Geplanter Tech-Stack (Phase 1 — aktiv)
-
-| Schicht | Wahl |
-|---------|------|
-| Frontend | React 19 + TypeScript + Vite 6 |
-| Backend / DB | Supabase (Postgres) |
-| Auth | Supabase Auth (Phase 2) |
-| Package Manager | pnpm |
-
-Lokaler Start: `DEVELOPMENT.md`.
-
-## Repository-Struktur
-
-```
-crm/
-├── README.md
-├── AGENTS.md
-├── DEVELOPMENT.md
-├── package.json
-├── index.html
-├── vite.config.ts
-├── .env.example
-├── docs/
-├── .cursor/rules/
-├── src/
-│   ├── app/              # App shell (Phase 1: status page)
-│   └── shared/lib/supabase/
-├── supabase/
-│   ├── config.toml
-│   └── migrations/
-└── tests/
+```bash
+pnpm install
+cp .env.example .env.local   # fill after db:start
+pnpm db:start
+pnpm exec supabase status    # copy anon key to .env.local
+pnpm db:reset
+pnpm dev
 ```
 
-## Wie spätere Entwicklung ablaufen soll
+Open http://localhost:5173 — Phase 1 status + Supabase health check.
 
-1. **Specs lesen** — `docs/product-spec.md`, `docs/architecture.md`, relevante Detail-Docs
-2. **Cursor Rules prüfen** — `.cursor/rules/`
-3. **Phase aus Roadmap wählen** — `docs/implementation-roadmap.md`
-4. **Definition of Done prüfen** — `docs/definitions-of-done.md`
-5. **Implementieren** — nur im Scope der aktiven Phase
-6. **Docs aktualisieren** — bei Architektur- oder Modelländerungen
+Full setup: **[docs/dev-setup.md](docs/dev-setup.md)**
 
-Details: `docs/ai-development-workflow.md` und `DEVELOPMENT.md`.
+## Scripts
 
-## Dokumentation
+| Command                                  | Description        |
+| ---------------------------------------- | ------------------ |
+| `pnpm dev`                               | Development server |
+| `pnpm build`                             | Production build   |
+| `pnpm lint`                              | ESLint             |
+| `pnpm db:start` / `db:stop` / `db:reset` | Supabase local     |
 
-| Dokument | Inhalt |
-|----------|--------|
-| [product-spec.md](docs/product-spec.md) | Produktvision, Kernobjekte, MVP-Grenze |
-| [architecture.md](docs/architecture.md) | Technische Architektur, Schichten, Ordnerstruktur |
-| [data-model.md](docs/data-model.md) | Geplantes Postgres-Datenmodell |
-| [custom-fields.md](docs/custom-fields.md) | Custom-Fields-System, Feldtypen |
-| [pipelines-and-views.md](docs/pipelines-and-views.md) | Pipelines, Stages, Views, Kanban, Tabellen |
-| [supabase-and-rls.md](docs/supabase-and-rls.md) | Supabase, Auth, RLS, Migrationen |
-| [implementation-roadmap.md](docs/implementation-roadmap.md) | Phasen 0–11 |
-| [definitions-of-done.md](docs/definitions-of-done.md) | Qualitätskriterien pro Modul |
-| [glossary.md](docs/glossary.md) | Fachbegriffe |
+Pre-commit: lint-staged, audit, Secretlint — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Lizenz und Nutzung
+## Repository layout
 
-Privates Projekt für Blumenthal Systems. Nicht für öffentliche Distribution vorgesehen.
+```
+src/
+  app/                    App shell (Phase 1 status page)
+  shared/lib/supabase/    Client + health check
+supabase/
+  migrations/             SQL + RLS
+docs/
+  adr/                    Architecture Decision Records
+  *.md                    Product & technical specs
+.cursor/rules/            Cursor agent rules (.mdc)
+```
+
+## Documentation
+
+| Document                                                         | Purpose                         |
+| ---------------------------------------------------------------- | ------------------------------- |
+| [AGENTS.md](AGENTS.md)                                           | **AI agents entry** (all tools) |
+| [docs/adr/README.md](docs/adr/README.md)                         | Architecture decisions          |
+| [docs/product-spec.md](docs/product-spec.md)                     | Product vision & MVP            |
+| [docs/implementation-roadmap.md](docs/implementation-roadmap.md) | Phases 0–11                     |
+| [CONTRIBUTING.md](CONTRIBUTING.md)                               | Git, PRs, agent rules           |
+
+## Contributing
+
+Work on `feat/*`, `fix/*`, `chore/*`, or `docs/*` branches. Merge to `main` via PR. See **CONTRIBUTING.md**.
+
+## License
+
+Private project — not for public distribution.
