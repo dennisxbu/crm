@@ -7,6 +7,7 @@ Index for local development and engineering conventions. **Start here:** [docs/d
 | Local setup            | [docs/dev-setup.md](docs/dev-setup.md)                                 |
 | Supabase connection    | [docs/supabase-connection-check.md](docs/supabase-connection-check.md) |
 | Phase 2 test checklist | [docs/phase-2-test-checklist.md](docs/phase-2-test-checklist.md)       |
+| Phase 3 test checklist | [docs/phase-3-test-checklist.md](docs/phase-3-test-checklist.md)       |
 | Git, PRs, agents       | [CONTRIBUTING.md](CONTRIBUTING.md)                                     |
 | AI workflow            | [docs/ai-development-workflow.md](docs/ai-development-workflow.md)     |
 | Architecture decisions | [docs/adr/README.md](docs/adr/README.md)                               |
@@ -16,8 +17,8 @@ Index for local development and engineering conventions. **Start here:** [docs/d
 
 ## Current phase
 
-**Phase 2** complete — Auth, Workspaces, Profiles.  
-**Next:** Phase 3 — Company-Core.
+**Phase 3** complete — Company-Core.  
+**Next:** Phase 4 — Custom Fields Core.
 
 ## Stack (summary)
 

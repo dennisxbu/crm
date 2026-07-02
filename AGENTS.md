@@ -12,8 +12,8 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 
 |                   |                                                                  |
 | ----------------- | ---------------------------------------------------------------- |
-| **Phase**         | 2 — Auth, Workspaces, Profiles (abgeschlossen)                   |
-| **Nächste Phase** | 3 — Company-Core                                                 |
+| **Phase**         | 3 — Company-Core (abgeschlossen)                                 |
+| **Nächste Phase** | 4 — Custom Fields Core                                           |
 | **Version**       | `0.1.0` (pre-release)                                            |
 | **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
 | **ADRs**          | [docs/adr/README.md](docs/adr/README.md)                         |
@@ -50,6 +50,12 @@ Vollständig: [CONTRIBUTING.md](CONTRIBUTING.md) · Lokal: [docs/dev-setup.md](d
 - Migration: `workspaces`, `workspace_members`, RLS helpers, `create_initial_workspace` RPC
 - AuthProvider + WorkspaceProvider
 - Temporäre Auth-/Workspace-Shell (kein CRM)
+
+## Phase 3 — Was existiert
+
+- `companies` Tabelle + RLS (workspace-scoped)
+- Company API-Layer + minimale List/Create/Edit/Archive UI
+- Company-first: ohne Kontakt, ohne Deal
 
 ## Was ohne explizite Anweisung nicht gebaut wird
 

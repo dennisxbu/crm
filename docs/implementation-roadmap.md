@@ -2,7 +2,7 @@
 
 Phasenweise Umsetzung des Blumenthal Systems CRM. Jede Phase hat klaren Scope, explizite Nicht-Ziele und Akzeptanzkriterien.
 
-**Aktueller Stand: Phase 2 abgeschlossen (Auth, Workspaces, Profiles). Nächste Phase: Phase 3.**
+**Aktueller Stand: Phase 3 abgeschlossen (Company-Core). Nächste Phase: Phase 4.**
 
 ---
 
@@ -135,11 +135,13 @@ Unternehmen als vollwertiges Lead-Objekt — CRUD mit Systemfeldern, ohne Custom
 
 ### Akzeptanzkriterien
 
-- [ ] Company ohne Kontakt anlegbar
-- [ ] Company ohne Deal anlegbar
-- [ ] Alle Systemfelder editierbar
-- [ ] Workspace-Isolation
-- [ ] Keine hardcoded Custom Fields
+- [x] Company ohne Kontakt anlegbar
+- [x] Company ohne Deal anlegbar
+- [x] Alle Systemfelder editierbar
+- [x] Workspace-Isolation (RLS)
+- [x] Keine hardcoded Custom Fields
+
+Test checklist: [docs/phase-3-test-checklist.md](phase-3-test-checklist.md)
 
 ### Risiken
 

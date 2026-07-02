@@ -7,10 +7,15 @@ Supabase-Integration für das Blumenthal Systems CRM.
 ```
 supabase/
 ├── config.toml          # Supabase CLI Konfiguration (project_id: crm)
-├── migrations/          # SQL-Migrationen
-│   └── 20260701120000_phase1_extensions_and_profiles.sql
+├── migrations/          # SQL-Migrationen (einzige Schema-Quelle)
+│   ├── 20260701120000_phase1_extensions_and_profiles.sql
+│   ├── 20260702140000_phase2_auth_workspaces.sql
+│   └── 20260703140000_phase3_companies.sql
 └── .gitignore
 ```
+
+**Keine manuellen Schema-Änderungen im Supabase Dashboard** für produktive Tabellen.
+Alle Änderungen nur via Migrationen in `migrations/`.
 
 ## Befehle (via pnpm)
 
@@ -21,23 +26,29 @@ pnpm db:reset    # Migrationen neu anwenden
 pnpm exec supabase status   # URLs und Keys anzeigen
 ```
 
-## Phase 1 Migration
+Remote (nach `npx supabase link`):
 
-`phase1_extensions_and_profiles.sql`:
+```bash
+npx supabase db push        # Migrationen auf Remote anwenden
+npx supabase db push --dry-run
+```
 
-- Extension `pgcrypto`
-- Tabelle `profiles` (Stub für Phase 2)
-- RLS Policies für authenticated users (eigenes Profil)
-- `updated_at` Trigger
+## Migrationen
 
-Keine CRM-Tabellen (companies, pipelines, …) — kommen in späteren Phasen.
+| Datei                                               | Phase | Inhalt                                                                                       |
+| --------------------------------------------------- | ----- | -------------------------------------------------------------------------------------------- |
+| `20260701120000_phase1_extensions_and_profiles.sql` | 1     | `pgcrypto`, `profiles` stub, RLS, Grants                                                     |
+| `20260702140000_phase2_auth_workspaces.sql`         | 2     | Auth trigger, `workspaces`, `workspace_members`, RLS helpers, `create_initial_workspace` RPC |
+| `20260703140000_phase3_companies.sql`               | 3     | `companies` Tabelle, Indexes, RLS, Grants                                                    |
+
+Keine CRM-Tabellen aus späteren Phasen (contacts, deals, pipelines, custom_fields, views).
 
 ## Lokale URLs (Standard)
 
-| Service | URL |
-|---------|-----|
-| API | http://127.0.0.1:54321 |
-| Studio | http://127.0.0.1:54323 |
-| DB | localhost:54322 |
+| Service | URL                    |
+| ------- | ---------------------- |
+| API     | http://127.0.0.1:54321 |
+| Studio  | http://127.0.0.1:54323 |
+| DB      | localhost:54322        |
 
-Konzept: `docs/supabase-and-rls.md`.
+Detail: `docs/supabase-and-rls.md` · ADR: `docs/adr/004-workspaces-rls.md`

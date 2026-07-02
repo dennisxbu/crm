@@ -108,12 +108,14 @@ Systemfeld an Company (`contact_discovery_status`). Beschreibt, ob und in welche
 
 Typische Werte:
 
-| Wert | Bedeutung |
-|------|-----------|
-| `unknown` | Noch kein Kontakt bekannt, Recherche nicht gestartet |
-| `researching` | Recherche läuft |
-| `found` | Ansprechpartner identifiziert (Contact kann angelegt werden) |
-| `not_applicable` | Kein Contact nötig (z.B. Impressum-Mail reicht) |
+| Wert                        | Bedeutung                      |
+| --------------------------- | ------------------------------ |
+| `unknown`                   | Noch kein Kontakt bekannt      |
+| `not_started`               | Recherche noch nicht gestartet |
+| `researching`               | Recherche läuft                |
+| `partial_contacts_found`    | Teilkontakte gefunden          |
+| `decision_maker_identified` | Entscheider identifiziert      |
+| `no_contact_found`          | Kein Kontakt gefunden          |
 
 ---
 

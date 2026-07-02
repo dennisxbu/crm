@@ -1,47 +1,38 @@
 # src/app — App Shell
 
-## Phase 2: Temporäre Auth-/Workspace-Shell
+## Phase 3: Temporäre Company-Core-Shell
 
-`App.tsx` ist eine **technische Auth-/Workspace-Shell** — kein CRM-UI und keine Basis für spätere Screens.
+`App.tsx` ist eine **technische Company-Core-Shell** — keine finale CRM-UI.
 
 **Was es ist:**
 
-- Login / Registrierung / Logout
-- Session- und Profil-Anzeige
-- Aktiver Workspace + Rolle
+- Auth (Login/Register/Logout) + Workspace-Kontext
+- Minimale Company List / Create / Edit / Archive
 - AuthProvider + WorkspaceProvider
 
 **Was es nicht ist:**
 
-- Kein finales CRM-Layout
-- Kein Design-System-Seed
-- Keine Vorlage für Company-Listen, Kanban oder Settings
+- Kein finales CRM-Layout, keine Sidebar, kein Dashboard
+- Keine Custom Fields, Pipelines, Kanban oder konfigurierbare Views
 - Keine Basis für das visuelle Design des Produkts
 
-## Struktur (Phase 2)
+## Struktur (Phase 3)
 
 ```
 src/app/
-  App.tsx                    Phase-2-Shell
+  App.tsx                    Phase-3-Shell
   providers/
-    AuthProvider.tsx         Session, Profil, signIn/signUp/signOut
-    WorkspaceProvider.tsx    Memberships, aktiver Workspace, RPC-Onboarding
-src/features/auth/         AuthForm, API, Types
-src/features/workspaces/     Workspace API, Types
+    AuthProvider.tsx
+    WorkspaceProvider.tsx
+src/features/companies/      Company API, Form, List, Detail
+src/features/auth/
+src/features/workspaces/
 ```
-
-## Was hier ab Phase 3 entstehen wird
-
-- Routing (React Router o.ä.)
-- CRM-Feature-Screens nach Roadmap
-- Layout nach `docs/ui-ux-brief-for-claude.md`
-
-Diese Shell wird **nicht** zur Produkt-UI ausgebaut — CRM-Screens entstehen separat nach UX-Brief.
 
 ## Leitlinien für AI-Agenten
 
-- Phase-2-Shell minimal halten — keine CRM-Features vorziehen
-- Kein Design-System, keine Component Library einführen
-- Kein CRM-Screen aus `App.tsx` herauswachsen lassen
-- UX-Entscheidungen folgen erst `docs/ui-ux-brief-for-claude.md`
-- Roadmap-Phase immer prüfen: `docs/implementation-roadmap.md`
+- Shell minimal halten — keine Features aus späteren Phasen vorziehen
+- Company-Queries immer workspace-scoped
+- Company ohne Contact/Deal ist Pflicht
+- UX-Entscheidungen folgen `docs/ui-ux-brief-for-claude.md`
+- Roadmap: `docs/implementation-roadmap.md`
