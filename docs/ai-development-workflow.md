@@ -33,16 +33,17 @@ Detaillierte Specs bleiben in `docs/*.md`.
 Rules in [`.cursor/rules/`](../.cursor/rules/) als **`.mdc`** mit Frontmatter (Atlas-style).  
 **Kanonisch für alle AI-Tools:** [AGENTS.md](../AGENTS.md) und ADRs.
 
-| Rule                    | Wann                     |
-| ----------------------- | ------------------------ |
-| `project-context.mdc`   | Immer — Phase, Scope     |
-| `workflow.mdc`          | Immer — Git, PRs         |
-| `tech-stack.mdc`        | Immer                    |
-| `architecture.mdc`      | Immer                    |
-| `quality-bar.mdc`       | Immer                    |
-| `supabase-database.mdc` | DB, SQL, Supabase client |
-| `custom-fields.mdc`     | Custom fields work       |
-| `typescript.mdc`        | `*.ts`, `*.tsx`          |
+| Rule                         | Wann                     |
+| ---------------------------- | ------------------------ |
+| `project-context.mdc`        | Immer — Phase, Scope     |
+| `workflow.mdc`               | Immer — Git, PRs         |
+| `tech-stack.mdc`             | Immer                    |
+| `architecture.mdc`           | Immer                    |
+| `quality-bar.mdc`            | Immer                    |
+| `collaboration-contract.mdc` | Immer — Feature-Wünsche  |
+| `supabase-database.mdc`      | DB, SQL, Supabase client |
+| `custom-fields.mdc`          | Custom fields work       |
+| `typescript.mdc`             | `*.ts`, `*.tsx`          |
 
 ## Regeln für AI-Implementierung
 

@@ -119,11 +119,11 @@ WITH CHECK (
 
 ```
 VITE_SUPABASE_URL=
-VITE_SUPABASE_PUBLISHABLE_KEY=
+VITE_SUPABASE_ANON_KEY=
 ```
 
 - Präfix immer `VITE_` — niemals `NEXT_PUBLIC_*` (das ist Next.js, nicht Vite) — **ADR-007**
-- `VITE_SUPABASE_PUBLISHABLE_KEY` ist der öffentliche Publishable Key — sicher exponierbar, Schutz durch RLS
+- `VITE_SUPABASE_ANON_KEY` ist der öffentliche Anon Key — sicher exponierbar, Schutz durch RLS
 - Niemals `SERVICE_ROLE_KEY` ins Frontend-Bundle
 
 ---
@@ -180,7 +180,7 @@ Feature-Ordner spiegeln Domänen, nicht UI-Patterns. Kein `components/kanban/` a
 
 ### Supabase Client
 
-- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_PUBLISHABLE_KEY`
+- Nur `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`
 - Kein Service Role im Frontend
 - Queries immer mit `.select()` — nie `*` ohne Begründung in Production
 
@@ -270,9 +270,9 @@ Vollständige Kriterien: [docs/definitions-of-done.md](docs/definitions-of-done.
 | ----- | ------------------------------------------------------- | ------------------- |
 | 0     | Docs, Rules, Repository-Fundament                       | ✅                  |
 | 1     | Stack init, Supabase CLI, Client, Migration `profiles`  | ✅                  |
-| **2** | **Auth, Workspaces, Profiles, RLS-Grundgerüst**         | **← Nächste Phase** |
-| 3     | Companies CRUD + Systemfelder                           |                     |
-| 4     | Custom Fields Core (Settings + Detail)                  |                     |
+| 2     | Auth, Workspaces, Profiles, RLS-Grundgerüst             | ✅                  |
+| 3     | Companies CRUD + Systemfelder                           | ✅                  |
+| **4** | **Custom Fields Core (Settings + Detail)**              | **← Nächste Phase** |
 | 5     | Company Table View (View Engine)                        |                     |
 | 6     | Company Kanban View (Pipeline-basiert)                  |                     |
 | 7     | Settings CRUD (Pipelines, Stages, Custom Fields, Views) |                     |
