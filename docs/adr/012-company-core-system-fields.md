@@ -67,10 +67,11 @@ Ersetzt ältere 4-Werte-Skizze (`found`, `not_applicable`) für granulareren Akq
 ### Negative
 
 - UI ist bewusst minimal — finale UX kommt später
-- `owner_id` RLS in Phase 3 auf `auth.uid()` beschränkt (Multi-User-Zuweisung später)
+- `owner_id` UPDATE nur durch Owner (RLS USING) — Reassignment via RPC später
+- Trigger verhindert direkte Änderung von `owner_id`, `workspace_id`, `created_by`
 
 ## Detail documentation
 
-- Migration: `supabase/migrations/20260703140000_phase3_companies.sql`
+- Migrationen: `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql`
 - Test checklist: [docs/phase-3-test-checklist.md](../phase-3-test-checklist.md)
 - Data model: [docs/data-model.md](../data-model.md)

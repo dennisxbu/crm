@@ -10,7 +10,8 @@ supabase/
 ├── migrations/          # SQL-Migrationen (einzige Schema-Quelle)
 │   ├── 20260701120000_phase1_extensions_and_profiles.sql
 │   ├── 20260702140000_phase2_auth_workspaces.sql
-│   └── 20260703140000_phase3_companies.sql
+│   ├── 20260703140000_phase3_companies.sql
+│   └── 20260703150000_fix_companies_update_rls.sql
 └── .gitignore
 ```
 
@@ -40,6 +41,7 @@ npx supabase db push --dry-run
 | `20260701120000_phase1_extensions_and_profiles.sql` | 1     | `pgcrypto`, `profiles` stub, RLS, Grants                                                     |
 | `20260702140000_phase2_auth_workspaces.sql`         | 2     | Auth trigger, `workspaces`, `workspace_members`, RLS helpers, `create_initial_workspace` RPC |
 | `20260703140000_phase3_companies.sql`               | 3     | `companies` Tabelle, Indexes, RLS, Grants                                                    |
+| `20260703150000_fix_companies_update_rls.sql`       | 3     | Owner-scoped UPDATE policy, immutable column trigger                                         |
 
 Keine CRM-Tabellen aus späteren Phasen (contacts, deals, pipelines, custom_fields, views).
 

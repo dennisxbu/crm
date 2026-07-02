@@ -65,6 +65,7 @@ pnpm dev
 ## RLS (grob)
 
 - [ ] User A sieht keine Companies von User B (anderer Workspace)
+- [ ] User B kann Company von User A im selben Workspace nicht bearbeiten
 - [ ] Anonymer Zugriff auf `companies` ohne Policy schlägt fehl
 
 ## Scope check
