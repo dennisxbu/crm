@@ -9,18 +9,19 @@ Leitfaden für die Nutzung von AI-Coding-Tools (Cursor, Claude Code, etc.) in di
 ## Pflicht-Lese-Reihenfolge vor Implementierung
 
 1. `README.md` — Phase und Kontext
-2. `AGENTS.md` — **kanonisch für alle AI-Tools**
+2. `AGENTS.md` — **kanonisch für alle AI-Tools**; Projektstatus
 3. `docs/implementation-roadmap.md` — **aktive Phase**
 4. `docs/adr/README.md` — bindende Architektur-Entscheidungen
 5. `docs/product-spec.md` — Scope und Nicht-Ziele
-6. `docs/architecture.md` — technische Leitplanken
-7. Relevante Detail-Docs:
+6. `docs/product-principles.md` — **Nordstern**: Produktgefühl, Litmus-Test, Betriebsmodell
+7. `docs/architecture.md` — technische Leitplanken
+8. Relevante Detail-Docs:
    - Custom Fields → `docs/custom-fields.md`
    - Pipelines/Views → `docs/pipelines-and-views.md`
    - Datenmodell → `docs/data-model.md`
    - Supabase → `docs/supabase-and-rls.md`
-8. `docs/definitions-of-done.md` — Akzeptanzkriterien
-9. `.cursor/rules/` — Cursor `.mdc` rules (optional für non-Cursor: AGENTS.md reicht)
+9. `docs/definitions-of-done.md` — Akzeptanzkriterien
+10. `.cursor/rules/` — Cursor `.mdc` rules (optional für non-Cursor: AGENTS.md reicht)
 
 ## Architektur-Entscheidungen (ADRs)
 

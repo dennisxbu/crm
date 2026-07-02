@@ -24,9 +24,10 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 2. [docs/implementation-roadmap.md](docs/implementation-roadmap.md) — **aktive Phase**
 3. [docs/adr/README.md](docs/adr/README.md) — bindende Entscheidungen
 4. [docs/product-spec.md](docs/product-spec.md) — Produktscope
-5. Relevante Detail-Specs: `architecture.md`, `data-model.md`, `custom-fields.md`, `pipelines-and-views.md`, `supabase-and-rls.md`
-6. [docs/definitions-of-done.md](docs/definitions-of-done.md)
-7. Cursor only: [`.cursor/rules/`](.cursor/rules/)
+5. [docs/product-principles.md](docs/product-principles.md) — **Nordstern**: Produktgefühl, Litmus-Test, Betriebsmodell
+6. Relevante Detail-Specs: `architecture.md`, `data-model.md`, `custom-fields.md`, `pipelines-and-views.md`, `supabase-and-rls.md`
+7. [docs/definitions-of-done.md](docs/definitions-of-done.md)
+8. Cursor only: [`.cursor/rules/`](.cursor/rules/)
 
 ## Workflow (alle Agents)
 
