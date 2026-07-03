@@ -35,9 +35,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 4</h1>
+          <h1>CRM — Phase 5</h1>
           <p className="shell__lead">
-            Custom Fields Core foundation. No final CRM UI.
+            Company Table View foundation. No final CRM UI.
           </p>
         </header>
         <section className="panel">
@@ -63,9 +63,9 @@ export function App() {
       <main className="shell">
         <header className="shell__header">
           <p className="shell__eyebrow">Blumenthal Systems</p>
-          <h1>CRM — Phase 4</h1>
+          <h1>CRM — Phase 5</h1>
           <p className="shell__lead">
-            Custom Fields Core foundation. No final CRM UI.
+            Company Table View foundation. No final CRM UI.
           </p>
         </header>
         {authError ? <p className="shell__error">{authError}</p> : null}
@@ -78,9 +78,9 @@ export function App() {
     <main className="shell shell--wide">
       <header className="shell__header">
         <p className="shell__eyebrow">Blumenthal Systems</p>
-        <h1>CRM — Phase 4</h1>
+        <h1>CRM — Phase 5</h1>
         <p className="shell__lead">
-          Phase 4 Custom Fields Core — functional shell, not final CRM UI.
+          Phase 5 Company Table View — functional shell, not final CRM UI.
         </p>
       </header>
 

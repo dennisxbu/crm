@@ -12,8 +12,8 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 
 |                   |                                                                  |
 | ----------------- | ---------------------------------------------------------------- |
-| **Phase**         | 4 — Custom Fields Core (abgeschlossen)                           |
-| **Nächste Phase** | 5 — Company Table View                                           |
+| **Phase**         | 5 — Company Table View (abgeschlossen)                           |
+| **Nächste Phase** | 6 — Company Kanban View                                          |
 | **Version**       | `0.1.0` (pre-release)                                            |
 | **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
 | **ADRs**          | [docs/adr/README.md](docs/adr/README.md)                         |
@@ -66,11 +66,19 @@ Vollständig: [CONTRIBUTING.md](CONTRIBUTING.md) · Lokal: [docs/dev-setup.md](d
 - Company Detail: Custom Fields anzeigen und speichern
 - Default Company Custom Fields via RPC `ensure_default_company_custom_fields`
 
+## Phase 5 — Was existiert
+
+- `views` Tabelle + RLS
+- Default Company Table View via RPC `ensure_default_company_table_view`
+- View Engine: Spalten/Sort/Filter aus `views.config` (client-side MVP)
+- System Field Registry + Custom Field integration in Table
+- Company Table View ersetzt hardcoded Company List
+
 ## Was ohne explizite Anweisung nicht gebaut wird
 
 - CRM-Features außerhalb der aktiven Roadmap-Phase
 - Contacts / Deals CRUD (bis Phase 8–9)
-- Table View, Kanban, Pipelines, Views UI (bis Phase 5–7)
+- Kanban, Pipelines, View Editor UI (bis Phase 6–7)
 - Hardcoded Stages, Spalten, Feldlisten
 - Finales UI/Design-System vor UX-Spec ([docs/ui-ux-brief-for-claude.md](docs/ui-ux-brief-for-claude.md))
 

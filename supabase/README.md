@@ -12,7 +12,8 @@ supabase/
 │   ├── 20260702140000_phase2_auth_workspaces.sql
 │   ├── 20260703140000_phase3_companies.sql
 │   ├── 20260703150000_fix_companies_update_rls.sql
-│   └── 20260703160000_phase4_custom_fields.sql
+│   ├── 20260703160000_phase4_custom_fields.sql
+│   └── 20260703170000_phase5_views.sql
 └── .gitignore
 ```
 
@@ -44,6 +45,7 @@ npx supabase db push --dry-run
 | `20260703140000_phase3_companies.sql`               | 3     | `companies` Tabelle, Indexes, RLS, Grants                                                    |
 | `20260703150000_fix_companies_update_rls.sql`       | 3     | Owner-scoped UPDATE policy, immutable column trigger                                         |
 | `20260703160000_phase4_custom_fields.sql`           | 4     | Custom fields tables, RLS, default company fields RPC, workspace hook                        |
+| `20260703170000_phase5_views.sql`                   | 5     | `views` table, RLS, default company table view RPC                                           |
 
 Spätere Phasen (noch nicht implementiert): contacts, deals, pipelines, views.
 

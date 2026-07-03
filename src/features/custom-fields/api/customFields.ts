@@ -313,6 +313,38 @@ export async function archiveCustomFieldOption(
   return data as CustomFieldOption;
 }
 
+export async function fetchCustomFieldValuesForCompanies(
+  workspaceId: string,
+  entityType: EntityType,
+  companyIds: string[],
+  customFieldIds?: string[],
+): Promise<CustomFieldValue[]> {
+  if (companyIds.length === 0) {
+    return [];
+  }
+
+  const client = getClient();
+
+  let query = client
+    .from("custom_field_values")
+    .select(CUSTOM_FIELD_VALUE_COLUMNS)
+    .eq("workspace_id", workspaceId)
+    .eq("entity_type", entityType)
+    .in("entity_id", companyIds);
+
+  if (customFieldIds && customFieldIds.length > 0) {
+    query = query.in("custom_field_id", customFieldIds);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as CustomFieldValue[];
+}
+
 export async function fetchCustomFieldValues(
   workspaceId: string,
   entityType: EntityType,

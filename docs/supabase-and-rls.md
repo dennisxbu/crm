@@ -205,7 +205,8 @@ Supabase Pro/Team: automatische Backups. Für Solo-Projekt: regelmäßig `pg_dum
 | 2     | workspaces, workspace_members — `20260702140000_phase2_auth_workspaces.sql`                          |
 | 3     | companies — `20260703140000_phase3_companies.sql`, `20260703150000_fix_companies_update_rls.sql`     |
 | 4     | custom_fields, custom_field_options, custom_field_values — `20260703160000_phase4_custom_fields.sql` |
-| 5+    | pipelines, views — geplant                                                                           |
+| 5     | views — `20260703170000_phase5_views.sql`                                                            |
+| 6+    | pipelines — geplant                                                                                  |
 
 ### companies (Phase 3)
 
@@ -238,5 +239,16 @@ Leere Werte: Value-Row wird gelöscht, nicht als Null-Blob gespeichert.
 
 Migration: `20260703160000_phase4_custom_fields.sql`  
 Detail: [docs/adr/013-custom-fields-core.md](adr/013-custom-fields-core.md)
+
+### Views (Phase 5)
+
+Tabelle: `views`
+
+RLS über `is_workspace_member(workspace_id)`:
+
+- SELECT, INSERT, UPDATE, DELETE für Workspace-Members
+- Default Company Table View via RPC `ensure_default_company_table_view`
+
+Migration: `20260703170000_phase5_views.sql`
 
 Lokale Entwicklung: [docs/dev-setup.md](dev-setup.md). ADR: [adr/004-workspaces-rls.md](adr/004-workspaces-rls.md).

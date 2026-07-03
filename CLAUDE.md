@@ -18,8 +18,8 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 > **Kanonische Quelle für den Projektstatus:** [AGENTS.md](AGENTS.md) — immer dort zuerst prüfen.
 
-Phase 4 (Custom Fields Core) abgeschlossen — Auth, Workspaces, Company-CRUD, Custom Fields Settings + Detail mit Field Registry sind implementiert.  
-**Nächste Phase: 5 — Company Table View.**
+Phase 5 (Company Table View) abgeschlossen — config-driven Table View mit System- und Custom Fields.  
+**Nächste Phase: 6 — Company Kanban View.**
 
 Vollständige Roadmap: [docs/implementation-roadmap.md](docs/implementation-roadmap.md)
 
@@ -273,8 +273,8 @@ Vollständige Kriterien: [docs/definitions-of-done.md](docs/definitions-of-done.
 | 2     | Auth, Workspaces, Profiles, RLS-Grundgerüst             | ✅                  |
 | 3     | Companies CRUD + Systemfelder                           | ✅                  |
 | **4** | **Custom Fields Core (Settings + Detail)**              | ✅                  |
-| **5** | **Company Table View (View Engine)**                    | **← Nächste Phase** |
-| 6     | Company Kanban View (Pipeline-basiert)                  |                     |
+| **5** | **Company Table View (View Engine)**                    | ✅                  |
+| **6** | **Company Kanban View (Pipeline-basiert)**              | **← Nächste Phase** |
 | 7     | Settings CRUD (Pipelines, Stages, Custom Fields, Views) |                     |
 | 8     | Contacts (optional)                                     |                     |
 | 9     | Deals (optional)                                        |                     |

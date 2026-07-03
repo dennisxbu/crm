@@ -50,18 +50,20 @@ Pipelines gelten erst als fertig, wenn:
 
 ## Views
 
-Views gelten erst als fertig, wenn:
+**Phase-5-Minimum (Company Table View):** Spalten aus DB-Config, System + Custom Fields, Sort/Filter aus Config (client-side MVP), Default View per RPC.
 
-- [ ] Ansicht in Settings gespeichert werden kann
-- [ ] Ansicht geladen und gewechselt werden kann
-- [ ] Sichtbare Felder (columns / card_fields) konfigurierbar sind
-- [ ] Systemfelder und Custom Fields gemeinsam in einer View funktionieren
-- [ ] Filter speicherbar und beim Laden angewendet werden
-- [ ] Sortierung speicherbar und beim Laden angewendet werden
-- [ ] Kanban-`card_fields` speicherbar sind
-- [ ] Default-Ansicht pro entity_type + view_type setzbar ist
-- [ ] View-Config aus DB — keine hardcoded Spaltenlisten im Frontend
-- [ ] Ungültige field_ref (gelöschtes Field) definiert behandelt wird
+**Vollständige DoD** (Settings Editor, Kanban card_fields, mehrere Views wechseln) folgt Phase 6–7.
+
+- [ ] Ansicht in Settings gespeichert werden kann _(Phase 7)_
+- [ ] Ansicht geladen und gewechselt werden kann _(Phase 7 — Phase 5: Default Table View)_
+- [x] Sichtbare Felder (columns) aus Config _(Phase 5)_
+- [x] Systemfelder und Custom Fields gemeinsam in einer View _(Phase 5)_
+- [x] Filter aus Config angewendet _(Phase 5, client-side)_
+- [x] Sortierung aus Config / Spaltenkopf _(Phase 5, client-side)_
+- [ ] Kanban-`card_fields` speicherbar sind _(Phase 6)_
+- [x] Default-Ansicht pro entity_type + view_type _(Phase 5)_
+- [x] View-Config aus DB — keine hardcoded Spaltenlisten im Frontend _(Phase 5)_
+- [x] Ungültige field_ref definiert behandelt _(Phase 5)_
 
 ---
 

@@ -13,51 +13,43 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 **Nordstern:** [docs/product-principles.md](../../docs/product-principles.md)  
 **Architektur-Entscheidungen:** [docs/adr/README.md](../../docs/adr/README.md)
 
-## Aktueller Stand: Phase 4
+## Aktueller Stand: Phase 5
 
 | | |
 | --- | --- |
-| **Phase** | 4 — Custom Fields Core |
+| **Phase** | 5 — Company Table View |
 | **Version** | `0.1.0` (pre-release) |
-| **Product code** | Custom Fields Settings + Company Detail |
+| **Product code** | Config-driven Company Table View |
 | **Roadmap** | [docs/implementation-roadmap.md](../../docs/implementation-roadmap.md) |
 
 **Im Code umgesetzt:**
 
-- Phase 1–3 Foundation (Stack, Auth, Workspaces, Companies)
-- `custom_fields`, `custom_field_options`, `custom_field_values` + RLS
-- Field Type Registry + Settings + Company Detail Integration
-- Default Company Custom Fields via RPC (Seed-Daten, nicht Frontend-Konstanten)
+- Phase 1–4 Foundation (Auth, Workspaces, Companies, Custom Fields)
+- `views` Tabelle + RLS + Default Company Table View
+- Table View Engine: Spalten/Sort/Filter aus `views.config`
+- System Field Registry + Custom Fields in Tabellenzellen
 
-**Nächste Phase:** Phase 5 — Company Table View
+**Nächste Phase:** Phase 6 — Company Kanban View
 
 **Bewusst nicht im Scope (kein Scope Creep):**
 
 - Contacts / Deals CRUD
-- Table View, Kanban, Pipelines, Views Engine
+- Kanban, Pipelines, View Editor UI
 - Activities
-- Finales UI/Design-System (separate UX-Phase mit Claude)
-- Hardcoded CRM-Felder, Demo-Dashboards, Tutorial-CRUD
+- Finales UI/Design-System
 
 ## Company-first (verbindlich)
 
 - Unternehmen ohne Kontakt und ohne Deal sind **normale** Leads
 - `contact_discovery_status` ist Teil des Workflows
 - Deals entstehen erst bei konkreter Verkaufschance
-- Activities hängen primär am Unternehmen
 
-## Phase-4-App-Shell — temporäre Shell
+## Phase-5-App-Shell — temporäre Shell
 
-`src/app/App.tsx` ist eine **technische Phase-4-Shell**, keine finale CRM-UI.
-
-- Nicht zur Produkt-UI weiterentwickeln
-- Kein Design-System, keine Component Library daraus ableiten
-- CRM-Screens entstehen nach `docs/ui-ux-brief-for-claude.md`
-- Kein CRM-Feature vor der jeweiligen Roadmap-Phase
+`src/app/App.tsx` ist eine **technische Shell**, keine finale CRM-UI.
 
 Details: [src/app/README.md](../../src/app/README.md)
 
 ## Multi-AI / Agent-Einstieg
 
-**Kanonische Quelle für alle Tools (Cursor, Claude Code, Codex):** [AGENTS.md](../../AGENTS.md)  
-Bei Architektur-„Warum": ADRs in `docs/adr/` — Specs in `docs/` sind „Was" im Detail.
+**Kanonische Quelle:** [AGENTS.md](../../AGENTS.md)

@@ -5,7 +5,7 @@
 }
 
 .shell--wide {
-  max-width: 64rem;
+  max-width: 80rem;
 }
 
 .shell__header {
@@ -291,6 +291,82 @@
 
 .company-detail__header h2 {
   margin: 0;
+}
+
+.companies-layout__column--wide {
+  grid-column: 1 / -1;
+}
+
+.company-table {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.company-table__scroll {
+  overflow-x: auto;
+}
+
+.company-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.company-table__table th,
+.company-table__table td {
+  padding: 0.625rem 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: top;
+}
+
+.company-table__table th {
+  font-weight: 600;
+  color: #374151;
+  background: #f9fafb;
+}
+
+.company-table__header-button {
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.company-table__header--sortable {
+  white-space: nowrap;
+}
+
+.company-table__row--active {
+  background: #f9fafb;
+}
+
+.company-table__name-button {
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.company-table__name-button:hover {
+  text-decoration: underline;
+}
+
+.company-table__missing {
+  color: #b45309;
+  font-size: 0.8125rem;
+}
+
+.company-table__custom-cell {
+  display: inline-block;
+  max-width: 16rem;
 }
 
 .custom-field-boolean {

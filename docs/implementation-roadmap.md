@@ -2,7 +2,7 @@
 
 Phasenweise Umsetzung des Blumenthal Systems CRM. Jede Phase hat klaren Scope, explizite Nicht-Ziele und Akzeptanzkriterien.
 
-**Aktueller Stand: Phase 4 abgeschlossen (Custom Fields Core). Nächste Phase: Phase 5.**
+**Aktueller Stand: Phase 5 abgeschlossen (Company Table View). Nächste Phase: Phase 6.**
 
 ---
 
@@ -204,10 +204,12 @@ Konfigurierbare Tabellenansicht für Companies.
 
 ### Akzeptanzkriterien
 
-- [ ] Definition of Done Views (Table-Teil) erfüllt
-- [ ] Spalten aus DB-Config, nicht hardcoded
-- [ ] Sort/Filter auf System- und Custom Fields
-- [ ] Company ohne Kontakt in Tabelle sichtbar
+- [x] Definition of Done Views (Table-Teil, Phase-5-Minimum) erfüllt
+- [x] Spalten aus DB-Config, nicht hardcoded
+- [x] Sort/Filter auf System- und Custom Fields (client-side MVP; Custom-Sort eingeschränkt dokumentiert)
+- [x] Company ohne Kontakt in Tabelle sichtbar
+
+Test checklist: [docs/phase-5-test-checklist.md](phase-5-test-checklist.md)
 
 ### Risiken
 
