@@ -1,6 +1,9 @@
-// PHASE 3 COMPANY CORE — minimal functional UI, not final CRM design.
+import { useEffect } from "react";
 import { useAuth } from "../../../app/providers/AuthProvider";
 import { useWorkspace } from "../../../app/providers/WorkspaceProvider";
+import { ensureDefaultCompanyCustomFields } from "../../custom-fields/api/customFields";
+import { useCustomFields } from "../../custom-fields/hooks/useCustomFields";
+import { useCustomFieldValues } from "../../custom-fields/hooks/useCustomFieldValues";
 import { useCompanies } from "../hooks/useCompanies";
 import { CompanyDetail } from "./CompanyDetail";
 import { CompanyForm } from "./CompanyForm";
@@ -20,16 +23,42 @@ export function CompaniesSection() {
     archiveCompany,
   } = useCompanies(activeWorkspace?.id, user?.id);
 
+  const { fields: customFields, isLoading: customFieldsLoading } =
+    useCustomFields(activeWorkspace?.id);
+
+  const {
+    optionsByFieldId,
+    getDisplayValue,
+    saveFieldValue,
+    isLoading: valuesLoading,
+    isSaving: valuesSaving,
+    error: valuesError,
+  } = useCustomFieldValues(
+    activeWorkspace?.id,
+    selectedCompany?.id,
+    customFields,
+  );
+
+  useEffect(() => {
+    if (!activeWorkspace?.id) {
+      return;
+    }
+
+    void ensureDefaultCompanyCustomFields(activeWorkspace.id).catch(() => {
+      // Settings UI offers manual retry via ensureDefaults
+    });
+  }, [activeWorkspace?.id]);
+
   if (!activeWorkspace || !user) {
     return null;
   }
 
   return (
     <section className="panel" aria-labelledby="companies-heading">
-      <h2 id="companies-heading">Companies — Phase 3 Core</h2>
+      <h2 id="companies-heading">Companies — Phase 4 Core</h2>
       <p className="shell__notice">
-        Company-first: Unternehmen ohne Kontakt und ohne Deal anlegbar. Keine
-        Custom Fields, keine Pipelines, keine Views in dieser Phase.
+        Company-first: Unternehmen ohne Kontakt und ohne Deal anlegbar. Custom
+        Fields im Detail — keine Table View, keine Pipelines in Phase 4.
       </p>
 
       {error ? <p className="shell__error">{error}</p> : null}
@@ -61,6 +90,13 @@ export function CompaniesSection() {
       {selectedCompany ? (
         <CompanyDetail
           company={selectedCompany}
+          customFields={customFields}
+          customFieldsLoading={customFieldsLoading || valuesLoading}
+          customFieldsSaving={valuesSaving}
+          customFieldsError={valuesError}
+          optionsByFieldId={optionsByFieldId}
+          getCustomFieldDisplayValue={getDisplayValue}
+          onSaveCustomFieldValue={saveFieldValue}
           onUpdate={async (input) => {
             await updateCompany(selectedCompany.id, input);
           }}

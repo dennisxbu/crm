@@ -292,3 +292,41 @@
 .company-detail__header h2 {
   margin: 0;
 }
+
+.custom-field-boolean {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-field-multi {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.custom-field-multi__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.custom-field-value-row__display,
+.custom-field-value-row__edit {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.custom-field-settings__item,
+.custom-field-options__item {
+  padding: 0.875rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  list-style: none;
+}
+
+.custom-field-options {
+  margin: 1rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}

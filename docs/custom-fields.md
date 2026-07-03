@@ -357,25 +357,25 @@ Registry keyed by `field_type` — kein `switch(fieldName)`, kein `if (field.lab
 
 Status-Spalten: `✅ ja` / `⬜ nein` / `🔜 später`
 
-| field_type     | MVP UI | DB storage       | display handler | edit handler | filter                        | sort           | settings               | notes                             |
-| -------------- | ------ | ---------------- | --------------- | ------------ | ----------------------------- | -------------- | ---------------------- | --------------------------------- |
-| `text`         | ✅     | `value_text`     | ✅              | ✅           | contains, eq, empty           | alpha          | label, required        | Default-Typ                       |
-| `long_text`    | ✅     | `value_text`     | ✅              | ✅           | contains                      | ⬜             | label, required        | Textarea; Markdown später         |
-| `number`       | ✅     | `value_number`   | ✅              | ✅           | eq, gt, lt, between           | num            | label, min, max        |                                   |
-| `currency`     | 🔜     | `value_number`   | 🔜              | 🔜           | wie number                    | num            | label, currency        | DACH: EUR default                 |
-| `date`         | ✅     | `value_date`     | ✅              | ✅           | before, after, between, empty | chrono         | label, required        | DD.MM.YYYY                        |
-| `datetime`     | 🔜     | `value_datetime` | 🔜              | 🔜           | range                         | chrono         | label                  | UTC storage, local display        |
-| `boolean`      | ✅     | `value_boolean`  | ✅              | ✅           | is true/false                 | true-first     | label                  | Toggle                            |
-| `checkbox`     | 🔜     | `value_boolean`  | 🔜              | 🔜           | wie boolean                   | true-first     | label                  | Visuell anders als boolean        |
-| `select`       | ✅     | `value_text`     | ✅              | ✅           | is, any of, empty             | option order   | label, options, colors | Options in `custom_field_options` |
-| `multi_select` | ✅     | `value_json`     | ✅              | ✅           | contains any/all              | ⬜             | label, options, colors | JSON array of option values       |
-| `email`        | ✅     | `value_text`     | ✅              | ✅           | contains, eq                  | alpha          | label                  | mailto: link in display           |
-| `phone`        | ✅     | `value_text`     | ✅              | ✅           | contains                      | ⬜             | label                  | tel: link; E.164 normalisierung   |
-| `url`          | ✅     | `value_text`     | ✅              | ✅           | contains                      | alpha          | label                  | https:// prepend; external link   |
-| `percentage`   | 🔜     | `value_number`   | 🔜              | 🔜           | numeric                       | num            | label, range           | 0–100                             |
-| `rating`       | 🔜     | `value_number`   | 🔜              | 🔜           | gte, lte                      | num            | label, max             | max in config                     |
-| `user`         | 🔜     | `value_text`     | 🔜              | 🔜           | is, any of                    | by name        | label                  | profile uuid; workspace-scoped    |
-| `relation`     | 🔜     | `value_json`     | 🔜              | 🔜           | is                            | by entity name | label, target_entity   | Phase 8+; entity_type + entity_id |
+| field_type     | MVP UI | DB storage       | display handler | edit handler | filter                        | sort           | settings               | notes                               |
+| -------------- | ------ | ---------------- | --------------- | ------------ | ----------------------------- | -------------- | ---------------------- | ----------------------------------- |
+| `text`         | ✅     | `value_text`     | ✅              | ✅           | contains, eq, empty           | alpha          | label, required        | Default-Typ                         |
+| `long_text`    | ✅     | `value_text`     | ✅              | ✅           | contains                      | ⬜             | label, required        | Textarea; Markdown später           |
+| `number`       | ✅     | `value_number`   | ✅              | ✅           | eq, gt, lt, between           | num            | label, min, max        |                                     |
+| `currency`     | 🔜     | `value_number`   | 🔜              | 🔜           | wie number                    | num            | label, currency        | DACH: EUR default                   |
+| `date`         | ✅     | `value_date`     | ✅              | ✅           | before, after, between, empty | chrono         | label, required        | DD.MM.YYYY                          |
+| `datetime`     | 🔜     | `value_datetime` | 🔜              | 🔜           | range                         | chrono         | label                  | UTC storage, local display          |
+| `boolean`      | ✅     | `value_boolean`  | ✅              | ✅           | is true/false                 | true-first     | label                  | Toggle                              |
+| `checkbox`     | 🔜     | `value_boolean`  | 🔜              | 🔜           | wie boolean                   | true-first     | label                  | Visuell anders als boolean          |
+| `select`       | ✅     | `value_text`     | ✅              | ✅           | is, any of, empty             | option order   | label, options, colors | Options in `custom_field_options`   |
+| `multi_select` | ✅     | `value_json`     | ✅              | ✅           | contains any/all              | ⬜             | label, options, colors | JSON array of option values         |
+| `email`        | ✅     | `value_text`     | ✅              | ✅           | contains, eq                  | alpha          | label                  | mailto: link in display             |
+| `phone`        | ✅     | `value_text`     | ✅              | ✅           | contains                      | ⬜             | label                  | tel: link; E.164 normalisierung     |
+| `url`          | ✅     | `value_text`     | ✅              | ✅           | contains                      | alpha          | label                  | https:// prepend; external link     |
+| `percentage`   | 🔜     | `value_number`   | 🔜              | 🔜           | numeric                       | num            | label, range           | 0–100                               |
+| `rating`       | ✅     | `value_number`   | ✅              | ✅           | gte, lte                      | num            | label, max             | Phase 4 MVP; max in validation_json |
+| `user`         | 🔜     | `value_text`     | 🔜              | 🔜           | is, any of                    | by name        | label                  | profile uuid; workspace-scoped      |
+| `relation`     | 🔜     | `value_json`     | 🔜              | 🔜           | is                            | by entity name | label, target_entity   | Phase 8+; entity_type + entity_id   |
 
 **Legende:**
 

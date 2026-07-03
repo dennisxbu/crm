@@ -6,13 +6,13 @@ Privates, professionelles **company-first B2B-Akquise-CRM** für Blumenthal Syst
 
 ## Project status
 
-|                  |                                                |
-| ---------------- | ---------------------------------------------- |
-| **Phase**        | 3 — Company-Core                               |
-| **Version**      | `0.1.0` (pre-release)                          |
-| **Product code** | Company CRUD foundation — no Custom Fields yet |
-| **Architecture** | [ADRs 001–012](docs/adr/README.md)             |
-| **Next**         | Phase 4 — Custom Fields Core                   |
+|                  |                                         |
+| ---------------- | --------------------------------------- |
+| **Phase**        | 4 — Custom Fields Core                  |
+| **Version**      | `0.1.0` (pre-release)                   |
+| **Product code** | Custom Fields Settings + Company Detail |
+| **Architecture** | [ADRs 001–013](docs/adr/README.md)      |
+| **Next**         | Phase 5 — Company Table View            |
 
 ## Stack
 
@@ -34,7 +34,7 @@ cp .env.example .env.local   # fill with Supabase project URL + publishable key
 pnpm dev
 ```
 
-Open http://localhost:5173 — Phase 3 company core (login, workspace, companies).
+Open http://localhost:5173 — Phase 4 custom fields core (login, workspace, companies, custom field settings).
 
 **Apply migrations** (required):
 
@@ -69,7 +69,8 @@ src/
   app/                    App shell + providers
   features/auth/          Auth form, API, types
   features/workspaces/    Workspace API, types
-  features/companies/     Company API, form, list, detail (Phase 3)
+  features/companies/     Company API, form, list, detail (Phase 3+)
+  features/custom-fields/ Field registry, settings, values (Phase 4)
   shared/lib/supabase/    Client + health check
 supabase/
   migrations/             SQL + RLS

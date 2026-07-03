@@ -19,6 +19,7 @@ Significant architecture choices for the Blumenthal Systems CRM. Process: [ADR-0
 | [010](010-company-acquisition-operating-fields.md) | Company Akquise-Operative Felder                  | Accepted | 2026-07-02 |
 | [011](011-auth-workspace-profile-foundation.md)    | Auth, Workspace & Profile Foundation              | Accepted | 2026-07-02 |
 | [012](012-company-core-system-fields.md)           | Company Core System Fields                        | Accepted | 2026-07-03 |
+| [013](013-custom-fields-core.md)                   | Custom Fields Core (Phase 4)                      | Accepted | 2026-07-03 |
 
 ## Open decisions (document in new ADR before implementation)
 

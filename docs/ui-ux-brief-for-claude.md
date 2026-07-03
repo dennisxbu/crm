@@ -24,22 +24,22 @@ Technische Basis: React + Supabase (perspektivisch). Architektur-Docs: `docs/arc
 - **Pipeline-Klarheit** — pipedrive-inspiriert: Kanban sofort verständlich
 - **Tiefe ohne HubSpot-Overwhelm** — Settings vorhanden, aber nicht 400 Menüpunkte
 
-Emotional: *„Das ist mein System, nicht ein Template."*
+Emotional: _„Das ist mein System, nicht ein Template."_
 
 ---
 
 ## Was vermieden werden muss
 
-| Vermeiden | Warum |
-|-----------|-------|
-| Uni-Projekt-Optik | Generic Tables, System-Fonts ungestylt, misaligned Forms |
-| Bootstrap-Default | Erkennbarer Template-Look |
-| Überladenes HubSpot-Gefühl | Zu viele Sidebars, Tabs, Marketing-Banner |
-| Contact-first Layout | Contact nicht als Pflicht-Schritt im Create-Flow |
-| Fake-Konfigurierbarkeit | Settings-UI ohne echte Wirkung |
-| Spielzeuglook | Bunte Gradients, übertriebene Illustrationen |
-| Admin-Panel 2010 | Graue Tabellen, winzige Checkboxen, kein Whitespace |
-| CRUD ohne Kontext | Nackte Formulare ohne Pipeline/Status-Kontext |
+| Vermeiden                  | Warum                                                    |
+| -------------------------- | -------------------------------------------------------- |
+| Uni-Projekt-Optik          | Generic Tables, System-Fonts ungestylt, misaligned Forms |
+| Bootstrap-Default          | Erkennbarer Template-Look                                |
+| Überladenes HubSpot-Gefühl | Zu viele Sidebars, Tabs, Marketing-Banner                |
+| Contact-first Layout       | Contact nicht als Pflicht-Schritt im Create-Flow         |
+| Fake-Konfigurierbarkeit    | Settings-UI ohne echte Wirkung                           |
+| Spielzeuglook              | Bunte Gradients, übertriebene Illustrationen             |
+| Admin-Panel 2010           | Graue Tabellen, winzige Checkboxen, kein Whitespace      |
+| CRUD ohne Kontext          | Nackte Formulare ohne Pipeline/Status-Kontext            |
 
 ---
 
@@ -63,11 +63,11 @@ Emotional: *„Das ist mein System, nicht ein Template."*
 
 ### Inspiration (nicht kopieren)
 
-| Produkt | Was übernehmen |
-|---------|----------------|
-| **monday** | Konfigurierbarkeit, Views, Spalten-Gefühl |
-| **Pipedrive** | Pipeline/Kanban-Klarheit, Deal-Stage-Simplicity |
-| **HubSpot** | Tiefe in Detail-Views — selektiv, nicht das UI-Chaos |
+| Produkt       | Was übernehmen                                       |
+| ------------- | ---------------------------------------------------- |
+| **monday**    | Konfigurierbarkeit, Views, Spalten-Gefühl            |
+| **Pipedrive** | Pipeline/Kanban-Klarheit, Deal-Stage-Simplicity      |
+| **HubSpot**   | Tiefe in Detail-Views — selektiv, nicht das UI-Chaos |
 
 ---
 

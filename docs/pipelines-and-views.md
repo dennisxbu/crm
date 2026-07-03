@@ -6,10 +6,10 @@ Pipelines steuern **Prozessfortschritt** (Kanban). Views steuern **Darstellung**
 
 ### Entity-Typen mit Pipelines
 
-| Entity | Pipeline | Beispiel |
-|--------|----------|----------|
+| Entity    | Pipeline         | Beispiel         |
+| --------- | ---------------- | ---------------- |
 | `company` | Company-Pipeline | Akquise-Workflow |
-| `deal` | Deal-Pipeline | Verkaufsprozess |
+| `deal`    | Deal-Pipeline    | Verkaufsprozess  |
 
 Contacts haben **keine** eigene Pipeline in MVP. Kontakt-Recherche läuft über `contact_discovery_status` am Company.
 
@@ -27,11 +27,11 @@ pipelines (entity_type, is_default)
 
 ### Stage Types
 
-| stage_type | Bedeutung |
-|------------|-----------|
-| `open` | Aktive Phase |
-| `won` | Erfolgreich abgeschlossen (z.B. Kunde) |
-| `lost` | Disqualifiziert / verloren |
+| stage_type | Bedeutung                              |
+| ---------- | -------------------------------------- |
+| `open`     | Aktive Phase                           |
+| `won`      | Erfolgreich abgeschlossen (z.B. Kunde) |
+| `lost`     | Disqualifiziert / verloren             |
 
 Won/Lost-Stages ermöglichen Filter („alle offenen Leads") und später Reporting.
 
@@ -145,14 +145,14 @@ Nicht MVP-kritisch — in Spec reserviert.
 
 ## Gespeicherte Views
 
-| Eigenschaft | Beschreibung |
-|-------------|--------------|
-| `name` | „Meine qualifizierten Leads" |
-| `entity_type` | `company` |
-| `view_type` | `table` oder `kanban` |
-| `pipeline_id` | Pflicht bei kanban |
-| `is_default` | Eine Default-View pro entity+view_type |
-| `config` | columns, filters, sort, card_fields |
+| Eigenschaft   | Beschreibung                           |
+| ------------- | -------------------------------------- |
+| `name`        | „Meine qualifizierten Leads"           |
+| `entity_type` | `company`                              |
+| `view_type`   | `table` oder `kanban`                  |
+| `pipeline_id` | Pflicht bei kanban                     |
+| `is_default`  | Eine Default-View pro entity+view_type |
+| `config`      | columns, filters, sort, card_fields    |
 
 Nutzer kann mehrere Views anlegen. Wechsel = UI State (kein neues DB-Objekt).
 
@@ -187,41 +187,41 @@ Metadata aus `custom_fields` join. Gelöschte/deaktivierte Fields: Spalte in Vie
 
 ## Seed-Konzept: Default Company Pipeline
 
-| sort_order | name | stage_type | Farbe (Beispiel) |
-|------------|------|------------|------------------|
-| 0 | Rohlead | open | gray |
-| 1 | Qualifiziert | open | blue |
-| 2 | Ready to Call | open | cyan |
-| 3 | Nicht erreicht | open | orange |
-| 4 | In Gespräch | open | purple |
-| 5 | Follow-up | open | yellow |
-| 6 | Disqualifiziert | lost | red |
-| 7 | Kunde / Gewonnen | won | green |
+| sort_order | name             | stage_type | Farbe (Beispiel) |
+| ---------- | ---------------- | ---------- | ---------------- |
+| 0          | Rohlead          | open       | gray             |
+| 1          | Qualifiziert     | open       | blue             |
+| 2          | Ready to Call    | open       | cyan             |
+| 3          | Nicht erreicht   | open       | orange           |
+| 4          | In Gespräch      | open       | purple           |
+| 5          | Follow-up        | open       | yellow           |
+| 6          | Disqualifiziert  | lost       | red              |
+| 7          | Kunde / Gewonnen | won        | green            |
 
 Seed in `supabase/seed.sql` (Phase 1+) — **nicht** als Enum im Code.
 
 ## Seed-Konzept: Default Deal Pipeline
 
-| sort_order | name | stage_type |
-|------------|------|------------|
-| 0 | Bedarf erkannt | open |
-| 1 | Erstgespräch geplant | open |
-| 2 | Analyse / Diagnose | open |
-| 3 | Angebot erstellt | open |
-| 4 | Verhandlung | open |
-| 5 | Closed Won | won |
-| 6 | Closed Lost | lost |
+| sort_order | name                 | stage_type |
+| ---------- | -------------------- | ---------- |
+| 0          | Bedarf erkannt       | open       |
+| 1          | Erstgespräch geplant | open       |
+| 2          | Analyse / Diagnose   | open       |
+| 3          | Angebot erstellt     | open       |
+| 4          | Verhandlung          | open       |
+| 5          | Closed Won           | won        |
+| 6          | Closed Lost          | lost       |
 
 Phase 9 relevant — Seed kann früher angelegt werden, UI erst später.
 
 ## Settings-Integration
 
-| Setting | Verwaltet |
-|---------|-----------|
-| Pipelines | Name, entity_type, default flag |
-| Stages | Name, Farbe, Reihenfolge, won/lost |
-| Views | Name, Typ, Spalten, Filter, card_fields |
-| Custom Fields | siehe custom-fields.md |
+| Setting       | Verwaltet                               |
+| ------------- | --------------------------------------- |
+| Pipelines     | Name, entity_type, default flag         |
+| Stages        | Name, Farbe, Reihenfolge, won/lost      |
+| Views         | Name, Typ, Spalten, Filter, card_fields |
+| Custom Fields | siehe custom-fields.md                  |
 
 Reihenfolge in Settings-Navigation (UX Phase): Pipelines → Custom Fields → Views.
 

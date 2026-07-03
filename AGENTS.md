@@ -12,8 +12,8 @@ Professionelles, **company-first B2B-Akquise-CRM** für Blumenthal Systems. Unte
 
 |                   |                                                                  |
 | ----------------- | ---------------------------------------------------------------- |
-| **Phase**         | 3 — Company-Core (abgeschlossen)                                 |
-| **Nächste Phase** | 4 — Custom Fields Core                                           |
+| **Phase**         | 4 — Custom Fields Core (abgeschlossen)                           |
+| **Nächste Phase** | 5 — Company Table View                                           |
 | **Version**       | `0.1.0` (pre-release)                                            |
 | **Roadmap**       | [docs/implementation-roadmap.md](docs/implementation-roadmap.md) |
 | **ADRs**          | [docs/adr/README.md](docs/adr/README.md)                         |
@@ -58,11 +58,19 @@ Vollständig: [CONTRIBUTING.md](CONTRIBUTING.md) · Lokal: [docs/dev-setup.md](d
 - Company API-Layer + minimale List/Create/Edit/Archive UI
 - Company-first: ohne Kontakt, ohne Deal
 
+## Phase 4 — Was existiert
+
+- `custom_fields`, `custom_field_options`, `custom_field_values` + RLS
+- Field Type Registry + MVP handlers (text, select, rating, …)
+- Custom Field Settings UI (create/edit/archive fields + options)
+- Company Detail: Custom Fields anzeigen und speichern
+- Default Company Custom Fields via RPC `ensure_default_company_custom_fields`
+
 ## Was ohne explizite Anweisung nicht gebaut wird
 
 - CRM-Features außerhalb der aktiven Roadmap-Phase
-- Companies / Contacts / Deals CRUD (bis Phase 3+)
-- Custom Fields, Pipelines, Views UI (bis Phase 4–7)
+- Contacts / Deals CRUD (bis Phase 8–9)
+- Table View, Kanban, Pipelines, Views UI (bis Phase 5–7)
 - Hardcoded Stages, Spalten, Feldlisten
 - Finales UI/Design-System vor UX-Spec ([docs/ui-ux-brief-for-claude.md](docs/ui-ux-brief-for-claude.md))
 

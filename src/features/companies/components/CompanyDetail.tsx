@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { CustomFieldValueList } from "../../custom-fields/components/CustomFieldValueList";
+import type {
+  CustomField,
+  CustomFieldOption,
+} from "../../custom-fields/custom-field.types";
 import {
   CONTACT_DISCOVERY_STATUS_LABELS,
   LIFECYCLE_STATUS_LABELS,
@@ -8,6 +13,16 @@ import { CompanyForm } from "./CompanyForm";
 
 type CompanyDetailProps = {
   company: Company;
+  customFields: CustomField[];
+  customFieldsLoading: boolean;
+  customFieldsSaving: boolean;
+  customFieldsError: string | null;
+  optionsByFieldId: Map<string, CustomFieldOption[]>;
+  getCustomFieldDisplayValue: (field: CustomField) => unknown;
+  onSaveCustomFieldValue: (
+    field: CustomField,
+    rawValue: unknown,
+  ) => Promise<void>;
   onUpdate: (input: CompanyUpdateInput) => Promise<void>;
   onArchive: () => Promise<void>;
   onClose: () => void;
@@ -23,6 +38,13 @@ function formatDate(value: string | null): string {
 
 export function CompanyDetail({
   company,
+  customFields,
+  customFieldsLoading,
+  customFieldsSaving,
+  customFieldsError,
+  optionsByFieldId,
+  getCustomFieldDisplayValue,
+  onSaveCustomFieldValue,
   onUpdate,
   onArchive,
   onClose,
@@ -115,6 +137,16 @@ export function CompanyDetail({
               <dd>{formatDate(company.archived_at)}</dd>
             </div>
           </dl>
+
+          <CustomFieldValueList
+            fields={customFields}
+            optionsByFieldId={optionsByFieldId}
+            getDisplayValue={getCustomFieldDisplayValue}
+            onSaveFieldValue={onSaveCustomFieldValue}
+            isLoading={customFieldsLoading}
+            isSaving={customFieldsSaving}
+            error={customFieldsError}
+          />
 
           {actionError ? (
             <p className="auth-form__error">{actionError}</p>
